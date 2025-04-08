@@ -1,38 +1,73 @@
 <script module lang="ts">
+	type SlideDirection = 'left' | 'right' | 'up' | 'down';
+	type CrossFadeSlideDirection = 'fadeLeft' | 'fadeRight' | 'fadeUp' | 'fadeDown';
 	interface SlideTranitionProps {
-		direction: 'left' | 'right' | 'up' | 'down';
+		transition: SlideDirection | CrossFadeSlideDirection | 'none';
 		reverse: boolean;
 	}
 
 	export const transitionType = $state<SlideTranitionProps>({
-		direction: 'left',
+		transition: 'left',
 		reverse: false
 	});
 </script>
 
 <script lang="ts">
+	import { onNavigate } from '$app/navigation';
+	import { tick } from 'svelte';
+
 	const { children } = $props();
-    
-    
-	function directionMap({ direction, reverse }: SlideTranitionProps) {
+
+	function directionMap({ transition: direction, reverse }: SlideTranitionProps) {
 		if (!reverse) {
 			return direction;
 		}
 
-		switch (direction) {
-			case 'up':
-				return 'down';
-			case 'down':
-				return 'up';
-			case 'left':
-				return 'right';
-			case 'right':
-				return 'left';
-
-			default:
-				return '';
+		if (reverse) {
+			switch (direction) {
+				case 'up':
+					return 'down';
+				case 'down':
+					return 'up';
+				case 'left':
+					return 'right';
+				case 'right':
+					return 'left';
+				case 'fadeDown':
+					return 'fadeUp';
+				case 'fadeLeft':
+					return 'fadeRight';
+				case 'fadeRight':
+					return 'fadeLeft';
+				case 'fadeUp':
+					return 'fadeDown';
+				default:
+					return '';
+			}
 		}
 	}
+
+	onNavigate(async (nav) => {
+		// all pages here triggers transition animation
+		if (!document.startViewTransition) {
+			return; // browser doesnt support view transition api, abort.
+		}
+
+		if (nav.type === 'popstate' && nav.delta == -1) {
+			transitionType.reverse = true;
+			await tick();
+		} else {
+			transitionType.reverse = false;
+			await tick();
+		}
+
+		return new Promise((res) => {
+			document.startViewTransition(async () => {
+				res();
+				await nav.complete;
+			});
+		});
+	});
 </script>
 
 <div class="transitionWrapper" style="view-transition-name: {directionMap(transitionType)};">
@@ -77,7 +112,6 @@
 	}
 
 	::view-transition-new(right) {
-		
 		animation: slideLeftOut 500ms ease-out reverse;
 	}
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { transitionType } from '$lib/Components/utils/ViewTransitionSlideWrapper.svelte';
+	import { transitionType } from '$lib/components/utils/ViewTransitionSlideWrapper.svelte';
 </script>
 
 <h1>Welcome to SvelteKit</h1>
@@ -8,29 +8,28 @@
 <a
 	href="canvas"
 	onclick={() => {
-		transitionType.direction = 'left';
+		transitionType.transition = 'right';
 	}}>Canvas</a
 >
 
 <a
 	href="game"
 	onclick={() => {
-		transitionType.direction = 'up';
+		transitionType.transition = 'up';
 	}}>Game</a
 >
 
-<div class="tester">BALH BLAH
-</div>
+<div class="tester">BALH BLAH</div>
 
 <style>
-    .tester {
-        position: absolute;
-        right: 0;
-        border: blue 6px solid;
-    }
-    a {
-        border: 2px solid coral;
-        padding: 1rem;
-        box-sizing: border-box;
-    }
+	.tester {
+		position: absolute;
+		right: 0;
+		border: blue 6px solid;
+	}
+	a {
+		border: 2px solid coral;
+		padding: 1rem;
+		box-sizing: border-box;
+	}
 </style>
