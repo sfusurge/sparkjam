@@ -2,10 +2,16 @@
 	import { Spring } from 'svelte/motion';
 	import { fade } from 'svelte/transition';
 	import type { Cursor } from '../CanvasController.svelte';
-	import { BrushSvg, EraserSvg, PenSvg } from '$lib/components/utils/svgs.svelte';
+	import { BrushSvg, EraserSvg, MoveSvg, PenSvg } from '$lib/components/utils/svgs.svelte';
 
-	let { username, color, pos, instant = false, state }: Cursor & { instant?: boolean } = $props();
-
+	let {
+		username: _name,
+		color,
+		pos,
+		instant = false,
+		state
+	}: Cursor & { instant?: boolean } = $props();
+	let username = $derived(_name && _name.length > 0 ? _name : 'An Anonymous Otter');
 	let smoothPos = new Spring(
 		{
 			x: pos.x,
@@ -30,37 +36,41 @@
 
 	const strokeColor = $derived(isLight(color) ? '#2B4061' : '#B3E8FF');
 	const offsets = $derived<{ x: number; y: number } | undefined>(
-		{ pen: { x: -10, y: -3 }, brush: { x: -6, y: 1 }, eraser: { x: 0, y: 0 }, move: { x: 0, y: 0 } }[
-			state
-		]
+		{
+			pen: { x: -7, y: 0 },
+			brush: { x: -1, y: 5 },
+			eraser: { x: -15, y: 0 },
+			move: { x: -13, y: 3 }
+		}[state]
 	);
 	$effect(() => {
 		smoothPos.target = { x: pos.x, y: pos.y };
 	});
 </script>
 
-{#if username}
-	<div
-		class="cursor"
-		style="--x:{smoothPos.current.x}px; --y:{smoothPos.current.y}px; --fillColor:{color}; --strokeColor:{strokeColor}"
-		transition:fade={{ duration: 400 }}
-		class:rainbow={username?.toLowerCase() === 'surge'}
-	>
-		<div class="cursorIcon" style="--offsetX: {offsets?.x}px; --offsetY:{offsets?.y}px">
-			{#if state === 'pen'}
-				{@render PenSvg(strokeColor, color)}
-			{:else if state === 'brush'}
-				{@render BrushSvg(strokeColor, color)}
-			{:else if state === 'eraser'}
-				{@render EraserSvg('#2B4061')}
-			{/if}
-		</div>
-
-        <div class="nameLabel">
-            {username}
-        </div>
+<div
+	class="cursor"
+	style="--x:{smoothPos.current.x}px; --y:{smoothPos.current
+		.y}px; --fillColor:{color}; --strokeColor:{strokeColor}"
+	transition:fade={{ duration: 400 }}
+	class:rainbow={username?.toLowerCase() === 'surge'}
+>
+	<div class="cursorIcon" style="--offsetX: {offsets?.x}px; --offsetY:{offsets?.y}px">
+		{#if state === 'pen'}
+			{@render PenSvg(strokeColor, color)}
+		{:else if state === 'brush'}
+			{@render BrushSvg(strokeColor, color)}
+		{:else if state === 'eraser'}
+			{@render EraserSvg('#2B4061')}
+		{:else if state === 'move'}
+			{@render MoveSvg('#2B4061')}
+		{/if}
 	</div>
-{/if}
+
+	<div class="nameLabel">
+		{username}
+	</div>
+</div>
 
 <style>
 	.cursor {
@@ -69,24 +79,26 @@
 		top: var(--y);
 	}
 
-    .nameLabel {
-        position: absolute;
-        left: 2rem;
-        top: -1rem;
-        transform: translate(0, -50%);
+	.nameLabel {
+		position: absolute;
+		left: 2rem;
+		top: -1rem;
+		transform: translate(0, -50%);
 
-        padding: 0.5rem 1rem;
-        color: var(--strokeColor);
-        background-color: var(--fillColor);
-        border-radius: 2rem;
-        border: black 2px solid ;
-    }
+		padding: 0.5rem 1rem;
+		color: var(--strokeColor);
+		background-color: var(--fillColor);
+		border-radius: 2rem;
+		border: black 2px solid;
+
+		width: fit-content;
+		text-wrap: nowrap;
+	}
 
 	.cursorIcon {
-        position: absolute;
-        left: 0;
-        top: 0;
-
+		position: absolute;
+		left: 0;
+		top: 0;
 
 		width: 2rem;
 		transform: translate(0, -100%) translate(var(--offsetX), var(--offsetY));

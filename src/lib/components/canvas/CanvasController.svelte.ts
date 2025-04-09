@@ -174,7 +174,7 @@ export class Line {
 
         for (let i = 1; i < this.points.length; i++) {
             const tangentDist = pointDistanceToLineSegment(prev, this.points[i], p0);
-            const segmentDist = this.points[i].distTo(prev) + this.thickness / 2;
+            const segmentDist = Math.max(this.points[i].distTo(prev) + this.thickness, 15);
 
             const d1 = prev.distTo(p0) < segmentDist;
             const d2 = this.points[i].distTo(p0) < segmentDist;
@@ -200,7 +200,7 @@ export class Cursor {
     id: string = $state("");
     username: string | undefined = $state();
     color: string = $state("black");
-    state : string= $state<"pen" | "brush" | "eraser" | 'move'>("pen")
+    state: string = $state<"pen" | "brush" | "eraser" | 'move'>("pen")
     pos: Vector2 = $state.raw(Vector2.ZERO);
     constructor(id: string, color: string, username: string | undefined, pos: Vector2, state: "pen" | "brush" | "eraser" | 'move') {
         this.id = id;
@@ -274,8 +274,8 @@ export class CanvasController {
         }
 
 
-        this.ctxStatic = this.staticCanvas.getContext("2d", {alpha:false, })!;
-        this.ctxDynamic = this.dynamicCanvas.getContext("2d", {alpha:true})!;
+        this.ctxStatic = this.staticCanvas.getContext("2d", { alpha: false, })!;
+        this.ctxDynamic = this.dynamicCanvas.getContext("2d", { alpha: true })!;
 
         $effect(() => {
             if (this.space && this.userdata) {
@@ -370,12 +370,19 @@ export class CanvasController {
         const x = point.x;
         const y = point.y;
 
+        for (const cur of Object.values(this.othersCursors)) {
+            cur.pos = toGlobalSpace(cur.pos, this.cameraPos, this.zoom);
+        }
+
         point = toGlobalSpace(point, this.cameraPos, this.zoom);
         this.cameraPos = point.sub(new Vector2(x / newZoom, y / newZoom));
-
         this.zoom = newZoom;
-
         this.needStaticRender = true;
+
+
+        for (const cur of Object.values(this.othersCursors)) {
+            cur.pos = toScreenSpace(cur.pos, this.cameraPos, this.zoom);
+        }
     }
 
     /**
@@ -396,7 +403,7 @@ export class CanvasController {
     initialZoom = 0;
     initEvents() {
 
-        window.addEventListener("resize", ()=>{
+        window.addEventListener("resize", () => {
             this.needStaticRender = true;
         })
 
@@ -422,7 +429,7 @@ export class CanvasController {
             if (e.buttons === 0) {
                 this.mouseHover(event);
             } else if (e.buttons === 1) {
-                if (!this.userdata?.penInfo.name) {
+                if (this.userdata?.penInfo.name === "move") {
                     this.mousepan(event);
                 } else {
                     this.mouseDrag(event);
@@ -465,7 +472,7 @@ export class CanvasController {
             }
 
         }, {
-            passive:true
+            passive: true
         });
 
         this.dynamicCanvas.addEventListener("touchmove", (e) => {
@@ -518,7 +525,7 @@ export class CanvasController {
                 this.mousepan(event);
             }
         }, {
-            passive:false,
+            passive: false,
         });
 
         this.dynamicCanvas.addEventListener("touchend", (e) => {
@@ -640,7 +647,7 @@ export class CanvasController {
         if (this.selfCursor) {
             this.selfCursor.pos = this.selfCursor?.pos.addp(e.dx, e.dy);
         }
-        Object.values(this.othersCursors).forEach((item) => (item.pos = item.pos.add(diff)));
+        Object.values(this.othersCursors).forEach((item) => (item.pos = item.pos.addp(e.dx, e.dy)));
 
         this.needStaticRender = true;
     }
@@ -678,7 +685,7 @@ export class CanvasController {
     mouseDrag(e: SimplePointerEvent) {
         // TODO color and thickness modifier
 
-        if (this.deleteMode) {
+        if (this.userdata?.penInfo.name === "eraser") {
             // delete colliding lines
             this.deleteCollidedLines(toGlobalSpace(new Vector2(e.x, e.y), this.cameraPos, this.zoom));
 
@@ -771,7 +778,7 @@ export class CanvasController {
 
             for (const [id, line] of this.dynamicLines[layer].entries()) {
                 line.render(this.ctxDynamic);
-                
+
                 if (this.deletedLines.has(line.id)) {
                     this.dynamicLines[layer].delete(id);
                 }

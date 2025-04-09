@@ -20,7 +20,7 @@ interface UserType {
     id: string, // uuid
     username?: string,
     color: string;
-    state:string
+    state: string
 }
 
 export interface CursorInfo {
@@ -33,24 +33,23 @@ export interface CursorInfo {
     }
 }
 
-export async function joinSpace(username: string | undefined, onCursorUpdate: (cursorEvent: CursorUpdate) => void, deleteEvent: (idsToDelete: string[]) => void, lineFinishEvent: (userId:string, line: SerializedLineType) => void) {
+export async function joinSpace(username: string | undefined, onCursorUpdate: (cursorEvent: CursorUpdate) => void, deleteEvent: (idsToDelete: string[]) => void, lineFinishEvent: (userId: string, line: SerializedLineType) => void) {
     // const clientId = localStorage.getItem("clientId") ?? crypto.randomUUID();
     // localStorage.setItem("clientId", clientId)
     const clientId = crypto.randomUUID();
     const realtimeClient = new Realtime({
         key: PUBLIC_ABLYAPI,
-        clientId
+        clientId,
     });
     const spaces = new Spaces(realtimeClient);
 
     const canvasSpace = await spaces.get("canvas", { cursors: { paginationLimit: 0, outboundBatchInterval: 0 }, offlineTimeout: 10, },);
 
-
     const user: UserType = {
         id: clientId,
         color: randomColor(),
         username: username ?? "",
-        state:"pen"
+        state: "pen"
     }
     await canvasSpace.enter({ ...user },);
 
@@ -71,6 +70,15 @@ export async function joinSpace(username: string | undefined, onCursorUpdate: (c
 
     canvasChannel.subscribe("newLine", (e) => {
         lineFinishEvent(e.clientId ?? "", e.data as SerializedLineType);
+    })
+
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") {
+            if (realtimeClient.connection.state !== "connected") {
+                realtimeClient.connect();
+                alert("reconnected");
+            }
+        }
     })
 
 
