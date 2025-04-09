@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { transitionType } from '$lib/components/utils/ViewTransitionSlideWrapper.svelte';
+
+	import { transitionType } from "$lib/components/utils/ViewTransitionState.svelte";
+
 </script>
 
 <h1>Welcome to SvelteKit</h1>

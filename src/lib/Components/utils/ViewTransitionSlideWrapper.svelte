@@ -1,20 +1,9 @@
-<script module lang="ts">
-	type SlideDirection = 'left' | 'right' | 'up' | 'down';
-	type CrossFadeSlideDirection = 'fadeLeft' | 'fadeRight' | 'fadeUp' | 'fadeDown';
-	interface SlideTranitionProps {
-		transition: SlideDirection | CrossFadeSlideDirection | 'none';
-		reverse: boolean;
-	}
 
-	export const transitionType = $state<SlideTranitionProps>({
-		transition: 'left',
-		reverse: false
-	});
-</script>
 
 <script lang="ts">
 	import { onNavigate } from '$app/navigation';
 	import { tick } from 'svelte';
+	import { transitionType, type SlideTranitionProps } from './ViewTransitionState.svelte';
 
 	const { children } = $props();
 
