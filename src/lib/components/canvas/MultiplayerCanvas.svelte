@@ -96,6 +96,10 @@
 		top: 0;
 	}
 
+	.staticCanvas{
+		background-color: #EDECEC;
+	}
+
 	.cursorContainer {
 		pointer-events: none;
 	}

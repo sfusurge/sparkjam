@@ -13,7 +13,7 @@
 </script>
 
 <script lang="ts">
-	import { PenSvg, BrushSvg, EraserSvg } from '$lib/components/utils/svgs.svelte';
+	import { PenSvg, BrushSvg, EraserSvg, MoveSvg } from '$lib/components/utils/svgs.svelte';
 
 	interface PenPickerProps {
 		selectedPen: PenData | undefined;
@@ -73,7 +73,7 @@
 			{:else if pen.name === 'eraser'}
 				{@render EraserSvg(strokeColor)}
 			{:else if pen.name === 'move'}
-				<p>TODO</p>
+				{@render MoveSvg(strokeColor)}
 			{/if}
 		</div>
 	</div>

@@ -74,6 +74,7 @@ export class Line {
         ctx.beginPath();
         ctx.moveTo(this.points[0].x, this.points[0].y);
 
+
         for (const p of this.points) {
             ctx.lineTo(p.x, p.y); // global position
         }
@@ -272,8 +273,9 @@ export class CanvasController {
             this.dynamicLines.push(new Map());
         }
 
-        this.ctxStatic = this.staticCanvas.getContext("2d")!;
-        this.ctxDynamic = this.dynamicCanvas.getContext("2d")!;
+
+        this.ctxStatic = this.staticCanvas.getContext("2d", {alpha:false, })!;
+        this.ctxDynamic = this.dynamicCanvas.getContext("2d", {alpha:true})!;
 
         $effect(() => {
             if (this.space && this.userdata) {
@@ -313,7 +315,6 @@ export class CanvasController {
 
     eventLoop(t: number) {
         this.updateDeltaTime(t);
-
         this.firebaseController.update(t);
         this.finalizeDeletedLines();
         this.updateSmoothPos();
@@ -650,7 +651,7 @@ export class CanvasController {
         }
 
         // smooth n reduce
-        this.currentLine.pointsCulling(0.5, 1, this.userdata?.penInfo.smooth ?? true);
+        this.currentLine.pointsCulling(1, 1, this.userdata?.penInfo.smooth ?? true);
         this.staticLines[this.currentLine.layer].set(this.currentLine.id, this.currentLine);
         this.dynamicLines[this.currentLine.layer].delete(this.currentLine.id);
 
@@ -734,7 +735,8 @@ export class CanvasController {
         // static
         if (this.needStaticRender) {
             this.ctxStatic.resetTransform();
-            this.ctxStatic.clearRect(0, 0, this.staticCanvas.width, this.staticCanvas.height);
+            this.ctxStatic.fillStyle = "#EDECEC";
+            this.ctxStatic.fillRect(0, 0, this.staticCanvas.width, this.staticCanvas.height)
             this.ctxStatic.scale(this.smoothZoom, this.smoothZoom);
             this.ctxStatic.translate(-this.smoothCameraPos.x, -this.smoothCameraPos.y);
         }
@@ -753,6 +755,7 @@ export class CanvasController {
             this.dynamicCanvas.height,
             this.smoothZoom,
         );
+        let count = 0;
 
         // process each layer
         for (let layer = 0; layer < this.maxLayers; layer++) {
@@ -761,13 +764,13 @@ export class CanvasController {
                     // skip out of view lines.
                     if (camAABB.cornerContain(line.aabb)) {
                         line.render(this.ctxStatic);
+                        count += 1;
                     }
                 }
             }
 
             for (const [id, line] of this.dynamicLines[layer].entries()) {
                 line.render(this.ctxDynamic);
-                console.log("render");
                 
                 if (this.deletedLines.has(line.id)) {
                     this.dynamicLines[layer].delete(id);

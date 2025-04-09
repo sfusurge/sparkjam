@@ -218,7 +218,7 @@ export class AABB {
         if (!aabb) {
             return false;
         }
-        return this.containsPoint(aabb.topleft) || this.containsPoint(aabb.botright) || this.containsPoint(this.botleft) || this.containsPoint(this.topright);
+        return this.containsPoint(aabb.topleft) || this.containsPoint(aabb.botright) || this.containsPoint(aabb.botleft) || this.containsPoint(aabb.topright);
 
     }
 
