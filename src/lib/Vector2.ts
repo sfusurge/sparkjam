@@ -4,7 +4,7 @@ export function lerp(a: number, b: number, t: number) {
     return a + t * (b - a);
 }
 
-export function smoothstep(a:number, b:number, t:number){
+export function smoothstep(a: number, b: number, t: number) {
     return lerp(a, b, t * t * (3 - 2 * t));
 }
 
@@ -50,7 +50,7 @@ export class Vector2 {
         );
     }
 
-    static smoothstep(v1:Vector2, v2:Vector2, t:number){
+    static smoothstep(v1: Vector2, v2: Vector2, t: number) {
         return new Vector2(
             smoothstep(v1.x, v2.x, t),
             smoothstep(v1.y, v2.y, t)
@@ -142,7 +142,7 @@ export class Vector2 {
         return new Vector2(this.x - other.x, this.y - other.y);
     }
 
-    subp(x:number, y:number){
+    subp(x: number, y: number) {
         return new Vector2(this.x - x, this.y - y);
     }
 
@@ -210,8 +210,17 @@ export class AABB {
     containsAABB(aabb: AABB | undefined) {
         if (!aabb) {
             return false;
-        } // TODO this implementation is wrong
-        return this.containsPoint(aabb.topleft) && this.containsPoint(aabb.botright);
+        }
+
+        const a = this;
+        const b = aabb;
+
+        return (
+            b.left - a.right < 0 &&
+            a.left - b.right < 0 &&
+            b.top - a.bot < 0 &&
+            a.top - b.bot < 0
+        )
     }
 
     cornerContain(aabb: AABB | undefined) {
@@ -261,6 +270,22 @@ export class AABB {
 
     get height() {
         return this.botright.y - this.topleft.y;
+    }
+
+    get left() {
+        return this.topleft.x;
+    }
+
+    get right() {
+        return this.botright.x;
+    }
+
+    get top() {
+        return this.topleft.y;
+    }
+
+    get bot() {
+        return this.botright.y;
     }
 
 }

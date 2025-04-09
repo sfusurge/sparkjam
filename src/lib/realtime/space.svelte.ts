@@ -3,18 +3,8 @@ import Spaces, { type CursorUpdate } from "@ably/spaces";
 import { PUBLIC_ABLYAPI } from "$env/static/public"
 import type { SerializedLineType } from "$lib/components/canvas/CanvasController.svelte";
 
-const userColors: string[] = [
-    "#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#A133FF",
-    "#57FF33", "#33A1FF", "#FF8C33", "#8C33FF", "#33FF8C",
-    "#FF3333", "#33FFFF", "#FF33FF", "#FFFF33", "#33FF33",
-    "#337FFF", "#7F33FF", "#FF7F33", "#7FFF33", "#33FF7F",
-    "#FF3366", "#3366FF", "#66FF33", "#FF6633", "#6633FF",
-    "#33FF66", "#66FF66", "#6666FF", "#FF9966", "#6699FF"
-];
 
-function randomColor() {
-    return userColors[Math.floor(Math.random() * userColors.length)];
-}
+
 
 interface UserType {
     id: string, // uuid
@@ -33,7 +23,7 @@ export interface CursorInfo {
     }
 }
 
-export async function joinSpace(username: string | undefined, onCursorUpdate: (cursorEvent: CursorUpdate) => void, deleteEvent: (idsToDelete: string[]) => void, lineFinishEvent: (userId: string, line: SerializedLineType) => void) {
+export async function joinSpace(username: string | undefined, onCursorUpdate: (cursorEvent: CursorUpdate) => void, deleteEvent: (idsToDelete: string[]) => void, lineFinishEvent: (userId: string, line: SerializedLineType) => void, userLeaveEvent: (userId: string) => void) {
     // const clientId = localStorage.getItem("clientId") ?? crypto.randomUUID();
     // localStorage.setItem("clientId", clientId)
     const clientId = crypto.randomUUID();
@@ -47,7 +37,7 @@ export async function joinSpace(username: string | undefined, onCursorUpdate: (c
 
     const user: UserType = {
         id: clientId,
-        color: randomColor(),
+        color: "",
         username: username ?? "",
         state: "pen"
     }
@@ -59,6 +49,10 @@ export async function joinSpace(username: string | undefined, onCursorUpdate: (c
             onCursorUpdate(e);
         }
     });
+
+    canvasSpace.members.subscribe("leave", (e) => {
+        userLeaveEvent(e.clientId);
+    })
 
     // delete
     const canvasChannel = realtimeClient.channels.get("canvas");
@@ -72,12 +66,15 @@ export async function joinSpace(username: string | undefined, onCursorUpdate: (c
         lineFinishEvent(e.clientId ?? "", e.data as SerializedLineType);
     })
 
-    document.addEventListener("visibilitychange", () => {
+    document.addEventListener("visibilitychange", async () => {
+        // reconnect in case browser to sleep, on mobile especially.
         if (document.visibilityState === "visible") {
+
             if (realtimeClient.connection.state !== "connected") {
-                realtimeClient.connect();
-                alert("reconnected");
+                realtimeClient.connection.connect();
+                await canvasSpace.enter({ ...user });
             }
+
         }
     })
 

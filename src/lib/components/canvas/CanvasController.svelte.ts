@@ -401,11 +401,42 @@ export class CanvasController {
     lastPos: Vector2 | undefined;
     initialTouchDist = 0;
     initialZoom = 0;
+    lastfullfetchtime = 0;
     initEvents() {
+
+        document.addEventListener("visibilitychange", (e) => {
+            if (new Date().getTime() - this.lastfullfetchtime > 60000) {
+                // once per minute
+                this.startStorage();
+                this.lastfullfetchtime = new Date().getTime();
+            }
+        });
 
         window.addEventListener("resize", () => {
             this.needStaticRender = true;
-        })
+        });
+
+        this.dynamicCanvas.addEventListener("wheel", (e) => {
+            if (e.ctrlKey) {
+                this.zoomAtPoint(this.lastPos!, this.zoom - e.deltaY * 0.01);
+
+
+            }
+            else {
+                // Pan
+                const event: SimplePointerEvent = {
+                    x: e.offsetX,
+                    y: e.offsetY,
+
+                    dx: -e.deltaX,
+                    dy: -e.deltaY,
+
+                    buttons: e.buttons,
+                };
+                this.mousepan(event);
+            }
+            e.preventDefault();
+        }, { passive: false })
 
         this.dynamicCanvas.addEventListener("keyup", (e) => {
             if (e.key == "=") {
@@ -604,12 +635,18 @@ export class CanvasController {
         this.deletedLines.add(newLine.id);
     }
 
+    handleUserLeave(userId: string) {
+        delete this.othersCursors[userId];
+
+    }
+
     startRealTime() {
         joinSpace(
             undefined,
             this.handleCursorUpdate.bind(this),
             this.handleDeletes.bind(this),
             this.handleNewLine.bind(this),
+            this.handleUserLeave.bind(this)
         ).then((space) => {
             this.space = space;
             this.selfCursor = new Cursor(this.space.user.id, this.space.user.color, undefined, Vector2.ZERO, "pen");
@@ -658,7 +695,7 @@ export class CanvasController {
         }
 
         // smooth n reduce
-        this.currentLine.pointsCulling(1, 1, this.userdata?.penInfo.smooth ?? true);
+        this.currentLine.pointsCulling(5, 1, this.userdata?.penInfo.smooth ?? true);
         this.staticLines[this.currentLine.layer].set(this.currentLine.id, this.currentLine);
         this.dynamicLines[this.currentLine.layer].delete(this.currentLine.id);
 
@@ -762,7 +799,6 @@ export class CanvasController {
             this.dynamicCanvas.height,
             this.smoothZoom,
         );
-        let count = 0;
 
         // process each layer
         for (let layer = 0; layer < this.maxLayers; layer++) {
@@ -771,7 +807,6 @@ export class CanvasController {
                     // skip out of view lines.
                     if (camAABB.cornerContain(line.aabb)) {
                         line.render(this.ctxStatic);
-                        count += 1;
                     }
                 }
             }
