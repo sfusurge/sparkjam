@@ -1,2 +1,12 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
+
+
+button {
+    cursor: pointer;
+}
+
+body {
+    position: relative;
+    overflow: hidden;
+}

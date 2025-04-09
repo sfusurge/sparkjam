@@ -1,123 +1,129 @@
 <script lang="ts">
-    import type { Vector2 } from "$lib/Vector2";
-    import { Spring } from "svelte/motion";
-    import { fade } from "svelte/transition";
+	import { Spring } from 'svelte/motion';
+	import { fade } from 'svelte/transition';
+	import type { Cursor } from '../CanvasController.svelte';
+	import { BrushSvg, EraserSvg, PenSvg } from '$lib/components/utils/svgs.svelte';
 
-    interface CursorProps {
-        id: string;
-        username: string | undefined;
-        color: string;
-        pos: Vector2;
-        instant?: boolean;
-    }
+	let { username, color, pos, instant = false, state }: Cursor & { instant?: boolean } = $props();
 
-    let { username, color, pos, instant = false }: CursorProps = $props();
+	let smoothPos = new Spring(
+		{
+			x: pos.x,
+			y: pos.y
+		},
+		instant
+			? { stiffness: 0.4, damping: 0.9 }
+			: {
+					stiffness: 0.1,
+					damping: 0.65
+				}
+	);
 
-    let smoothPos = new Spring(
-        {
-            x: pos.x,
-            y: pos.y,
-        },
-        instant
-            ? { stiffness: 0.4, damping: 0.9 }
-            : {
-                  stiffness: 0.1,
-                  damping: 0.65,
-              },
-    );
+	function isLight(color: string) {
+		const hex = color.replace('#', '');
+		const c_r = parseInt(hex.substring(0, 0 + 2), 16);
+		const c_g = parseInt(hex.substring(2, 2 + 2), 16);
+		const c_b = parseInt(hex.substring(4, 4 + 2), 16);
+		const brightness = (c_r * 299 + c_g * 587 + c_b * 114) / 1000;
+		return brightness > 200;
+	}
 
-    $effect(() => {
-        smoothPos.target = { x: pos.x, y: pos.y };
-    });
+	const strokeColor = $derived(isLight(color) ? '#2B4061' : '#B3E8FF');
+	const offsets = $derived<{ x: number; y: number } | undefined>(
+		{ pen: { x: -10, y: -3 }, brush: { x: -6, y: 1 }, eraser: { x: 0, y: 0 }, move: { x: 0, y: 0 } }[
+			state
+		]
+	);
+	$effect(() => {
+		smoothPos.target = { x: pos.x, y: pos.y };
+	});
 </script>
 
-{#if username || true}
-    <div
-        class="cursor"
-        style="--x:{smoothPos.current.x}px; --y:{smoothPos.current.y}px; --color:{color};"
-        transition:fade={{ duration: 400 }}
-        class:rainbow={username?.toLowerCase() === "surge"}
-    >
-        {username}
-    </div>
+{#if username}
+	<div
+		class="cursor"
+		style="--x:{smoothPos.current.x}px; --y:{smoothPos.current.y}px; --fillColor:{color}; --strokeColor:{strokeColor}"
+		transition:fade={{ duration: 400 }}
+		class:rainbow={username?.toLowerCase() === 'surge'}
+	>
+		<div class="cursorIcon" style="--offsetX: {offsets?.x}px; --offsetY:{offsets?.y}px">
+			{#if state === 'pen'}
+				{@render PenSvg(strokeColor, color)}
+			{:else if state === 'brush'}
+				{@render BrushSvg(strokeColor, color)}
+			{:else if state === 'eraser'}
+				{@render EraserSvg('#2B4061')}
+			{/if}
+		</div>
+
+        <div class="nameLabel">
+            {username}
+        </div>
+	</div>
 {/if}
 
 <style>
-    .cursor {
-        position: absolute;
-        left: var(--x);
-        top: var(--y);
+	.cursor {
+		position: absolute;
+		left: var(--x);
+		top: var(--y);
+	}
 
-        padding: 0.25rem;
-        color: white;
+    .nameLabel {
+        position: absolute;
+        left: 2rem;
+        top: -1rem;
+        transform: translate(0, -50%);
+
+        padding: 0.5rem 1rem;
+        color: var(--strokeColor);
+        background-color: var(--fillColor);
+        border-radius: 2rem;
+        border: black 2px solid ;
     }
 
-    /* background of cursor */
-    .cursor::before {
-        content: "";
+	.cursorIcon {
         position: absolute;
-        top: 0;
         left: 0;
-        width: 100%;
-        height: 100%;
-
-        /* pointy corner */
-        border-radius: 8px;
-        border-top-left-radius: 0;
-
-        background-color: var(--color);
-        opacity: 0.8;
-        z-index: -1;
-    }
-
-    /* overlay to give text color effect, opacity add up with background to 100% */
-    .cursor::after {
-        content: "";
-        position: absolute;
         top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
 
-        border-radius: 8px;
-        border-top-left-radius: 0;
 
-        opacity: 0.2;
-        background-color: var(--color);
-    }
+		width: 2rem;
+		transform: translate(0, -100%) translate(var(--offsetX), var(--offsetY));
+	}
 
-    .rainbow {
-        animation: spinning infinite linear 0.75s backwards;
-    }
-    .rainbow::before {
-        animation: rainbowAni infinite linear 1s;
-    }
+	.rainbow {
+		animation: spinning infinite linear 0.75s backwards;
+	}
+	.rainbow::before {
+		animation: rainbowAni infinite linear 1s;
+	}
 
-    .rainbow::after {
-        animation: rainbowAni infinite linear 1s;
-    }
+	.rainbow::after {
+		animation: rainbowAni infinite linear 1s;
+	}
 
-    @keyframes rainbowAni {
-        0% {
-            background-color: hsl(0, 100%, 70%);
-            filter: hue-rotate(0deg);
-        }
+	@keyframes rainbowAni {
+		0% {
+			background-color: hsl(0, 100%, 70%);
+			filter: hue-rotate(0deg);
+		}
 
-        100% {
-            background-color: hsl(0, 100%, 70%);
-            filter: hue-rotate(360deg);
-        }
-    }
+		100% {
+			background-color: hsl(0, 100%, 70%);
+			filter: hue-rotate(360deg);
+		}
+	}
 
-    @keyframes spinning {
-        0% {
-            transform-origin: top left;
-            transform: rotate();
-        }
+	@keyframes spinning {
+		0% {
+			transform-origin: top left;
+			transform: rotate();
+		}
 
-        100% {
-            transform-origin: top left;
-            transform: rotate(360deg);
-        }
-    }
+		100% {
+			transform-origin: top left;
+			transform: rotate(360deg);
+		}
+	}
 </style>

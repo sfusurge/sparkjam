@@ -34,6 +34,8 @@
         max-width: 12rem;
 
         padding: 0.25rem;
+
+        height: 2rem;
 	}
 
 	.username:hover {

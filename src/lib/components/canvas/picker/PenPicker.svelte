@@ -13,6 +13,8 @@
 </script>
 
 <script lang="ts">
+	import { PenSvg, BrushSvg, EraserSvg } from '$lib/components/utils/svgs.svelte';
+
 	interface PenPickerProps {
 		selectedPen: PenData | undefined;
 		showHotkey?: boolean;
@@ -21,14 +23,14 @@
 	const pens: PenData[] = [
 		{
 			name: 'pen',
-			button: 'q',
+			button: 'p',
 			layer: 1,
 			size: 10,
 			smooth: true
 		},
 		{
 			name: 'brush',
-			button: 'w',
+			button: 'b',
 			layer: 0,
 			size: 40,
 			smooth: false
@@ -42,7 +44,7 @@
 		},
 		{
 			name: 'move',
-			button: 'r',
+			button: 'v',
 			layer: -1,
 			size: -1,
 			smooth: false
@@ -63,37 +65,17 @@
 			<label class="btnLabel">{pen.button.toUpperCase()}</label>
 		{/if}
 
-		{#if pen.name === 'pen'}
-			<svg width="15" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"
-				><path
-					d="M6.922 4.129L8.567 1.34C10.313.41 14 1.34 14 4.686l-1.552 2.662m-5.526-3.22L1 14.168 2.164 19l4.463-1.673 5.82-9.98M6.923 4.13l5.526 3.219"
-					stroke={strokeColor}
-					stroke-width="1.5"
-				/></svg
-			>
-		{:else if pen.name === 'brush'}
-			<svg width="15" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"
-				><path
-					d="M6.922 4.129L8.567 1.34C10.313.41 14 1.34 14 4.686l-1.552 2.662m-5.526-3.22L1 14.168 2.164 19l4.463-1.673 5.82-9.98M6.923 4.13l5.526 3.219"
-					stroke={strokeColor}
-					stroke-width="1.5"
-				/></svg
-			>
-		{:else if pen.name === 'eraser'}
-			<svg width="16" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"
-				><mask id="prefix__a" fill="#fff"
-					><path
-						d="M6.644 1.694a2 2 0 012.758-.631l5.11 3.206a2 2 0 01.632 2.757l-4.29 6.839-2.355 3.753L0 12.286l2.317-3.693 4.327-6.899z"
-					/></mask
-				><path
-					d="M1.923 9.231l8.537 5.272.788-1.276L2.71 7.955l-.788 1.276zm6.576 8.387l-.797 1.27 1.27.798.798-1.27-1.27-.798zM0 12.286l-1.27-.797-.798 1.271 1.27.797.798-1.27zm8.604-9.953l5.111 3.206L15.31 3 10.2-.209 8.604 2.333zm.692 14.014L.797 11.016l-1.594 2.541 8.5 5.332 1.593-2.542zm-8.025-3.264L3.588 9.39 1.046 7.796l-2.317 3.693 2.542 1.595zM3.588 9.39l4.327-6.899L5.374.897 1.046 7.796 3.588 9.39zM13.873 6.23l-4.29 6.839 2.541 1.594 4.29-6.84-2.54-1.593zm-4.29 6.839L7.229 16.82l2.54 1.594 2.355-3.753-2.541-1.594zm4.132-7.529a.5.5 0 01.158.69l2.541 1.594a3.5 3.5 0 00-1.105-4.825L13.715 5.54zM10.2-.208A3.5 3.5 0 005.374.897l2.541 1.594a.5.5 0 01.69-.158l1.594-2.54z"
-					fill={strokeColor}
-					mask="url(#prefix__a)"
-				/></svg
-			>
-		{:else if pen.name === 'move'}
-			<p>TODO</p>
-		{/if}
+		<div class="icon">
+			{#if pen.name === 'pen'}
+				{@render PenSvg(strokeColor, 'transparent')}
+			{:else if pen.name === 'brush'}
+				{@render BrushSvg(strokeColor, 'transparent')}
+			{:else if pen.name === 'eraser'}
+				{@render EraserSvg(strokeColor)}
+			{:else if pen.name === 'move'}
+				<p>TODO</p>
+			{/if}
+		</div>
 	</div>
 {/snippet}
 
@@ -109,6 +91,11 @@
 />
 
 <style>
+.icon{
+	width:1.25rem;
+	position:relative;
+}
+
 	.penBtn {
 		position: relative;
 		display: flex;

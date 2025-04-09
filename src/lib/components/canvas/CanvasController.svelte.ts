@@ -199,7 +199,7 @@ export class Cursor {
     id: string = $state("");
     username: string | undefined = $state();
     color: string = $state("black");
-    state: string = $state<"pen" | "brush" | "eraser" | 'move'>("pen")
+    state : string= $state<"pen" | "brush" | "eraser" | 'move'>("pen")
     pos: Vector2 = $state.raw(Vector2.ZERO);
     constructor(id: string, color: string, username: string | undefined, pos: Vector2, state: "pen" | "brush" | "eraser" | 'move') {
         this.id = id;
@@ -348,7 +348,7 @@ export class CanvasController {
 
     updateSmoothPos() {
 
-        const smoothFactor = 35;
+        const smoothFactor = 20;
         this.smoothCameraPos = Vector2.smoothstep(this.smoothCameraPos, this.cameraPos, smoothFactor * this.deltaTime / 1000);
         this.smoothZoom = smoothstep(this.smoothZoom, this.zoom, smoothFactor * this.deltaTime / 1000);
 
@@ -377,12 +377,28 @@ export class CanvasController {
         this.needStaticRender = true;
     }
 
+    /**
+     * for external use.
+     */
+    increaseZoom() {
+        this.zoomAtPoint(this.cameraPos.addp(this.staticCanvas.width / (2 * this.zoom), this.staticCanvas.height / (2 * this.zoom)), this.zoom + 0.2);
+    }
+
+    decreaseZoom() {
+        this.zoomAtPoint(this.cameraPos.addp(this.staticCanvas.width / (2 * this.zoom), this.staticCanvas.height / (2 * this.zoom)), this.zoom - 0.2);
+    }
+
     // ============ events ============
 
     lastPos: Vector2 | undefined;
     initialTouchDist = 0;
     initialZoom = 0;
     initEvents() {
+
+        window.addEventListener("resize", ()=>{
+            this.needStaticRender = true;
+        })
+
         this.dynamicCanvas.addEventListener("keyup", (e) => {
             if (e.key == "=") {
                 this.zoomAtPoint(this.lastPos!, this.zoom + 0.2);
@@ -447,6 +463,8 @@ export class CanvasController {
                 this.initialZoom = this.zoom;
             }
 
+        }, {
+            passive:true
         });
 
         this.dynamicCanvas.addEventListener("touchmove", (e) => {
@@ -498,6 +516,8 @@ export class CanvasController {
 
                 this.mousepan(event);
             }
+        }, {
+            passive:false,
         });
 
         this.dynamicCanvas.addEventListener("touchend", (e) => {
@@ -747,7 +767,8 @@ export class CanvasController {
 
             for (const [id, line] of this.dynamicLines[layer].entries()) {
                 line.render(this.ctxDynamic);
-
+                console.log("render");
+                
                 if (this.deletedLines.has(line.id)) {
                     this.dynamicLines[layer].delete(id);
                 }

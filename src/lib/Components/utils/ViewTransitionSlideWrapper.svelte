@@ -78,8 +78,6 @@
 	.transitionWrapper {
 		min-height: 100dvh;
 		min-width: 100dvw;
-		outline: 5px solid green;
-		outline-offset: -5px;
 	}
 
 	/* Left */
