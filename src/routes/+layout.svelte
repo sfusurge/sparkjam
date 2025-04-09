@@ -1,5 +1,7 @@
 <script lang="ts">
-	import ViewTransitionSlideWrapper from '$lib/components/utils/ViewTransitionSlideWrapper.svelte';
+	import ViewTransWrapper from '$lib/components/utils/ViewTransWrapper.svelte';
+
+
 	import '../app.css';
 
 	let { children } = $props();
@@ -7,6 +9,7 @@
 	
 </script>
 
-<ViewTransitionSlideWrapper>
+
+<ViewTransWrapper>
 	{@render children()}
-</ViewTransitionSlideWrapper>
+</ViewTransWrapper>
