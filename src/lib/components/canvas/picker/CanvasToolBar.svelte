@@ -3,7 +3,7 @@
 	import PenPicker from './PenPicker.svelte';
 	import ColorPicker from './ColorPicker.svelte';
 	import UserNameInput from './UserNameInput.svelte';
-	import { sharedState } from './PickerSharedStates.svelte.ts';
+	import { sharedState } from '$lib/Components/canvas/picker/PickerSharedStates.svelte.ts';
 	
 	let {
 		userdata = $bindable(),
