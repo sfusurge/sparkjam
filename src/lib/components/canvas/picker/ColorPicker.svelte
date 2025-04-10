@@ -1,6 +1,7 @@
 <script lang="ts" module>
 	import { onMount } from 'svelte';
 	import Picker from './Picker.svelte';
+	import { sharedState } from './shared.svelte';
 
 	export interface ColorData {
 		name: string;
@@ -13,7 +14,6 @@
 <script lang="ts">
 	interface ColorPickerProps {
 		selectedColor: ColorData | undefined;
-		showHotkey?: boolean;
 	}
 
 	const colors: ColorData[] = [
@@ -39,7 +39,9 @@
 		}
 	];
 
-	let { selectedColor = $bindable(), showHotkey = false }: ColorPickerProps = $props();
+	let isMobile = $derived(sharedState.isMobile);
+
+	let { selectedColor = $bindable(),  }: ColorPickerProps = $props();
 	let namedColors = $derived(colors.map((p) => ({ name: p.name, button: p.button, data: p })));
 
 	onMount(() => {
@@ -49,7 +51,7 @@
 
 {#snippet ColorCircle(color: ColorData, selected: boolean)}
 	<div class="colorCircle" class:selected class:dark={color.dark} style="--color:{color.name}">
-		{#if showHotkey}
+		{#if !isMobile}
 			<label class="btnLabel">{color.button}</label>
 		{/if}
 	</div>
@@ -125,4 +127,6 @@
 		font-size: 10px;
 		line-height: 9px;
 	}
+
+	
 </style>

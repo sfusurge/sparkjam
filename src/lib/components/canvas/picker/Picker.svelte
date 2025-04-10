@@ -86,4 +86,10 @@
 		outline: none;
 		cursor: pointer;
 	}
+
+	@media (max-width: 610px) {
+		.pickerContainer {
+			gap: 0.1rem;
+		}
+	}
 </style>

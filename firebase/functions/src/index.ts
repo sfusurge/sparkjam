@@ -14,6 +14,7 @@
 //   logger.info("Hello logs!", {structuredData: true});
 //   response.send("Hello from Firebase!");
 // });
+import { initializeApp } from "firebase-admin/app";
 
 import { onSchedule } from "firebase-functions/scheduler";
 import { getFirestore, Timestamp } from "firebase-admin/firestore"
@@ -25,6 +26,7 @@ interface FirebaseLine {
     thickness: number;
     points: { x: number, y: number }[]
 }
+initializeApp();
 
 const limit = 400;
 

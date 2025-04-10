@@ -3,6 +3,7 @@
 	import PenPicker from './PenPicker.svelte';
 	import ColorPicker from './ColorPicker.svelte';
 	import UserNameInput from './UserNameInput.svelte';
+	import { sharedState } from './shared.svelte';
 
 	let {
 		userdata = $bindable(),
@@ -10,13 +11,40 @@
 	}: { userdata: UserData; canvasController: CanvasController | undefined } = $props();
 
 	let width = $state(0);
-	let isMobile = $derived(width < 900 && navigator.maxTouchPoints > 1);
+	$effect(() => {
+		sharedState.isMobile = width < 900 && navigator.maxTouchPoints > 1;
+	});
 </script>
 
 <svelte:window bind:innerWidth={width} />
 
 <div class="toolbar">
-	{#if !isMobile}
+	<PenPicker
+		bind:selectedPen={
+			() => {
+				return userdata.penInfo;
+			},
+			(newPen) => {
+				userdata.penInfo = { ...newPen, color: userdata.penInfo.color };
+			}
+		}
+	/>
+	<div class="verDiv"></div>
+
+	<ColorPicker
+		bind:selectedColor={
+			() => ({
+				dark: false,
+				name: userdata.penInfo.color,
+				button: ''
+			}),
+			(newColor) => {
+				userdata.penInfo.color = newColor?.name ?? 'black';
+			}
+		}
+	/>
+	<div class="verDiv"></div>
+	{#if !sharedState.isMobile}
 		<!-- Plus button -->
 		<button
 			class="sizeBtn"
@@ -68,34 +96,6 @@
 		</button>
 		<div class="verDiv"></div>
 	{/if}
-
-	<PenPicker
-		bind:selectedPen={
-			() => {
-				return userdata.penInfo;
-			},
-			(newPen) => {
-				userdata.penInfo = { ...newPen, color: userdata.penInfo.color };
-			}
-		}
-		showHotkey={!isMobile}
-	/>
-	<div class="verDiv"></div>
-
-	<ColorPicker
-		showHotkey={!isMobile}
-		bind:selectedColor={
-			() => ({
-				dark: false,
-				name: userdata.penInfo.color,
-				button: ''
-			}),
-			(newColor) => {
-				userdata.penInfo.color = newColor?.name ?? 'black';
-			}
-		}
-	/>
-	<div class="verDiv"></div>
 	<UserNameInput bind:username={userdata.username} />
 </div>
 
@@ -113,7 +113,7 @@
 
 		background-color: #edecec;
 		padding: 0.75rem;
-		border-radius: 5px;
+		border-radius: 10px;
 
 		border: 3px solid transparent;
 		transition: border-color 300ms ease-out;
@@ -158,5 +158,11 @@
 
 	.sizeBtn:active {
 		filter: brightness(0.95);
+	}
+
+	@media (max-width: 610px) {
+		.verDiv {
+			margin: 0.1rem;
+		}
 	}
 </style>
