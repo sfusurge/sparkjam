@@ -12,38 +12,41 @@
 
 	let width = $state(0);
 	$effect(() => {
-		sharedState.isMobile = width < 900 && navigator.maxTouchPoints > 1;
+		sharedState.isMobile = width < 900;
 	});
 </script>
 
 <svelte:window bind:innerWidth={width} />
 
 <div class="toolbar">
-	<PenPicker
-		bind:selectedPen={
-			() => {
-				return userdata.penInfo;
-			},
-			(newPen) => {
-				userdata.penInfo = { ...newPen, color: userdata.penInfo.color };
+	<div class="toolHolder">
+		<PenPicker
+			bind:selectedPen={
+				() => {
+					return userdata.penInfo;
+				},
+				(newPen) => {
+					userdata.penInfo = { ...newPen, color: userdata.penInfo.color };
+				}
 			}
-		}
-	/>
-	<div class="verDiv"></div>
+		/>
+		<div class="verDiv"></div>
 
-	<ColorPicker
-		bind:selectedColor={
-			() => ({
-				dark: false,
-				name: userdata.penInfo.color,
-				button: ''
-			}),
-			(newColor) => {
-				userdata.penInfo.color = newColor?.name ?? 'black';
+		<ColorPicker
+			bind:selectedColor={
+				() => ({
+					dark: false,
+					name: userdata.penInfo.color,
+					button: ''
+				}),
+				(newColor) => {
+					userdata.penInfo.color = newColor?.name ?? 'black';
+				}
 			}
-		}
-	/>
-	<div class="verDiv"></div>
+		/>
+
+		<div class="verDiv endDiv"></div>
+	</div>
 	{#if !sharedState.isMobile}
 		<!-- Plus button -->
 		<button
@@ -96,7 +99,7 @@
 		</button>
 		<div class="verDiv"></div>
 	{/if}
-	<UserNameInput bind:username={userdata.username} />
+	<div class="usernameHolder"><UserNameInput bind:username={userdata.username} /></div>
 </div>
 
 <style>
@@ -117,6 +120,8 @@
 
 		border: 3px solid transparent;
 		transition: border-color 300ms ease-out;
+
+		justify-content: center;
 	}
 
 	.toolbar:hover {
@@ -160,9 +165,34 @@
 		filter: brightness(0.95);
 	}
 
-	@media (max-width: 610px) {
+	.toolHolder {
+		display: flex;
+		flex-direction: row;
+	}
+
+	@media (max-width: 480px) {
+		.toolbar {
+			flex-flow: wrap;
+		}
+		.usernameHolder {
+			flex: 1;
+			display: flex;
+			justify-content: center;
+		}
+
+		.endDiv {
+			display: none;
+		}
+	}
+
+	@media (max-width: 380px) {
 		.verDiv {
 			margin: 0.1rem;
+		}
+
+		.toolbar {
+			padding: 0;
+			border: none;
 		}
 	}
 </style>

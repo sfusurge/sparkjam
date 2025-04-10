@@ -28,7 +28,7 @@
 
 <style>
 	.username::placeholder {
-		color: lightgrey;
+		color: grey;
 	}
 
 	.username {

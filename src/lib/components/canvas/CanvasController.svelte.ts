@@ -226,6 +226,7 @@ export class CanvasController {
     dynamicCanvas: HTMLCanvasElement;
 
     cameraPos: Vector2; // used for logic
+    location: { x: number, y: number } = $state({ x: 0, y: 0 })
     smoothCameraPos: Vector2; // used for rendering only
     zoom: number = 1;
     smoothZoom: number = 1; // for rendering
@@ -376,6 +377,8 @@ export class CanvasController {
 
         point = toGlobalSpace(point, this.cameraPos, this.zoom);
         this.cameraPos = point.sub(new Vector2(x / newZoom, y / newZoom));
+        this.location = { x: Math.floor(this.cameraPos.x), y: Math.floor(this.cameraPos.y) }
+
         this.zoom = newZoom;
         this.needStaticRender = true;
 
@@ -680,6 +683,8 @@ export class CanvasController {
     mousepan(e: SimplePointerEvent) {
         const diff = new Vector2(e.dx, e.dy).div(this.zoom); // scale cam pos speed by zoom level
         this.cameraPos = this.cameraPos.sub(diff);
+
+        this.location = { x: Math.floor(this.cameraPos.x), y: Math.floor(this.cameraPos.y) }
 
         if (this.selfCursor) {
             this.selfCursor.pos = this.selfCursor?.pos.addp(e.dx, e.dy);

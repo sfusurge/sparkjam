@@ -2,6 +2,7 @@
 	import { onDestroy, onMount, type Snippet } from 'svelte';
 
 	export interface PickerProp<T> {
+		style?:string,
 		items: {
 			name: string; // also used as backup display, must be unique
 			data: T; // internal representation
@@ -11,7 +12,7 @@
 		snippet?: Snippet<[T, boolean]>;
 	}
 
-	let { items, snippet, selectedItem = $bindable() }: PickerProp<T> = $props();
+	let { items, snippet, selectedItem = $bindable(), style }: PickerProp<T> = $props();
 
 	const keyToData = $derived.by(() => {
 		const map = new Map<string, { name: string; data: T }>();
@@ -45,7 +46,7 @@
 	});
 </script>
 
-<div class="pickerContainer">
+<div class="pickerContainer" {style}>
 	{#each items as item (item.name)}
 		<button
 			class="pickerItem"
@@ -90,6 +91,12 @@
 	@media (max-width: 610px) {
 		.pickerContainer {
 			gap: 0.1rem;
+		}
+	}
+
+	@media (max-width:380px){
+		.pickerContainer{
+			gap: 0;
 		}
 	}
 </style>

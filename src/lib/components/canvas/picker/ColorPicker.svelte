@@ -66,6 +66,7 @@
 	}
 	items={namedColors}
 	snippet={ColorCircle}
+	style="margin-right:0.25rem;"
 ></Picker>
 
 <style>

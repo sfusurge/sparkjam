@@ -59,6 +59,8 @@
 		width="{size?.width}px"
 		height={size?.height}
 	></canvas>
+
+
 	<canvas
 		bind:this={dynamicCanvas}
 		class="dynamicCanvas"
@@ -66,6 +68,8 @@
 		height={size?.height}
 		tabindex="1"
 	></canvas>
+
+
 	<div class="cursorContainer">
 		{#if canvasController}
 			{#each Object.values(canvasController.othersCursors) as cursor, _ (cursor.id)}
@@ -76,6 +80,10 @@
 			<UserCursor {...canvasController.selfCursor} instant />
 		{/if}
 	</div>
+
+	<div class="positionLabel">
+		{canvasController?.location.x}, {canvasController?.location.y}
+	</div>
 </div>
 
 <style>
@@ -84,6 +92,15 @@
 		cursor: none;
 		overflow: hidden;
 		background-color: #EDECEC;
+	}
+
+	.positionLabel {
+		position: absolute;
+		right: 1rem;
+		top: 1rem;
+
+		font-size: 16px;
+		color: rgb(154, 154, 154);
 	}
 
 	.staticCanvas,
