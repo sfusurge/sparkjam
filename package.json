@@ -19,6 +19,7 @@
 		"@sveltejs/vite-plugin-svelte": "^5.0.0",
 		"@tailwindcss/typography": "^0.5.15",
 		"@tailwindcss/vite": "^4.0.0",
+		"@types/matter-js": "^0.19.8",
 		"prettier": "^3.4.2",
 		"prettier-plugin-svelte": "^3.3.3",
 		"prettier-plugin-tailwindcss": "^0.6.11",
@@ -32,6 +33,9 @@
 		"@ably/spaces": "^0.4.0",
 		"@sveltejs/adapter-static": "^3.0.8",
 		"ably": "^2.6.5",
-		"firebase": "^11.6.0"
+		"firebase": "^11.6.0",
+		"matter-js": "^0.20.0",
+		"path-data-polyfill": "^1.0.8",
+		"poly-decomp": "^0.3.0"
 	}
 }
