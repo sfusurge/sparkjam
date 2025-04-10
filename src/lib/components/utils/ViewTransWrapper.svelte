@@ -1,5 +1,3 @@
-
-
 <script lang="ts">
 	import { onNavigate } from '$app/navigation';
 	import { tick } from 'svelte';
@@ -91,19 +89,19 @@
 	}
 
 	::view-transition-new(left) {
-		animation: slideLeftIn 500ms ease-out;
+		animation: slideLeftIn 400ms ease-out;
 	}
 
 	::view-transition-old(left) {
-		animation: slideLeftOut 500ms ease-out;
+		animation: slideLeftOut 400ms ease-out;
 	}
 
 	::view-transition-new(right) {
-		animation: slideLeftOut 500ms ease-out reverse;
+		animation: slideLeftOut 400ms ease-out reverse;
 	}
 
 	::view-transition-old(right) {
-		animation: slideLeftIn 500ms ease-out reverse;
+		animation: slideLeftIn 400ms ease-out reverse;
 	}
 
 	/* UP */
@@ -129,18 +127,97 @@
 	}
 
 	::view-transition-new(up) {
-		animation: slideUpIn 500ms ease-out both;
+		animation: slideUpIn 400ms ease-out both;
 	}
 
 	::view-transition-old(up) {
-		animation: slideUpOut 500ms ease-out both;
+		animation: slideUpOut 400ms ease-out both;
 	}
 
 	::view-transition-new(down) {
-		animation: slideUpOut 500ms ease-out both reverse;
+		animation: slideUpOut 400ms ease-out both reverse;
 	}
 
 	::view-transition-old(down) {
-		animation: slideUpIn 500ms ease-out both reverse;
+		animation: slideUpIn 400ms ease-out both reverse;
+	}
+
+	@keyframes slideLeftFadeIn {
+		from {
+			transform: translate(-75px, 0);
+			opacity: 0;
+		}
+
+		to {
+			transform: translate(0, 0);
+			opacity: 1;
+		}
+	}
+
+	@keyframes slideRightFadeIn {
+		from {
+			transform: translate(75px, 0);
+			opacity: 0;
+		}
+
+		to {
+			transform: translate(0, 0);
+			opacity: 1;
+		}
+	}
+
+	@keyframes slideUpFadeIn {
+		from {
+			transform: translate(0, -75px);
+			opacity: 0;
+		}
+
+		to {
+			transform: translate(0, 0);
+			opacity: 1;
+		}
+	}
+
+	@keyframes slideDownFadeIn {
+		from {
+			transform: translate(0, -75px);
+			opacity: 0;
+		}
+
+		to {
+			transform: translate(0, 0);
+			opacity: 1;
+		}
+	}
+
+	@keyframes fadeOut {
+		from {
+			opacity: 1;
+		}
+
+		to {
+			opacity: 0;
+		}
+	}
+
+	::view-transition-old(fadeLeft),
+	::view-transition-old(fadeRight),
+	::view-transition-old(fadeDown),
+	::view-transition-old(fadeUp) {
+		animation: fadeOut 400ms ease-out both;
+	}
+
+	::view-transition-new(fadeLeft) {
+		animation: slideLeftFadeIn 400ms ease-out both;
+	}
+
+	::view-transition-new(fadeRight) {
+		animation: slideRightFadeIn 400ms ease-out both;
+	}
+	::view-transition-new(fadeDown) {
+		animation: slideDownFadeIn 400ms ease-out both;
+	}
+	::view-transition-new(fadeUp) {
+		animation: slideUpFadeIn 400ms ease-out both;
 	}
 </style>

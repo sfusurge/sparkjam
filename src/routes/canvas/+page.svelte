@@ -39,7 +39,7 @@
 {#if innerWidth > 0}
 	<div
 		in:fade={{
-			duration: 1000
+			duration: 500
 		}}
 	>
 		<MultiplayerCanvas

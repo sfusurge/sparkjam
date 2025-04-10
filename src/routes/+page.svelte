@@ -10,7 +10,7 @@
 <a
 	href="canvas"
 	onclick={() => {
-		transitionType.transition = 'right';
+		transitionType.transition = 'fadeLeft';
 	}}>Canvas</a
 >
 
