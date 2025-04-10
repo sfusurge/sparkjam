@@ -1,7 +1,7 @@
 
 import { Timestamp } from "@firebase/firestore/lite";
 import { deleteLines, fetchLines, uploadLines, type FirebaseLine } from "./api";
-import { Line } from "$lib/Components/canvas/CanvasController.svelte";
+import { Line } from "$lib/Components/canvas/CanvasLogics.svelte.ts";
 
 
 
