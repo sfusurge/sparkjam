@@ -1,7 +1,8 @@
 <script lang="ts" module>
 	import { onMount } from 'svelte';
 	import Picker from './Picker.svelte';
-	import { sharedState } from './PickerSharedStates.svelte';
+	import { sharedState } from '$lib/Components/canvas/picker/PickerSharedStates.svelte.ts';
+
 
 	export interface ColorData {
 		name: string;

@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { sharedState } from '$lib/Components/canvas/picker/PickerSharedStates.svelte.ts';
 	import { onMount } from 'svelte';
-	import { sharedState } from './PickerSharedStates.svelte';
 
 	let { username = $bindable('Anon') }: { username: string } = $props();
 
