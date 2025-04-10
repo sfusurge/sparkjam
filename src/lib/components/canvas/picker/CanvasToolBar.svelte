@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { CanvasController, UserData } from '../CanvasController.svelte';
+	import type { CanvasController, UserData } from '../CanvasController.svelte.ts';
 	import PenPicker from './PenPicker.svelte';
 	import ColorPicker from './ColorPicker.svelte';
 	import UserNameInput from './UserNameInput.svelte';

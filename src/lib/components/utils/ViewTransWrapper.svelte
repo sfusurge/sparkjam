@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onNavigate } from '$app/navigation';
 	import { tick } from 'svelte';
-	import { transitionType, type SlideTranitionProps } from './ViewTransitionState.svelte';
+	import { transitionType, type SlideTranitionProps } from './ViewTransitionState.svelte.ts';
 
 	const { children } = $props();
 
