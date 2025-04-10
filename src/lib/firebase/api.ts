@@ -1,4 +1,4 @@
-import { arrayUnion, deleteField, doc, getDoc, setDoc, Timestamp, updateDoc } from "@firebase/firestore/lite";
+import { deleteField, doc, getDoc, setDoc, Timestamp } from "@firebase/firestore/lite";
 import { db } from "./client";
 
 
