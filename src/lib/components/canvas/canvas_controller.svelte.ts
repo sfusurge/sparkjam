@@ -805,13 +805,15 @@ export class CanvasController {
             this.smoothZoom,
         );
 
+
         // process each layer
         for (let layer = 0; layer < this.maxLayers; layer++) {
             if (this.needStaticRender) {
                 for (const line of this.staticLines[layer].values()) {
                     // skip out of view lines.
-                    if (camAABB.cornerContain(line.aabb)) {
+                    if (camAABB.containsAABB(line.aabb)) {
                         line.render(this.ctxStatic);
+
                     }
                 }
             }
@@ -824,7 +826,6 @@ export class CanvasController {
                 }
             }
         }
-
         // done
 
         this.needStaticRender = false;

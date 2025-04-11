@@ -56,10 +56,9 @@
 	let { selectedPen = $bindable() }: PenPickerProps = $props();
 	let namedPens = $derived(pens.map((p) => ({ name: p.name, button: p.button, data: p })));
 	onMount(() => {
-		selectedPen = pens[0];
+		selectedPen = pens[1];
 	});
 </script>
-
 {#snippet Pen(pen: PenData, selected: boolean)}
 	{@const strokeColor = selected ? '#B3E8FF' : '#2B4061'}
 
