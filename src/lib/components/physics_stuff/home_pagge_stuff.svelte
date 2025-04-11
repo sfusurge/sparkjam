@@ -121,6 +121,8 @@
 						fillStyle: "#B3E8FF",
 					},
 					label: "Asterisk",
+					density:0.6
+
 				},
 				true,
 			),
@@ -141,6 +143,7 @@
 						},
 					},
 					label: "Otter",
+					density:0.6
 				},
 				true,
 			),
@@ -158,6 +161,8 @@
 					},
 				},
 				label: "Box",
+				density:1
+
 			},
 			true,
 		);
@@ -179,6 +184,8 @@
 						},
 					},
 					label: "Surge",
+					density:1
+
 				},
 				true,
 			),
@@ -196,6 +203,8 @@
 						},
 					},
 					label: "bundle",
+					density:1
+
 				},
 				true,
 			);
@@ -220,6 +229,8 @@
 					},
 				},
 				label: "pencil2",
+				density:1
+
 			},
 			true,
 		);
@@ -239,6 +250,8 @@
 					},
 				},
 				label: "pencil2",
+				density:1
+
 			},
 			true,
 		);
@@ -261,6 +274,8 @@
 						},
 					},
 					label: "arrow2",
+					density:1
+
 				},
 				true,
 			),
@@ -281,6 +296,8 @@
 						},
 					},
 					label: "arrow1",
+					density:1
+
 				},
 				true,
 			),
@@ -300,6 +317,8 @@
 						},
 					},
 					label: "star",
+					density:0.6
+
 				},
 				true,
 			);
