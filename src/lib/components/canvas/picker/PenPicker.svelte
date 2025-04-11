@@ -14,7 +14,7 @@
 
 <script lang="ts">
 	import { PenSvg, BrushSvg, EraserSvg, MoveSvg } from '$lib/components/utils/svgs.svelte';
-	import { sharedState } from '$lib/Components/canvas/picker/PickerSharedStates.svelte.ts';
+	import { sharedState } from '$lib/components/canvas/picker/shared_states.svelte';
 
 	interface PenPickerProps {
 		selectedPen: PenData | undefined;

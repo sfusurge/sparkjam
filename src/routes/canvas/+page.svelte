@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { CanvasController, UserData } from '$lib/components/canvas/CanvasLogics.svelte.ts';
+	import type { CanvasController, UserData } from '$lib/components/canvas/canvas_controller.svelte';
 	import MultiplayerCanvas from '$lib/components/canvas/MultiplayerCanvas.svelte';
 	import CanvasToolBar from '$lib/components/canvas/picker/CanvasToolBar.svelte';
 
