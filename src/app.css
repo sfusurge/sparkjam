@@ -1,7 +1,4 @@
 @import 'tailwindcss';
-@plugin '@tailwindcss/typography';
-
-
 button {
     cursor: pointer;
 }
