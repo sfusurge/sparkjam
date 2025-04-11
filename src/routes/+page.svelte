@@ -1,6 +1,6 @@
 <script lang="ts">
 
-	import { transitionType } from "$lib/components/utils/ViewTransitionState.svelte";
+	import { transitionType } from "$lib/components/utils/ViewTransitionState.svelte.ts";
 
 </script>
 

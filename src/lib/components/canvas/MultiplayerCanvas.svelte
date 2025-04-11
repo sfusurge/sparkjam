@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { CanvasController, type UserData } from './CanvasController.svelte';
-
+	
 	import { onDestroy } from 'svelte';
 	import UserCursor from './Cursor/UserCursor.svelte';
+	import { CanvasController, type UserData } from '$lib/components/canvas/CanvasLogics.svelte.ts';
 
 	interface CanvasProps {
 		size?: { width: number; height: number };

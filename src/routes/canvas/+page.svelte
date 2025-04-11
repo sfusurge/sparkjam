@@ -1,7 +1,9 @@
 <script lang="ts">
-	import { CanvasController, type UserData } from '$lib/components/canvas/CanvasController.svelte';
-	import MultiplayerCanvas from '$lib/components/canvas/MultiplayerCanvas.svelte';
-	import CanvasToolBar from '$lib/components/canvas/picker/CanvasToolBar.svelte';
+	import type { CanvasController, UserData } from '$lib/Components/canvas/CanvasLogics.svelte.ts';
+	import MultiplayerCanvas from '$lib/Components/canvas/MultiplayerCanvas.svelte';
+	import CanvasToolBar from '$lib/Components/canvas/picker/CanvasToolBar.svelte';
+
+
 	import { onDestroy, onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 

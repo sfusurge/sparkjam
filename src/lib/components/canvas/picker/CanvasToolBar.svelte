@@ -1,9 +1,10 @@
 <script lang="ts">
-	import type { CanvasController, UserData } from '../CanvasController.svelte.ts';
+
 	import PenPicker from './PenPicker.svelte';
 	import ColorPicker from './ColorPicker.svelte';
 	import UserNameInput from './UserNameInput.svelte';
-	import { sharedState } from '$lib/Components/canvas/picker/PickerSharedStates.svelte.ts';
+	import { sharedState } from '$lib/components/canvas/picker/PickerSharedStates.svelte.ts';
+	import type { CanvasController, UserData } from '$lib/components/canvas/CanvasLogics.svelte.ts';
 	
 	let {
 		userdata = $bindable(),
