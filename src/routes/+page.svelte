@@ -1,5 +1,5 @@
 <script lang="ts">
-    import HomePageStuff from "$lib/components/physicsStuff/HomePageStuff.svelte";
+    import HomePageStuff from "$lib/components/physics_stuff/home_pagge_stuff.svelte";
 
 
 	import { transitionType } from "$lib/components/utils/ViewTransitionState.svelte.ts";
