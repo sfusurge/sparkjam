@@ -1,4 +1,6 @@
 <script lang="ts">
+    import HomePageStuff from "$lib/components/physicsStuff/HomePageStuff.svelte";
+
 
 	import { transitionType } from "$lib/components/utils/ViewTransitionState.svelte.ts";
 
@@ -22,6 +24,12 @@
 >
 
 <div class="tester">BALH BLAH</div>
+
+
+
+
+<HomePageStuff/>
+<h1>rcfgvhgbvhb</h1>
 
 <style>
 	.tester {

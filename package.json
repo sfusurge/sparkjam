@@ -14,7 +14,6 @@
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^4.0.0",
 		"@sveltejs/kit": "^2.16.0",
-		"@sveltejs/vite-plugin-svelte": "^5.0.0",
 		"@tailwindcss/vite": "^4.0.0",
 		"@types/matter-js": "^0.19.8",
 		"svelte": "^5.0.0",
@@ -28,6 +27,7 @@
 		"ably": "^2.6.5",
 		"firebase": "^11.6.0",
 		"matter-js": "^0.20.0",
+		"path-data-polyfill": "^1.0.8",
 		"poly-decomp": "^0.3.0"
 	}
 }

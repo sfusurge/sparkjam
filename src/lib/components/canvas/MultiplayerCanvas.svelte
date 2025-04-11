@@ -40,8 +40,8 @@
 		if (container) {
 			container.addEventListener('contextmenu', (e) => {
 				e.preventDefault();
-				e.stopPropagation();
-				e.stopImmediatePropagation();
+					e.stopPropagation();
+					e.stopImmediatePropagation();
 			});
 		}
 	});
