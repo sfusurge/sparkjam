@@ -10,8 +10,8 @@ export default function Home() {
           <Image
             src="/sj_logo.svg"
             alt="Sparkjam Logo"
-            width={800}
-            height={800}
+            width={1198}
+            height={227.051}
           />
 
           <div className="flex flex-col items-center justify-center gap-y-[1px]">
@@ -41,8 +41,8 @@ export default function Home() {
             className="mix-blend-difference"
             src="/bottom_stuff.svg"
             alt="Sparkjam"
-            width={800}
-            height={800}
+            width={619}
+            height={261}
           />
 
           <p className="text-lg font-bold">(SFU BURNABY)</p>
