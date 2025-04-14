@@ -36,7 +36,7 @@ export default function Home() {
       </div>
 
       <div
-        className="absolute bottom-0 w-full flex flex-col md:flex-row justify-center items-center gap-2 md:gap-4 text-center">
+        className="absolute bottom-0 w-full flex flex-col md:flex-row justify-center items-center gap-2 md:gap-4 md:px-12 text-center">
         <p className="text-md md:text-lg font-bold">( MAY 17 - MAY 31 )</p>
         <p className="md:text-lg font-bold block md:hidden">(SFU BURNABY)</p>
 
