@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className="h-screen w-screen bg-white text-black relative">
       <div
-        className="absolute z-0 inset-0 h-full w-full bg-white bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:81px_81px]"
+        className="absolute z-0 inset-0 h-full w-full bg-white bg-[linear-gradient(to_right,#60606012_1px,transparent_1px),linear-gradient(to_bottom,#60606012_1px,transparent_1px)] bg-[size:81px_81px]"
       >
         <div className="flex h-full flex-col items-center justify-center gap-5 z-10">
           <Image
