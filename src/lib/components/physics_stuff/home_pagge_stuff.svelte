@@ -69,8 +69,18 @@
     let mouseCons: MouseConstraint | undefined = undefined;
     let engine: Engine | undefined = undefined;
     let initialized = $state(false);
+    let mouseCollider: HTMLDivElement | undefined = $state();
+    let rightBoundRect: Body | undefined = undefined;
+    let botBoundRect: Body | undefined = undefined;
 
-    function addShape(x: number, y: number, verts: Vector[][], texturePath: string) {
+    function addShape(
+        x: number,
+        y: number,
+        verts: Vector[][],
+        texturePath: string,
+        velX?: number,
+        velY?: number,
+    ) {
         if (!world) return;
 
         const b = Bodies.fromVertices(
@@ -95,6 +105,9 @@
             x,
             y,
         });
+        if (velX && velY) {
+            Body.set(b, "velocity", { x: velX, y: velY });
+        }
         Composite.add(world, b);
     }
 
@@ -155,20 +168,23 @@
         addShape(getXPos(), -300, svgs.star.verticies!, svgs.star.img);
 
         // world boundry
-        Composite.add(world, [
-            Bodies.rectangle(width, 10000, 10, 20000, {
-                isStatic: true,
-                render: { visible: false },
-            }),
 
+        rightBoundRect = Bodies.rectangle(width + 500, 10000, 1000, 20000, {
+            isStatic: true,
+            render: { visible: false },
+        });
+        botBoundRect = Bodies.rectangle(width / 2, height - 10, 10000, 10, {
+            isStatic: true,
+            render: { visible: false },
+        });
+
+        Composite.add(world, [
             Bodies.rectangle(0, 10000, 10, 20000, {
                 isStatic: true,
                 render: { visible: false },
             }),
-            Bodies.rectangle(width / 2, height - 10, width, 10, {
-                isStatic: true,
-                render: { visible: false },
-            }),
+            rightBoundRect,
+            botBoundRect,
         ]);
 
         render = Render.create({
@@ -202,7 +218,8 @@
             render.canvas.width = width;
             render.canvas.height = height;
 
-            const mouse = Mouse.create(render.canvas);
+            const mouse = Mouse.create(mouseCollider!);
+
             mouseCons = MouseConstraint.create(engine, {
                 mouse: mouse,
                 constraint: {
@@ -225,10 +242,65 @@
             }
         };
     });
+
+    $effect(() => {
+        console.log(width);
+
+        if (width > 200 && rightBoundRect) {
+            Body.set(rightBoundRect, "position", { x: width + 500, y: 10000 });
+        }
+    });
+
+    const maxObjs = 15;
+    let spawnedObjsCount = $state(0);
+
+    function onmouseup({offsetX, offsetY} : {offsetX:number, offsetY:number}) {
+        if (mouseCons !== undefined && mouseCons.body !== null) return;
+        if (spawnedObjsCount < maxObjs) {
+            const randShape = Object.values(svgs).at(
+                Math.floor(Math.random() * Object.keys(svgs).length),
+            );
+            if (!randShape) return;
+            addShape(
+                offsetX ,
+                offsetY,
+                randShape.verticies!,
+                randShape.img,
+                Math.random() * 20 - 10,
+                -Math.random() * 20,
+            );
+            spawnedObjsCount++;
+        }
+    }
 </script>
+
+<div
+    class="mouseCollider"
+    style="width:{width}px; height:{height}px; position:absolute; top:0; left:0; z-index:999;"
+    bind:this={mouseCollider}
+   
+    onpointerup={(e)=>{
+        onmouseup(e)
+    }}
+></div>
 
 <div
     class="physicsContainer"
     bind:this={container}
-    style="width:{width}px; height:{height}px;"
+    style="width:{width}px; height:{height}px; "
 ></div>
+
+<style>
+    .physicsContainer {
+        position: relative;
+        z-index: 1;
+        max-width: 100dvw;
+    }
+    :global(.physicsContainer > *) {
+        max-width: 100%;
+    }
+
+    .mouseCollider {
+        max-width: 100dvw;
+    }
+</style>

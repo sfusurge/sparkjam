@@ -3,12 +3,17 @@ button {
     cursor: pointer;
 }
 
+
 body {
     position: relative;
     overflow: hidden;
 
     --black: #242424;
     --white: #f2f2f2;
+
+    --rainbow: linear-gradient(to right, #f16969, #FDC380, #D2F058, #B3E8FF);
+    --rainbow-slanted: linear-gradient(135deg, #f16969, #FDC380, #D2F058, #B3E8FF);
+
 
     font-family: "Mona Sans", sans-serif;
     font-optical-sizing: auto;

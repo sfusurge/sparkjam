@@ -1,30 +1,56 @@
 <script lang="ts">
-    import HomePageStuff from "$lib/components/physics_stuff/home_pagge_stuff.svelte";
+	import HoverGrid from "$lib/components/HoverGrid.svelte";
+	import HomePageStuff from "$lib/components/physics_stuff/home_pagge_stuff.svelte";
+	import RainbowButton from "$lib/components/RainbowButton.svelte";
 
 	let _width = $state(0);
 	let width = $derived(Math.min(_width, 1920));
 	let height = $state(0);
 </script>
 
+<svelte:window bind:innerWidth={_width} bind:innerHeight={height} />
 
-<svelte:window bind:innerWidth={_width} bind:innerHeight={height}/>
+<div class="title" draggable="false">
+	<div class="imgHolder">
+		<img src="./title.svg" alt="SparkJam" />
+		<div class="mask"></div>
+	</div>
 
-<div class="title">
-	<img src="./title.svg" alt="SparkJam" draggable="false" >
+	<span>Application Will Open<br /><strong>Friday, April 18th</strong></span>
 
-	<span>Application Will Open<br><strong>Friday, April 18th</strong></span>
-	
+	<RainbowButton>
+		<a
+			href="webcal://sparkjam_application_opens.ics"
+			target="_blank"
+			rel="noopener noreferrer"
+			title="Save Event in Google Calendar">SET A REMINDER</a
+		>
+	</RainbowButton>
+
+	<p class="dateText"><strong>( MAY 17 - MAY 31 )</strong><strong>( SFU BURNABY )</strong></p>
 </div>
 
-<HomePageStuff {width} {height}/>
+<HomePageStuff {width} {height} />
+<HoverGrid />
+
+<!-- 
+TOpics
+
+* hide calendar
+* login workflow
+* update application
+
+-->
 
 <style>
-
 	.title {
 		position: absolute;
 		top: 15rem;
 		left: 50%;
-		width: 80%;
+
+		
+		min-height: fit-content;
+		max-height: 1000px;
 
 		transform: translate(-50%, 0);
 
@@ -32,12 +58,35 @@
 		flex-direction: column;
 		justify-content: start;
 		align-items: center;
-	}
-	.title > img {
-		width: 100%;
+
+		z-index: 999999;
 		user-select: none;
+		pointer-events: none;
+	}
+
+	
+
+	.imgHolder {
+		position: relative;
+		width: 80dvw;
 		max-width: 1200px;
-		
+		height: fit-content;
+	}
+
+	.imgHolder > img {
+		opacity: 0.05;
+	}
+
+	.mask {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+
+		mask: url("/title.svg") exclude;
+		mask-size: 100% 100%;
+		backdrop-filter: invert(1) grayscale(1);
 	}
 
 	.title > span {
@@ -48,12 +97,24 @@
 		line-height: 30px;
 
 		margin-top: 3rem;
+		margin-bottom: 3rem;
 	}
 
-	a {
-		border: 2px solid coral;
-		padding: 1rem;
-		box-sizing: border-box;
+	.dateText {
+		margin-top: 10rem;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		width: 100%;
+		font-size: 20px;
+		flex-flow: wrap;
+	}
+
+	@media only screen and (max-width: 360px) {
+		.dateText > *{
+			flex-basis: 100%;
+			text-align: center;
+		}
 	}
 
 	@media only screen and (max-width: 600px) {
@@ -65,15 +126,11 @@
 			font-size: 16px;
 			margin-top: 2rem;
 		}
-  }
+
+		.dateText {
+			font-size: 16px;
+		}
+	}
+
+	
 </style>
-
-
-<!-- 
-TOpics
-
-* hide calendar
-* login workflow
-* update application
-
--->
