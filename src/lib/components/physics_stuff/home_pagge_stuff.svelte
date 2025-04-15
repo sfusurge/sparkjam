@@ -66,6 +66,7 @@
     };
 
     let world: World | undefined = undefined;
+    let render: Render | undefined = undefined;
 
     function addShape(x: number, y: number, verts: Vector[][], texturePath: string) {
         if (!world) return;
@@ -84,7 +85,7 @@
                 },
                 density: 1.2,
                 restitution: 0,
-                frictionAir: 1,
+                frictionAir: 0.02,
             },
             true,
         );
@@ -98,10 +99,10 @@
     onMount(async () => {
         Common.setDecomp(PolyDecomp);
         // return;
-        const engine = Engine.create();
+        const engine = Engine.create({gravity:{scale:0.0018, x:0, y:1 }, positionIterations:8, velocityIterations:6});
         world = engine.world;
 
-        const render = Render.create({
+        render = Render.create({
             element: container,
             engine,
             options: {
@@ -145,18 +146,17 @@
 
         // pre-defined pile
         const rng = Math.random;
-        addShape(rng() * width, -300, svgs.asterisk.verticies!, svgs.asterisk.shape);
-        addShape(220, -450, svgs.otter.verticies!, svgs.otter.shape);
-        addShape(rng() * width, rng() * -200, svgs.box.verticies!, svgs.box.shape);
-        addShape(rng() * width, -300, svgs.surge.verticies!, svgs.surge.shape);
-        addShape(rng() * width, -80, svgs.bundle.verticies!, svgs.bundle.shape);
-        addShape(rng() * width, -80, svgs.bundle.verticies!, svgs.bundle.shape);
-        addShape( Math.random() * width, -300, svgs.pencil.verticies!, svgs.pencil.shape);
-        addShape( Math.random() * width, -300, svgs.pencil.verticies!, svgs.pencil.shape);
-        addShape( Math.random() * width, -200, svgs.arrow.verticies!, svgs.arrow.shape);
-        addShape( Math.random() * width, -200, svgs.arrow.verticies!, svgs.arrow.shape);
-        addShape( Math.random() * width, -300, svgs.star.verticies!, svgs.star.shape);
-
+        addShape(rng() * width, -300, svgs.asterisk.verticies!, svgs.asterisk.img);
+        addShape(220, -450, svgs.otter.verticies!, svgs.otter.img);
+        addShape(rng() * width, rng() * -200, svgs.box.verticies!, svgs.box.img);
+        addShape(rng() * width, -300, svgs.surge.verticies!, svgs.surge.img);
+        addShape(rng() * width, -80, svgs.bundle.verticies!, svgs.bundle.img);
+        addShape(rng() * width, -80, svgs.bundle.verticies!, svgs.bundle.img);
+        addShape(Math.random() * width, -300, svgs.pencil.verticies!, svgs.pencil.img);
+        addShape(Math.random() * width, -300, svgs.pencil.verticies!, svgs.pencil.img);
+        addShape(Math.random() * width, -200, svgs.arrow.verticies!, svgs.arrow.img);
+        addShape(Math.random() * width, -200, svgs.arrow.verticies!, svgs.arrow.img);
+        addShape(Math.random() * width, -300, svgs.star.verticies!, svgs.star.img);
 
         // world boundry
         Composite.add(world, [
@@ -181,9 +181,9 @@
             mouse: mouse,
             constraint: {
                 stiffness: 0.2,
+                damping:0.5,
                 render: {
-                    visible: true,
-                    strokeStyle:"grey"
+                    visible: false,
                 },
             },
         });
@@ -191,11 +191,15 @@
         Composite.add(world, mouseCons);
 
         render.mouse = mouse;
+    });
 
-        Render.lookAt(render, {
-            min: { x: 0, y: 0 },
-            max: { x: width, y: height },
-        });
+    $effect(() => {
+        if (render) {
+            Render.lookAt(render, {
+                min: { x: 0, y: 0 },
+                max: { x: width, y: height },
+            });
+        }
     });
 </script>
 

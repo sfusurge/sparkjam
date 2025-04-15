@@ -28,7 +28,7 @@
 
 
 
-<HomePageStuff/>
+<HomePageStuff width={600} height={600}/>
 <h1>rcfgvhgbvhb</h1>
 
 <style>
