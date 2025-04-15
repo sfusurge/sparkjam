@@ -21,15 +21,27 @@ export default function Home() {
 
         <div>
           <a
-            className="flex items-center justify-center pr-5 pl-5 pt-2 pb-2 bg-black text-white gap-2 hover:bg-neutral-800 transition"
+            className="border group flex items-center justify-center pr-5 pl-5 pt-2 pb-2 bg-black text-white gap-2 transition-all duration-300 ease-in hover:bg-[linear-gradient(269deg,#85E0F9_14.91%,#BFED79_53.81%,#FDC380_99.21%)] hover:text-black"
             href="/sparkjam_application_opens.ics"
           >
-            <p className="text-sm">SET A REMINDER</p>
+            <p className="text-sm transition-colors duration-300 ease-in group-hover:text-black">
+              SET A REMINDER
+            </p>
+
             <Image
               src="/arrow.svg"
               alt="arrow"
               width={10}
               height={10}
+              className="block group-hover:hidden transition-opacity duration-300 ease-in"
+            />
+
+            <Image
+              src="/hoverarrow.svg"
+              alt="arrow hover"
+              width={10}
+              height={10}
+              className="hidden group-hover:block transition-opacity duration-300 ease-in"
             />
           </a>
         </div>
