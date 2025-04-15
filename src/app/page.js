@@ -36,7 +36,7 @@ export default function Home() {
 
       {hoverCell && (
         <div
-          className="absolute transition-opacity duration-200 z-[1] opacity-100 pointer-events-none"
+          className="absolute transition-opacity duration-200 opacity-100 pointer-events-none"
           style={{
             left: hoverCell.x * cellSize,
             top: hoverCell.y * cellSize,
@@ -96,7 +96,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="absolute bottom-0 w-full flex flex-col md:flex-row justify-center items-center gap-2 md:gap-4 md:px-12 text-center z-10">
+      <div className="absolute bottom-0 w-full flex flex-col md:flex-row justify-center items-center gap-2 md:gap-4 md:px-12 text-center">
         <p className="text-md md:text-lg font-bold">( MAY 17 - MAY 31 )</p>
         <p className="md:text-lg font-bold block md:hidden">(SFU BURNABY)</p>
 
