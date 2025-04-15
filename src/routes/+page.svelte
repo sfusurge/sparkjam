@@ -86,7 +86,7 @@ TOpics
 
 		mask: url("/title.svg") exclude;
 		mask-size: 100% 100%;
-		backdrop-filter: invert(1) grayscale(1);
+		backdrop-filter: invert(1) grayscale(1); 
 	}
 
 	.title > span {
