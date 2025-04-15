@@ -12,7 +12,7 @@
 
 <div class="title" draggable="false">
 	<div class="imgHolder">
-		<img src="./title.svg" alt="SparkJam" />
+		<img src="./title.svg" alt="SparkJam" width="1198" height="228" />
 		<div class="mask"></div>
 	</div>
 
@@ -34,9 +34,7 @@
 <HoverGrid />
 
 
-<svelte:head>
-	<link rel="preload" href="/title.svg" as="image" type="image/svg+xml"  />
-</svelte:head>
+
 
 <!-- 
 TOpics
@@ -82,6 +80,12 @@ TOpics
 		opacity: 0.05;
 	}
 
+	@keyframes fadein{
+		0% {opacity: 0;}
+		99% {opacity: 0;}
+		100% {opacity: 1;}
+	}
+
 	.mask {
 		position: absolute;
 		left: 0;
@@ -89,9 +93,10 @@ TOpics
 		width: 100%;
 		height: 100%;
 
-		mask: url("/title.svg") exclude;
+		mask: url("/title.svg");
 		mask-size: 100% 100%;
 		backdrop-filter: invert(1) grayscale(1); 
+		animation: fadein 0ms both;
 	}
 
 	.title > span {
