@@ -33,6 +33,11 @@
 <HomePageStuff {width} {height} />
 <HoverGrid />
 
+
+<svelte:head>
+	<link rel="preload" href="/title.svg" as="image" type="image/svg+xml"  />
+</svelte:head>
+
 <!-- 
 TOpics
 
