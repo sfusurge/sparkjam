@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="h-screen w-screen bg-white text-black relative overflow-hidden">
+    <div className="h-screen w-screen bg-white text-black relative overflow-hidden tex">
       <div
         className="absolute inset-0 h-full w-full bg-white bg-[linear-gradient(to_right,#60606012_1px,transparent_1px),linear-gradient(to_bottom,#60606012_1px,transparent_1px)] bg-[size:81px_81px] z-0" />
 
