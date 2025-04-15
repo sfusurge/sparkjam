@@ -93,7 +93,7 @@ TOpics
 		width: 100%;
 		height: 100%;
 
-		mask: url("/title.svg");
+		mask: url("/title.svg") exclude;
 		mask-size: 100% 100%;
 		backdrop-filter: invert(1) grayscale(1); 
 		animation: fadein 0ms both;
