@@ -17,6 +17,8 @@
     import "./pathseg.js";
     // @ts-ignore
     import PolyDecomp from "poly-decomp";
+    import { scale } from "svelte/transition";
+    import { cubicOut } from "svelte/easing";
 
     interface Props {
         width: number;
@@ -219,6 +221,12 @@
             render.canvas.height = height;
 
             const mouse = Mouse.create(mouseCollider!);
+            // @ts-ignore
+            mouse.element.removeEventListener("mousewheel", mouse.mousewheel);
+            // @ts-ignore
+            mouse.element.removeEventListener("DOMMouseScroll", mouse.mousewheel);
+            // @ts-ignore
+            mouse.element.removeEventListener("wheel", mouse.mousewheel);
 
             mouseCons = MouseConstraint.create(engine, {
                 mouse: mouse,
@@ -254,15 +262,20 @@
     const maxObjs = 15;
     let spawnedObjsCount = $state(0);
 
-    function onmouseup({offsetX, offsetY} : {offsetX:number, offsetY:number}) {
-        if (mouseCons !== undefined && mouseCons.body !== null) return;
+    let puffX = $state(0);
+    let puffY = $state(0);
+
+    function onmouseup({ offsetX, offsetY }: { offsetX: number; offsetY: number }) {
+        if (mouseCons !== undefined && mouseCons.body !== null) {
+            return;
+        }
         if (spawnedObjsCount < maxObjs) {
             const randShape = Object.values(svgs).at(
                 Math.floor(Math.random() * Object.keys(svgs).length),
             );
             if (!randShape) return;
             addShape(
-                offsetX ,
+                offsetX,
                 offsetY,
                 randShape.verticies!,
                 randShape.img,
@@ -270,7 +283,24 @@
                 -Math.random() * 20,
             );
             spawnedObjsCount++;
+        } else {
+            puffX = offsetX;
+            puffY = offsetY;
         }
+    }
+
+    function puff(node: HTMLElement, { duration }: { duration: number }) {
+        return {
+            duration,
+            css: (t: number, u: number) => {
+                const eased = cubicOut(t);
+
+                return `
+                transform: translate(-50%, -50%) scale(${1 + t * 0.5}) ;
+                opacity: ${u * 0.4};
+                `;
+            },
+        };
     }
 </script>
 
@@ -278,11 +308,14 @@
     class="mouseCollider"
     style="width:{width}px; height:{height}px; position:absolute; top:0; left:0; z-index:999;"
     bind:this={mouseCollider}
-   
-    onpointerup={(e)=>{
-        onmouseup(e)
+    onpointerup={(e) => {
+        onmouseup(e);
     }}
-></div>
+>
+    {#key [puffX, puffY]}
+        <div class="puff" style="--x: {puffX}px; --y:{puffY}px;" in:puff={{ duration: 200 }}></div>
+    {/key}
+</div>
 
 <div
     class="physicsContainer"
@@ -291,6 +324,30 @@
 ></div>
 
 <style>
+    @keyframes fadeout {
+        from {
+            transform: scale(1);
+            opacity: 0.4;
+        }
+
+        to {
+            transform: scale(1.5);
+            opacity: 0;
+        }
+    }
+    .puff {
+        position: absolute;
+        top: var(--y);
+        left: var(--x);
+        width: 4rem;
+        height: 4rem;
+        background-color: var(--black);
+        border-radius: 100%;
+
+        opacity: 0;
+        pointer-events: none;
+    }
+
     .physicsContainer {
         position: relative;
         z-index: 1;

@@ -45,7 +45,7 @@
         height: 100%;
 
         background-color: var(--black);
-        transition: background-color 200ms ease-out;
+        transition: background-color 100ms ease-out;
     }
 
     .btn:hover::after {
@@ -62,7 +62,7 @@
         height: 0.75rem;
         transform: translate(0, 0rem);
         stroke: var(--white);
-        transition: transform 200ms ease-out;
+        transition: transform 100ms ease-out;
     }
 
     .btn:hover > #pointer{
