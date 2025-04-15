@@ -13,9 +13,9 @@
     const gridSize = 96;
     const half = gridSize / 2;
 
-    function onmousemove(e: MouseEvent) {
-        const x = e.clientX + half - (gridDiv?.getBoundingClientRect().left ?? 0);
-        const y = e.clientY + half;
+    function onmousemove({clientX, clientY}:{clientX:number, clientY:number}) {
+        const x = clientX + half - (gridDiv?.getBoundingClientRect().left ?? 0);
+        const y = clientY + half;
 
         if (y > height + gridSize) {
             return;
@@ -25,11 +25,10 @@
         gridY = Math.floor(y / gridSize);
     }
 
-    $inspect(gridX, gridY);
 </script>
 
 <svelte:window bind:innerHeight={height} bind:innerWidth={width} />
-<svelte:document {onmousemove} />
+<svelte:document {onmousemove} ontouchmove={(e)=>{onmousemove(e.touches[0])}}/>
 
 <div
     class="hoverGridParent"
@@ -75,7 +74,7 @@
         mask-mode: alpha;
         mask-repeat: no-repeat;
     }
-
+    
     .hoverGrid {
         position: absolute;
         top: 0;
@@ -83,11 +82,11 @@
         width: 100%;
         height: 100%;
 
-        background-image: linear-gradient(to right, var(--black) 1px, transparent 1px),
-            linear-gradient(to bottom, var(--black) 1px, transparent 1px);
+        background-image: linear-gradient(to right, #D9DCE2 2px, transparent 2px),
+            linear-gradient(to bottom, #D9DCE2 2px, transparent 2px);
         background-size: var(--size) var(--size);
         background-position: var(--half) var(--half);
-        filter: opacity(35%);
+      
 
     }
 
