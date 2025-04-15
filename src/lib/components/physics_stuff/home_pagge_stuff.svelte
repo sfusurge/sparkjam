@@ -221,6 +221,12 @@
             render.canvas.height = height;
 
             const mouse = Mouse.create(mouseCollider!);
+            // @ts-ignore
+            mouse.element.removeEventListener("mousewheel", mouse.mousewheel);
+            // @ts-ignore
+            mouse.element.removeEventListener("DOMMouseScroll", mouse.mousewheel);
+            // @ts-ignore
+            mouse.element.removeEventListener("wheel", mouse.mousewheel);
 
             mouseCons = MouseConstraint.create(engine, {
                 mouse: mouse,
