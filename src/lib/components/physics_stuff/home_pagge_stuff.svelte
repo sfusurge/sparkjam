@@ -251,8 +251,6 @@
     });
 
     $effect(() => {
-        console.log(width);
-
         if (width > 200 && rightBoundRect) {
             Body.set(rightBoundRect, "position", { x: width + 500, y: 10000 });
         }
