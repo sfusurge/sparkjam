@@ -68,7 +68,9 @@ export default function Home() {
 
         <div>
           <a
-            className="border group flex items-center justify-center pr-5 pl-5 pt-2 pb-2 bg-black text-white gap-2 transition-all duration-300 ease-in hover:bg-[linear-gradient(269deg,#85E0F9_14.91%,#BFED79_53.81%,#FDC380_99.21%)] hover:text-black"
+            className="border border-black group flex items-center justify-center pr-5 pl-5 pt-2 pb-2 bg-black text-white gap-2 transition-all duration-300
+            hover:bg-[linear-gradient(269deg,#85E0F9_14.91%,#BFED79_53.81%,#FDC380_99.21%)]
+            hover:text-black"
             href="/sparkjam_application_opens.ics"
           >
             <p className="text-sm transition-colors duration-300 group-hover:text-black">
