@@ -7,17 +7,16 @@
         Composite,
         Svg,
         Bodies,
-        Vector,
+        type Vector,
         Mouse,
         MouseConstraint,
         Body,
-        World,
+        type World,
     } from "matter-js";
     import { onMount } from "svelte";
     import "./pathseg.js";
     // @ts-ignore
     import PolyDecomp from "poly-decomp";
-    import { scale } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
 
     interface Props {
