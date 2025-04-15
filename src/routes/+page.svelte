@@ -16,7 +16,7 @@
 		<div class="mask"></div>
 	</div>
 
-	<span>Application Will Open<br /><strong>Friday, April 18th</strong></span>
+	<span>Applications Will Open<br /><strong>Friday, April 18th</strong></span>
 
 	<RainbowButton>
 		<a
