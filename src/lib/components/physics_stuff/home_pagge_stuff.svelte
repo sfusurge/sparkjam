@@ -26,7 +26,6 @@
     const { width, height }: Props = $props();
 
     let container = $state<HTMLDivElement>();
-
     const svgs: Record<
         "arrow" | "asterisk" | "box" | "otter" | "pencil" | "star" | "surge" | "bundle",
         { shape: string; img: string; verticies?: Vector[][] | undefined }
@@ -67,6 +66,9 @@
 
     let world: World | undefined = undefined;
     let render: Render | undefined = undefined;
+    let mouseCons: MouseConstraint | undefined = undefined;
+    let engine: Engine | undefined = undefined;
+    let initialized = $state(false);
 
     function addShape(x: number, y: number, verts: Vector[][], texturePath: string) {
         if (!world) return;
@@ -99,21 +101,12 @@
     onMount(async () => {
         Common.setDecomp(PolyDecomp);
         // return;
-        const engine = Engine.create({gravity:{scale:0.0018, x:0, y:1 }, positionIterations:8, velocityIterations:6});
-        world = engine.world;
-
-        render = Render.create({
-            element: container,
-            engine,
-            options: {
-                width,
-                height,
-                background: "white",
-                wireframes: false,
-            },
+        engine = Engine.create({
+            gravity: { scale: 0.0018, x: 0, y: 1 },
+            positionIterations: 8,
+            velocityIterations: 6,
         });
-
-        Render.run(render);
+        world = engine.world;
 
         const runner = Runner.create();
 
@@ -146,17 +139,20 @@
 
         // pre-defined pile
         const rng = Math.random;
-        addShape(rng() * width, -300, svgs.asterisk.verticies!, svgs.asterisk.img);
-        addShape(220, -450, svgs.otter.verticies!, svgs.otter.img);
-        addShape(rng() * width, rng() * -200, svgs.box.verticies!, svgs.box.img);
-        addShape(rng() * width, -300, svgs.surge.verticies!, svgs.surge.img);
-        addShape(rng() * width, -80, svgs.bundle.verticies!, svgs.bundle.img);
-        addShape(rng() * width, -80, svgs.bundle.verticies!, svgs.bundle.img);
-        addShape(Math.random() * width, -300, svgs.pencil.verticies!, svgs.pencil.img);
-        addShape(Math.random() * width, -300, svgs.pencil.verticies!, svgs.pencil.img);
-        addShape(Math.random() * width, -200, svgs.arrow.verticies!, svgs.arrow.img);
-        addShape(Math.random() * width, -200, svgs.arrow.verticies!, svgs.arrow.img);
-        addShape(Math.random() * width, -300, svgs.star.verticies!, svgs.star.img);
+        const getXPos = () => {
+            return rng() * 300 + width / 2 - 150;
+        };
+        addShape(getXPos(), -300, svgs.asterisk.verticies!, svgs.asterisk.img);
+        addShape(width / 2, -450, svgs.otter.verticies!, svgs.otter.img);
+        addShape(getXPos(), rng() * -200, svgs.box.verticies!, svgs.box.img);
+        addShape(getXPos(), -300, svgs.surge.verticies!, svgs.surge.img);
+        addShape(getXPos(), -80, svgs.bundle.verticies!, svgs.bundle.img);
+        addShape(getXPos(), -80, svgs.bundle.verticies!, svgs.bundle.img);
+        addShape(getXPos(), -300, svgs.pencil.verticies!, svgs.pencil.img);
+        addShape(getXPos(), -300, svgs.pencil.verticies!, svgs.pencil.img);
+        addShape(getXPos(), -200, svgs.arrow.verticies!, svgs.arrow.img);
+        addShape(getXPos(), -200, svgs.arrow.verticies!, svgs.arrow.img);
+        addShape(getXPos(), -300, svgs.star.verticies!, svgs.star.img);
 
         // world boundry
         Composite.add(world, [
@@ -175,31 +171,59 @@
             }),
         ]);
 
-        // Mouse control
-        const mouse = Mouse.create(render.canvas);
-        const mouseCons = MouseConstraint.create(engine, {
-            mouse: mouse,
-            constraint: {
-                stiffness: 0.2,
-                damping:0.5,
-                render: {
-                    visible: false,
-                },
+        render = Render.create({
+            element: container,
+            engine,
+            options: {
+                width,
+                height,
+                background: "transparent",
+                wireframes: false,
             },
         });
+        Render.run(render);
 
-        Composite.add(world, mouseCons);
+        Render.lookAt(render, {
+            min: { x: 0, y: 0 },
+            max: { x: width, y: height },
+        });
 
-        render.mouse = mouse;
+        initialized = true;
     });
 
     $effect(() => {
-        if (render) {
-            Render.lookAt(render, {
-                min: { x: 0, y: 0 },
-                max: { x: width, y: height },
+        if (initialized && render && world && engine) {
+            render.bounds.max.x = width;
+            render.bounds.max.y = height;
+
+            render.options.width = width;
+            render.options.height = height;
+
+            render.canvas.width = width;
+            render.canvas.height = height;
+
+            const mouse = Mouse.create(render.canvas);
+            mouseCons = MouseConstraint.create(engine, {
+                mouse: mouse,
+                constraint: {
+                    stiffness: 0.2,
+                    damping: 0.5,
+                    render: {
+                        visible: false,
+                    },
+                },
             });
+
+            Composite.add(world, mouseCons);
+
+            render.mouse = mouse;
         }
+
+        return () => {
+            if (mouseCons && world) {
+                Composite.remove(world, mouseCons);
+            }
+        };
     });
 </script>
 

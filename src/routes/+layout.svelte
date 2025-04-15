@@ -1,15 +1,9 @@
 <script lang="ts">
-	import ViewTransWrapper from '$lib/components/utils/ViewTransWrapper.svelte';
-
-
-	import '../app.css';
+	import "../app.css";
 
 	let { children } = $props();
-
-	
 </script>
 
-
-<ViewTransWrapper>
+<div id="content">
 	{@render children()}
-</ViewTransWrapper>
+</div>
