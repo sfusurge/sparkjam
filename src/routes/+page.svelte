@@ -57,7 +57,7 @@
 
 <div class="titleContainer" style="--height:{titleHeight}px;">
 	<div class="titleDecor">
-		<!-- <HomePageStuff {width} height={titleHeight} /> -->
+		<HomePageStuff {width} height={titleHeight} />
 		<HoverGrid />
 	</div>
 </div>
