@@ -6,10 +6,13 @@ button {
 
 body {
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
 
     --black: #242424;
     --white: #f2f2f2;
+    --lightGrey: #d9dce2;
+    --grey:#57585b;
+    --widthLimit: 1920px;
 
     --rainbow: linear-gradient(to right, #f16969, #FDC380, #D2F058, #B3E8FF);
     --rainbow-slanted: linear-gradient(135deg, #f16969, #FDC380, #D2F058, #B3E8FF);
@@ -22,10 +25,13 @@ body {
     "wdth" 100;
 }
 
+
+
 #content {
     position: relative;
-
+height: fit-content;
     min-height: 100dvh;
+    width: 100dvw;
     max-width: 1920px;
     margin-left: auto;
     margin-right: auto;

@@ -13,9 +13,9 @@
     const gridSize = 96;
     const half = gridSize / 2;
 
-    function onmousemove({clientX, clientY}:{clientX:number, clientY:number}) {
+    function onpointermove({ clientX, clientY }: { clientX: number; clientY: number }) {
         const x = clientX + half - (gridDiv?.getBoundingClientRect().left ?? 0);
-        const y = clientY + half;
+        const y = clientY + half - (gridDiv?.getBoundingClientRect().top ?? 0);
 
         if (y > height + gridSize) {
             return;
@@ -25,10 +25,20 @@
         gridY = Math.floor(y / gridSize);
     }
 
+    function clear() {
+        gridX = -20;
+        gridY = -20;
+    }
 </script>
 
 <svelte:window bind:innerHeight={height} bind:innerWidth={width} />
-<svelte:document {onmousemove} ontouchmove={(e)=>{onmousemove(e.touches[0])}}/>
+<svelte:document
+    {onpointermove}
+    onpointerdown={onpointermove}
+    onpointerup={clear}
+    onpointerleave={clear}
+    onpointercancel={clear}
+/>
 
 <div
     class="hoverGridParent"
@@ -65,7 +75,6 @@
         width: 100%;
         height: 100%;
 
-        
         mask:
             url("/mask.png") 0 0 / 100dvw 100dvh,
             url("/title.svg") max(10dvw, calc((var(--screenWidth) - 1200px) / 2)) var(--topOffset) /
@@ -74,7 +83,7 @@
         mask-mode: alpha;
         mask-repeat: no-repeat;
     }
-    
+
     .hoverGrid {
         position: absolute;
         top: 0;
@@ -82,12 +91,10 @@
         width: 100%;
         height: 100%;
 
-        background-image: linear-gradient(to right, #D9DCE2 2px, transparent 2px),
-            linear-gradient(to bottom, #D9DCE2 2px, transparent 2px);
+        background-image: linear-gradient(to right, var(--lightGrey) 2px, transparent 2px),
+            linear-gradient(to bottom, var(--lightGrey) 2px, transparent 2px);
         background-size: var(--size) var(--size);
         background-position: var(--half) var(--half);
-      
-
     }
 
     .block {

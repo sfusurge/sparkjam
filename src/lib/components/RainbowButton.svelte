@@ -1,8 +1,10 @@
 <script lang="ts">
-    let { children } = $props();
+    import type { Snippet } from "svelte";
+
+    let { children, style, disableBottomBorder = false }: {children:Snippet, style? :string, disableBottomBorder?:boolean} = $props();
 </script>
 
-<button class="btn">
+<button class="btn" {style} class:noBotBorder={disableBottomBorder}>
     {@render children()}
     <svg id="pointer" width="8" height="8" viewBox="0 0 8 8"  xmlns="http://www.w3.org/2000/svg">
         <path d="M1 7.5L7.5 1M7.5 1H2.5M7.5 1V6" ></path>
@@ -32,6 +34,10 @@
 
         border: 2px solid var(--black);
         background: var(--rainbow);
+    }
+
+    .btn.noBotBorder::before{
+        border-bottom: none;
     }
 
     .btn::after {
