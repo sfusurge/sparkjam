@@ -14,7 +14,7 @@
     let selectedQuestion = $derived(items[selectedIndex]);
 </script>
 
-<div class="qaContainer">
+<div class="qaContainer scroll-mt-40" id="faq">
     <div class="titlelist">
         {#each items as item, index}
             <button

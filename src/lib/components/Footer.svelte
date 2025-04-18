@@ -1,7 +1,7 @@
 <footer class="w-full max-w-[1920px] flex justify-center p-12">
   <div class="w-full flex flex-col items-center max-w-[80rem] gap-4 md:flex-row md:justify-between">
     <a
-      href=""
+      href="sfusurge.com"
       class="group text-[#242424] text-base font-bold flex flex-row gap-1"
       ><div>SFU SURGE</div>
       <svg
@@ -21,7 +21,7 @@
     </a>
 
     <div class="icons flex gap-4">
-      <a href="" class="hover:scale-125 transition-transform"
+      <a href="https://www.instagram.com/sfusurge/" class="hover:scale-125 transition-transform"
         ><svg
           xmlns="http://www.w3.org/2000/svg"
           width="28"
@@ -38,7 +38,7 @@
         ></a
       >
 
-      <a href="" class="hover:scale-125 transition-transform"
+      <a href="https://discord.gg/zsDNGWFD" class="hover:scale-125 transition-transform"
         ><svg
           xmlns="http://www.w3.org/2000/svg"
           width="28"
@@ -55,7 +55,7 @@
         ></a
       >
 
-      <a href="" class="hover:scale-125 transition-transform"
+      <a href="https://www.linkedin.com/company/sfu-surge/" class="hover:scale-125 transition-transform"
         ><svg
           xmlns="http://www.w3.org/2000/svg"
           width="28"

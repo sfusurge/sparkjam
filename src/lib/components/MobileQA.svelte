@@ -22,7 +22,7 @@
     }
 </script>
 
-<div class="itemsContainer">
+<div class="itemsContainer" id="faq">
     {#each items as item, idx}
         <button
             class="item"

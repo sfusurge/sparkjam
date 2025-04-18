@@ -42,7 +42,7 @@
         </div>
 
         <RainbowButton style="margin-top:2rem;">
-            <a href="#">GET YOUR TICKETS</a>
+            <a href="https://portal.sfusurge.com/application">GET YOUR TICKETS</a>
         </RainbowButton>
     </div>
 
