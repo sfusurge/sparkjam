@@ -9,6 +9,7 @@
 	import ScrollSnapper from "$lib/components/ScrollSnapper.svelte";
 	import StuffHoverGrid from "$lib/components/StuffHoverGrid.svelte";
 	import TopBar from "$lib/components/TopBar.svelte";
+    import Typography from "$lib/components/Typography.svelte";
 
 	let _width = $state(0);
 	let width = $derived(Math.min(_width, 1920));
@@ -183,6 +184,7 @@
 <div class="canvasContainer" style="border-bottom: 1px solid var(--black);">
 	<CanvasWrapper />
 </div>
+<Typography></Typography>
 
 {#each Array(100).keys() as _}
 	<p>LONGer</p>
