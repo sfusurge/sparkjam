@@ -801,8 +801,6 @@ export class CanvasController {
             this.ctxStatic.fillRect(0, 0, this.staticCanvas.width, this.staticCanvas.height)
             this.ctxStatic.scale(this.smoothZoom, this.smoothZoom);
             this.ctxStatic.translate(-this.smoothCameraPos.x, -this.smoothCameraPos.y);
-            console.log("clearing");
-
         }
 
         // dynamic (always)

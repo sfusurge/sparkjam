@@ -187,81 +187,89 @@
 </div>
 <Typography></Typography>
 
-<div class="qaWrapper">
-	<DesktopQa
-		items={[
-			{
-				title: "Who is eligible to attend SparkJam",
-				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-			},
-			{
-				title: "Who is eligible to attend SparkJam",
-				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-			},
-			{
-				title: "Who is eligible to attend SparkJam",
-				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-			},
-			{
-				title: "Who is eligible to attend SparkJam",
-				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-			},
-			{
-				title: "Who is eligible to attend SparkJam",
-				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-			},
-			{
-				title: "Who is eligible to attend SparkJam",
-				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-			},
-			{
-				title: "Who is eligible to attend SparkJam",
-				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-			},
-		]}
-	/>
-</div>
-
-<div class="mobileQA">
-	<MobileQa
-		items={[
-			{
-				title: "Who is eligible to attend SparkJam",
-				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-			},
-			{
-				title: "Who is eligible to attend SparkJam",
-				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-			},
-			{
-				title: "Who is eligible to attend SparkJam",
-				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-			},
-			{
-				title: "Who is eligible to attend SparkJam",
-				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-			},
-			{
-				title: "Who is eligible to attend SparkJam",
-				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-			},
-			{
-				title: "Who is eligible to attend SparkJam",
-				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-			},
-			{
-				title: "Who is eligible to attend SparkJam",
-				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-			},
-		]}
-	></MobileQa>
-</div>
+{#if width < 1200}
+	<div class="mobileQA">
+		<MobileQa
+			items={[
+				{
+					title: "Who is eligible to attend SparkJam",
+					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+				},
+				{
+					title: "Who is eligible to attend SparkJam",
+					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+				},
+				{
+					title: "Who is eligible to attend SparkJam",
+					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+				},
+				{
+					title: "Who is eligible to attend SparkJam",
+					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+				},
+				{
+					title: "Who is eligible to attend SparkJam",
+					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+				},
+				{
+					title: "Who is eligible to attend SparkJam",
+					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+				},
+				{
+					title: "Who is eligible to attend SparkJam",
+					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+				},
+			]}
+		></MobileQa>
+	</div>
+{:else}
+	<div class="qaWrapper">
+		<DesktopQa
+			items={[
+				{
+					title: "Who is eligible to attend SparkJam",
+					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+				},
+				{
+					title: "Who is eligible to attend SparkJam",
+					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+				},
+				{
+					title: "Who is eligible to attend SparkJam",
+					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+				},
+				{
+					title: "Who is eligible to attend SparkJam",
+					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+				},
+				{
+					title: "Who is eligible to attend SparkJam",
+					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+				},
+				{
+					title: "Who is eligible to attend SparkJam",
+					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+				},
+				{
+					title: "Who is eligible to attend SparkJam",
+					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+				},
+			]}
+		/>
+	</div>
+{/if}
 
 {#each Array(100).keys() as _}
 	<p>LONGer</p>
 {/each}
 
 <style>
+	.mobileQA {
+		max-width: 90dvw;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
 	.qaWrapper {
 		max-width: 1200px;
 		margin-left: auto;
