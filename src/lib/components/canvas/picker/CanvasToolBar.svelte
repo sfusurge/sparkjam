@@ -48,7 +48,7 @@
 
 		<div class="verDiv endDiv"></div>
 	</div>
-	{#if !sharedState.isMobile}
+	{#if false}
 		<!-- Plus button -->
 		<button
 			class="sizeBtn"
@@ -117,24 +117,24 @@
 
 		background-color: #edecec;
 		padding: 0.75rem;
-		border-radius: 10px;
 
-		border: 3px solid transparent;
+
+		border: 2px solid var(--grey);
 		transition: border-color 300ms ease-out;
 
 		justify-content: center;
 	}
 
 	.toolbar:hover {
-		border-color: #2b4061;
+		border-color: var(--black);
 	}
 
 	.verDiv {
-		width: 1px;
+		width: 0px;
 		margin: 0.5rem;
 		margin-top: 0.25rem;
 		margin-bottom: 0.25rem;
-		background-color: #8cc8e1;
+		border-right: 1px solid var(--grey);
 	}
 
 	.sizeBtn {

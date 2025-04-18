@@ -309,6 +309,10 @@ export class CanvasController {
         }, 10000);
     }
 
+    forceRender(){
+        this.needStaticRender = true;
+    }
+
     // ============ Render loop ============
     startRender() {
         requestAnimationFrame(this.eventLoop.bind(this));

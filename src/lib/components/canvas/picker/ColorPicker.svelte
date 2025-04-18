@@ -1,8 +1,7 @@
 <script lang="ts" module>
-	import { onMount } from 'svelte';
-	import Picker from './Picker.svelte';
-	import { sharedState } from '$lib/components/canvas/picker/shared_states.svelte';
-
+	import { onMount } from "svelte";
+	import Picker from "./Picker.svelte";
+	import { sharedState } from "$lib/components/canvas/picker/shared_states.svelte";
 
 	export interface ColorData {
 		name: string;
@@ -19,30 +18,35 @@
 
 	const colors: ColorData[] = [
 		{
-			name: '#F3EBDB',
+			name: "#F16969",
 			dark: false,
-			button: '1'
+			button: "1",
 		},
 		{
-			name: '#B3E8FF',
+			name: "#FDC380",
 			dark: false,
-			button: '2'
+			button: "2",
 		},
 		{
-			name: '#3F9BC1',
+			name: "#D2F058",
 			dark: false,
-			button: '3'
+			button: "3",
 		},
 		{
-			name: '#2B4061',
+			name: "#8CC8E1",
+			dark: false,
+			button: "4",
+		},
+		{
+			name: "#242424",
 			dark: true,
-			button: '4'
-		}
+			button: "5",
+		},
 	];
 
 	let isMobile = $derived(sharedState.isMobile);
 
-	let { selectedColor = $bindable(),  }: ColorPickerProps = $props();
+	let { selectedColor = $bindable() }: ColorPickerProps = $props();
 	let namedColors = $derived(colors.map((p) => ({ name: p.name, button: p.button, data: p })));
 
 	onMount(() => {
@@ -84,8 +88,8 @@
 	}
 
 	.colorCircle::before {
-		content: '';
-		border: 3px solid #2b4061;
+		content: "";
+		border: 3px solid var(--black);
 		border-radius: 50%;
 		box-sizing: border-box;
 
@@ -100,7 +104,7 @@
 	}
 
 	.colorCircle::after {
-		content: '';
+		content: "";
 		position: absolute;
 		position: absolute;
 		left: 1.25rem;
@@ -114,21 +118,19 @@
 		transition: background-color 300ms ease-out;
 	}
 	.colorCircle.selected::after {
-		background-color: #2b4061;
+		background-color: var(--black);
 	}
 
 	.colorCircle.dark.selected::after {
-		background-color: #f3ebdb;
+		background-color: var(--white);
 	}
 
 	.btnLabel {
-		color: #2b4061;
+		color: var(--grey);
 		position: absolute;
 		top: 0.1rem;
 		left: 0.2rem;
 		font-size: 10px;
 		line-height: 9px;
 	}
-
-	
 </style>

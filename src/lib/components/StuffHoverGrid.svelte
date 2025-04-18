@@ -70,10 +70,14 @@
 </div>
 
 <style>
+
     .stuffContainer {
         position: relative;
         width: 100%;
         height: var(--height);
+
+        scroll-snap-align: center;
+        scroll-margin: 100px;
     }
 
     .item {

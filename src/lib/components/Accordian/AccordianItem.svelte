@@ -12,7 +12,11 @@
 
     let contentDiv: HTMLDivElement | undefined = $state();
     let extended = $state(false);
+    let width = $state(0);
+    let isMobile = $derived(width < 768);
 </script>
+
+<svelte:window bind:innerWidth={width} />
 
 <button
     class="acorItem"
@@ -23,11 +27,16 @@
 >
     <div class="itemRow" class:extended>
         <span style="flex:1; font-weight:700;"> {title}</span>
-        <span class="location"> {location} </span>
+
+        {#if !isMobile}
+            <span class="location"> {location} </span>
+        {/if}
         <span class="date"> {date} </span>
-        <span class="arrowBtn" class:extended>
-            <img src="/home/otter.svg" alt="arrow" />
-        </span>
+        {#if !isMobile}
+            <span class="arrowBtn" class:extended>
+                <img src="/home/otter.svg" alt="arrow" />
+            </span>
+        {/if}
     </div>
 
     <div
@@ -36,6 +45,12 @@
         style="--contentHeight: {contentDiv?.clientHeight}px;"
     >
         <div class="itemContent" bind:this={contentDiv}>
+            {#if isMobile}
+                <span class="location" style="margin-right:auto;">
+
+                    {location}
+                </span>
+            {/if}
             {@render content()}
         </div>
     </div>
@@ -115,5 +130,8 @@
 
     .itemContent {
         padding-top: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
     }
 </style>

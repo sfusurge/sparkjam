@@ -1,8 +1,12 @@
 <script lang="ts">
 	import Accordian from "$lib/components/Accordian/Accordian.svelte";
+	import CanvasWrapper from "$lib/components/canvas/CanvasWrapper.svelte";
+	import MultiplayerCanvas from "$lib/components/canvas/MultiplayerCanvas.svelte";
+	import Schedule from "$lib/components/canvas/picker/Schedule.svelte";
 	import HoverGrid from "$lib/components/HoverGrid.svelte";
 	import HomePageStuff from "$lib/components/physics_stuff/home_pagge_stuff.svelte";
 	import RainbowButton from "$lib/components/RainbowButton.svelte";
+	import ScrollSnapper from "$lib/components/ScrollSnapper.svelte";
 	import StuffHoverGrid from "$lib/components/StuffHoverGrid.svelte";
 	import TopBar from "$lib/components/TopBar.svelte";
 
@@ -57,7 +61,7 @@
 
 <div class="titleContainer" style="--height:{titleHeight}px;">
 	<div class="titleDecor">
-		<HomePageStuff {width} height={titleHeight} />
+		<!-- <HomePageStuff {width} height={titleHeight} /> -->
 		<HoverGrid />
 	</div>
 </div>
@@ -67,12 +71,83 @@
 	motion, prototyping, and story driven pitching to innovate within a chosen problem space.
 </p>
 
-<StuffHoverGrid style="margin-top:rem; margin-bottom:3rem;" />
+<StuffHoverGrid style="margin-top:2rem; margin-bottom:3rem;" />
 
 {#snippet Day1()}
-	<p>PLACEHOLDER</p>
+	<Schedule
+		items={[
+			{
+				label: "Doors Open",
+				time: "9:00am",
+			},
+			{
+				label: "Ceremony Begins",
+				time: "11:00am",
+			},
+			{
+				label: "Judge Panel",
+				time: "11:30am",
+			},
+			{
+				label: "Student Panel",
+				time: "12:00pm",
+			},
+			{
+				label: "Lunch (included)",
+				time: "12:30pm",
+			},
+			{
+				label: "Case Reveal",
+				time: "1:30pm",
+			},
+		]}
+	/>
 {/snippet}
 
+{#snippet Day2()}
+	<p class="scheduleLabel">
+		Eech team will receive a 20-minite slot between 11:00am to 2:00pm, where they will present
+		their work to a team of mentors for feedback.
+	</p>
+{/snippet}
+
+{#snippet Day3()}
+	<p class="scheduleLabel">
+		Eech team will receive a 20-minite slot between 11:00am to 2:00pm, where they will present
+		their work to a team of mentors for feedback.
+	</p>
+{/snippet}
+
+{#snippet Day4()}
+	<Schedule
+		items={[
+			{
+				label: "Doors Open",
+				time: "9:00am",
+			},
+			{
+				label: "Ceremony Begins",
+				time: "11:00am",
+			},
+			{
+				label: "Judge Panel",
+				time: "11:30am",
+			},
+			{
+				label: "Student Panel",
+				time: "12:00pm",
+			},
+			{
+				label: "Lunch (included)",
+				time: "12:30pm",
+			},
+			{
+				label: "Case Reveal",
+				time: "1:30pm",
+			},
+		]}
+	/>
+{/snippet}
 <Accordian
 	items={[
 		{
@@ -82,25 +157,52 @@
 			content: Day1,
 		},
 		{
-			title: "OPENING CEREMONY",
+			title: "CRITQUE DAY",
 			location: "SAYWELL HALL 10041",
-			date: "17-05-2025",
-			content: Day1,
+			date: "24-05-2025",
+			content: Day2,
 		},
 		{
-			title: "OPENING CEREMONY",
+			title: "SUBMISSIONS DUE",
+			location: "REMOTE",
+			date: "28-05-2025",
+			content: Day3,
+		},
+		{
+			title: "CLOSING CEREMONY",
 			location: "SAYWELL HALL 10041",
-			date: "17-05-2025",
-			content: Day1,
+			date: "31-05-2025",
+			content: Day4,
 		},
 	]}
 />
+
+<ScrollSnapper margin={200} topPadding={height * 0.1} />
+
+
+<div class="canvasContainer" style="border-bottom: 1px solid var(--black);">
+	<CanvasWrapper />
+</div>
 
 {#each Array(100).keys() as _}
 	<p>LONGer</p>
 {/each}
 
 <style>
+
+	.canvasContainer {
+		width: 100%;
+		height: 80dvh;
+	}
+
+	p.scheduleLabel {
+		max-width: 500px;
+		text-align: start;
+		color: var(--grey);
+		line-height: 16px;
+		font-size: 16px;
+	}
+
 	.mainDescription {
 		width: 80dvw;
 		max-width: 1200px;
@@ -192,7 +294,7 @@
 		width: 100%;
 		height: 100%;
 
-		mask: url("/title.svg") exclude;
+		mask: url("/title.svg");
 		mask-size: 100% 100%;
 		backdrop-filter: invert(1) grayscale(1);
 		animation: fadein 0ms both;

@@ -28,15 +28,15 @@
 
 <style>
 	.username::placeholder {
-		color: grey;
+		color: var(--grey);
 	}
 
 	.username {
-		border-bottom: 2px solid #2b4061;
+		border-bottom: 2px solid var(--black);
 		outline: 1px solid transparent;
 		transition: outline-color 300ms ease-out;
 
-		color: #2b4061;
+		color: var(--black);
 		font-size: 20px;
 		line-height: 20px;
 		font-weight: 500;
@@ -49,7 +49,7 @@
 	}
 
 	.username:hover {
-		outline-color: #2b4061;
+		outline-color: var(--black);
 	}
 
 	@media (max-width: 610px) {

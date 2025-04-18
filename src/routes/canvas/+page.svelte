@@ -1,21 +1,23 @@
 <script lang="ts">
-	import type { CanvasController, UserData } from '$lib/components/canvas/canvas_controller.svelte';
-	import MultiplayerCanvas from '$lib/components/canvas/MultiplayerCanvas.svelte';
-	import CanvasToolBar from '$lib/components/canvas/picker/CanvasToolBar.svelte';
+	import type {
+		CanvasController,
+		UserData,
+	} from "$lib/components/canvas/canvas_controller.svelte";
+	import MultiplayerCanvas from "$lib/components/canvas/MultiplayerCanvas.svelte";
+	import CanvasToolBar from "$lib/components/canvas/picker/CanvasToolBar.svelte";
 
-
-	import { onDestroy, onMount } from 'svelte';
-	import { fade } from 'svelte/transition';
+	import { onDestroy, onMount } from "svelte";
+	import { fade } from "svelte/transition";
 
 	let userdata: UserData = $state({
-		username: '',
+		username: "",
 		penInfo: {
-			color: '',
+			color: "",
 			layer: -1,
-			name: '',
+			name: "",
 			size: -1,
-			smooth: false
-		}
+			smooth: false,
+		},
 	});
 
 	let canvasController = $state<CanvasController | undefined>();
@@ -27,31 +29,26 @@
 		innerHeight = Math.floor(document.documentElement.clientHeight - 1);
 	}
 	onMount(() => {
-		window.addEventListener('resize', onResize);
+		window.addEventListener("resize", onResize);
 		onResize();
 	});
 
 	onDestroy(() => {
-		window.removeEventListener('resize', onResize);
+		window.removeEventListener("resize", onResize);
 	});
 </script>
 
 <CanvasToolBar bind:userdata bind:canvasController />
 
-{#if innerWidth > 0}
-	<div
-		in:fade={{
-			duration: 500
-		}}
-	>
-		<MultiplayerCanvas
-			maxLayers={2}
-			size={{ height: innerHeight, width: innerWidth }}
-			{userdata}
-			bind:canvasController
-		/>
-	</div>
-{/if}
-
-<style>
-</style>
+<div
+	in:fade={{
+		duration: 500,
+	}}
+>
+	<MultiplayerCanvas
+		maxLayers={2}
+		size={{ height: innerHeight, width: innerWidth - 1}}
+		{userdata}
+		bind:canvasController
+	/>
+</div>

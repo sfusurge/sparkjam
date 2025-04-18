@@ -12,14 +12,25 @@
     }
 
     const { items }: Props = $props();
+    let width = $state(0);
+    let isMobile = $derived(width < 768);
 </script>
+
+<svelte:window bind:innerWidth={width} />
 
 <div class="accordianContainer">
     <div class="titleRow">
         <span style="flex:1;">( SCHEDULE )</span>
-        <span class="location">( LOCATION )</span>
+
+        {#if !isMobile}
+            <span class="location">( LOCATION )</span>
+        {/if}
+
         <span class="date">( DATE )</span>
-        <div class="blank"></div>
+
+        {#if !isMobile}
+            <div class="blank"></div>
+        {/if}
     </div>
 
     {#each items as item}
@@ -56,7 +67,6 @@
     .date {
         width: 100px;
     }
-
 
     span {
         color: var(--grey);

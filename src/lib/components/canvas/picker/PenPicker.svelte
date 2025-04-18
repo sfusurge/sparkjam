@@ -60,7 +60,7 @@
 	});
 </script>
 {#snippet Pen(pen: PenData, selected: boolean)}
-	{@const strokeColor = selected ? '#B3E8FF' : '#2B4061'}
+	{@const strokeColor = selected ? 'var(--white)' : 'var(--black)'}
 
 	<div class="penBtn" class:selected>
 		{#if pen.button && !isMobile}
@@ -123,15 +123,15 @@
 	}
 
 	.penBtn:not(.selected):hover {
-		background-color: #b3e8ff;
+		background-color: var(--white);
 	}
 
 	.penBtn.selected {
-		background-color: #2b4061;
+		background-color: var(--black);
 	}
 
 	.btnLabel {
-		color: #2b4061;
+		color: var(--black);
 		position: absolute;
 		top: 0.15rem;
 		left: 0.15rem;
@@ -140,6 +140,6 @@
 	}
 
 	.penBtn.selected > .btnLabel {
-		color: #b3e8ff;
+		color: var(--white);
 	}
 </style>
