@@ -9,13 +9,24 @@
     let hours = $derived(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
     let minutes = $derived(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)));
 
+    let images = ["BigAsterisk.svg", "BigOtter.svg", "BigPencil.svg", "BigSparkle.svg", "BigSurge.svg"];
+
+    let currentImage1 =  $state(Math.floor(Math.random() * (4 - 0 + 1)));
+    let currentImage2 =  $state(Math.floor(Math.random() * (4 - 0 + 1)));
+
     $effect(() => {
         const interval = setInterval(() => {
             currentTime.setTime(Date.now());
         }, 1000);
 
+        const src = setInterval(() => {
+            currentImage1 = Math.floor(Math.random() * (4 - 0 + 1));
+            currentImage2 = Math.floor(Math.random() * (4 - 0 + 1));
+        }, 1000);
+
         return () => {
             clearInterval(interval);
+            clearInterval(src);
         };
     });
 </script>
@@ -35,8 +46,8 @@
         </RainbowButton>
     </div>
 
-    <img src="BigOtter.svg" alt="Big SFU Otter" class="otter" />
-    <img src="BigSurge.svg" alt="Big SFU Surge Logo" class="surge" />
+    <img src={images[currentImage1]} alt="Big SFU Otter" class="otter" />
+    <img src={images[currentImage2]} alt="Big SFU Surge Logo" class="surge" />
 </div>
 
 <style>
