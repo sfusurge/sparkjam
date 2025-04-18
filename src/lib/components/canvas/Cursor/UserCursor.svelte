@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { Spring } from 'svelte/motion';
 	import { fade } from 'svelte/transition';
-	import type { Cursor } from '../CanvasController.svelte';
+
 	import { BrushSvg, EraserSvg, MoveSvg, PenSvg } from '$lib/components/utils/svgs.svelte';
+    import type { Cursor } from '$lib/components/canvas/canvas_controller.svelte.ts';
 
 	let {
 		username: _name,
@@ -31,10 +32,10 @@
 		const c_g = parseInt(hex.substring(2, 2 + 2), 16);
 		const c_b = parseInt(hex.substring(4, 4 + 2), 16);
 		const brightness = (c_r * 299 + c_g * 587 + c_b * 114) / 1000;
-		return brightness > 200;
+		return brightness > 100;
 	}
 
-	const strokeColor = $derived(isLight(color) ? '#2B4061' : '#B3E8FF');
+	const strokeColor = $derived(isLight(color) ? 'var(--black)' : 'var(--white)');
 	const offsets = $derived<{ x: number; y: number } | undefined>(
 		{
 			pen: { x: -7, y: 0 },
@@ -61,9 +62,9 @@
 		{:else if state === 'brush'}
 			{@render BrushSvg(strokeColor, color)}
 		{:else if state === 'eraser'}
-			{@render EraserSvg('#2B4061')}
+			{@render EraserSvg('var(--black)')}
 		{:else if state === 'move'}
-			{@render MoveSvg('#2B4061')}
+			{@render MoveSvg('var(--black)')}
 		{/if}
 	</div>
 
@@ -85,11 +86,12 @@
 		top: -1rem;
 		transform: translate(0, -50%);
 
-		padding: 0.5rem 1rem;
+		padding: 0.5rem 0.75rem;
 		color: var(--strokeColor);
 		background-color: var(--fillColor);
-		border-radius: 2rem;
-		border: black 2px solid;
+		border: black 1px solid;
+
+		font-size: 18px;
 
 		width: fit-content;
 		text-wrap: nowrap;

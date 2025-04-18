@@ -28,7 +28,7 @@
 			button: "2",
 		},
 		{
-			name: "#D2F058",
+			name: "#9AE369",
 			dark: false,
 			button: "3",
 		},

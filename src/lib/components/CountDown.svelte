@@ -54,7 +54,7 @@
 
     .otter {
         position: absolute;
-        left: 0;
+        left: -50px;
         bottom: -100px;
 
         width: 300px;
@@ -67,11 +67,13 @@
 
     .surge {
         position: absolute;
-        right: -80px;
+        right: -50px;
         bottom: -100px;
 
         width: 300px;
         max-width: 40dvw;
+
+        transform: scale(-1, 1);
 
         @media screen and (max-width: 600px){
             bottom:-50px;

@@ -60,7 +60,7 @@
 	});
 </script>
 {#snippet Pen(pen: PenData, selected: boolean)}
-	{@const strokeColor = selected ? 'var(--white)' : 'var(--black)'}
+	{@const strokeColor = selected ? 'var(--lightGrey)' : 'var(--black)'}
 
 	<div class="penBtn" class:selected>
 		{#if pen.button && !isMobile}
@@ -109,24 +109,22 @@
 		min-width: 2rem;
 		height: 2rem;
 
-		border-radius: 5px;
-
+	
 		background-color: transparent;
-
+		border: 1px solid transparent;
 		transition:
-			filter 300ms ease-out,
-			background-color 300ms ease-out;
+		border-color 100ms ease-out,
+			background-color 100ms ease-out;
 	}
 
-	.penBtn:hover {
-		filter: brightness(1.1);
-	}
+
 
 	.penBtn:not(.selected):hover {
-		background-color: var(--white);
+		border-color: var(--black);
 	}
 
 	.penBtn.selected {
+		border-color: var(--black);
 		background-color: var(--black);
 	}
 

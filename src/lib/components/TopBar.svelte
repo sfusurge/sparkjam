@@ -19,31 +19,6 @@
 <svelte:window bind:innerWidth={width} />
 
 <nav class="navContainer">
-    {#if width <= 768}
-        <div
-            class="contentContainer"
-            style="--contentHeight: {ref?.offsetHeight}px"
-            class:extended={page.state.showNav}
-        >
-            <div class="content" bind:this={ref}>
-                {#each items as item}
-                    <button class="navBtn">
-                        <a
-                            href={item.target}
-                            onclick={() => {
-                                replaceState("", {});
-                            }}
-                        >
-                            <span class="navLabel">
-                                {item.label}
-                            </span></a
-                        >
-                    </button>
-                {/each}
-            </div>
-        </div>
-    {/if}
-
     <div class="navRow">
         {#if width > 768}
             {#each items as item}
@@ -79,23 +54,68 @@
             ><a href="https://portal.sfusurge.com/application">TICKETS</a></RainbowButton
         >
     </div>
+
+    {#if width <= 768}
+        <div
+            class="contentContainer"
+            style="--contentHeight: {ref?.offsetHeight}px"
+            class:extended={page.state.showNav}
+        >
+            <div class="content" bind:this={ref}>
+                {#each items as item}
+                    <button class="navBtn" style="width: 100%;">
+                        <a
+                            href={item.target}
+                            onclick={() => {
+                                replaceState("", {});
+                            }}
+                        >
+                            <span class="navLabel">
+                                {item.label}
+                            </span></a
+                        >
+                    </button>
+                {/each}
+            </div>
+        </div>
+    {/if}
 </nav>
 
 <style>
-
     a {
+        position: relative;
         display: block;
         width: 100%;
+display: flex;
+justify-content: space-around;
+    }
+
+    .navLabel {
+        display: block;
+        position: relative;
+        width: fit-content;
+    }
+    
+    .navBtn:hover > a > .navLabel::before{
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.25rem;
+        width: 100%;
+        height: 100%;
+        border-bottom: 1px solid var(--black);
     }
 
     .content {
         display: flex;
         flex-direction: column;
+        align-items: center;
         gap: 0.5rem;
     }
     .contentContainer {
         max-height: 0;
-        transition: max-height 100ms ease-out;
+        transition: max-height 150ms cubic-bezier(0.47, 1.64, 0.41, 0.8);
+
         overflow: hidden;
     }
     .contentContainer.extended {
@@ -121,7 +141,7 @@
         display: flex;
         flex-direction: column;
 
-        border-bottom: 2px solid var(--black);
+        border-bottom: 1px solid var(--black);
         background-color: var(--white);
     }
 
@@ -136,26 +156,13 @@
         font-weight: 400;
         line-height: 20px;
 
-        transition: color 200ms ease-out;
+        transition: color 100ms ease-out;
     }
 
-    .navBtn::after {
-        content: "";
-        position: absolute;
-        bottom: 0.5rem;
-        left: 50%;
-        width: calc(100% - 2rem);
-        transform: translate(-50%, 0);
 
-        transition: border-color 200ms ease-out;
-        border-bottom: 2px solid transparent;
-    }
 
     .navBtn:hover {
         color: var(--black);
     }
 
-    .navBtn:hover::after {
-        border-color: var(--black);
-    }
 </style>

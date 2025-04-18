@@ -34,7 +34,7 @@
         <span class="date"> {date} </span>
         {#if !isMobile}
             <span class="arrowBtn" class:extended>
-                <img src="/home/otter.svg" alt="arrow" />
+                <img src="/ArrowUp.svg" alt="arrow"  />
             </span>
         {/if}
     </div>
@@ -62,10 +62,19 @@
     }
 
     .acorItem {
-        border-bottom: 2px solid var(--grey);
-        padding: 1rem 5rem;
+        border-bottom: 1px solid var(--grey);
+        padding: 2rem 5rem;
         cursor: auto;
         transition: background-color 100ms ease-out;
+
+
+        @media screen and (max-width:600px){
+            padding: 2rem 3rem;
+        }
+
+        @media screen and (max-width:400px){
+            padding: 2rem 2rem;
+        }
     }
 
     .acorItem:hover:not(.extended) {
@@ -111,8 +120,8 @@
     }
 
     .arrowBtn > img {
-        min-width: 3rem;
-        max-width: 3rem;
+        min-width: 2rem;
+        max-width: 2rem;
     }
 
     .itemContentWrapper {
@@ -129,7 +138,9 @@
     }
 
     .itemContent {
-        padding-top: 1rem;
+        padding: 2rem;
+        padding-top: 10rem;
+        padding-left: 0;
         display: flex;
         flex-direction: column;
         gap: 0.5rem;

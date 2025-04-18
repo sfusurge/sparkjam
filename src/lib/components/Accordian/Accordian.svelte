@@ -47,7 +47,7 @@
         width: 100%;
         height: fit-content;
 
-        border-bottom: 2px solid var(--grey);
+        border-bottom: 1px solid var(--grey);
     }
 
     .titleRow {
@@ -57,7 +57,16 @@
         padding-left: 5rem;
         padding-right: 5rem;
         padding-bottom: 1rem;
-        border-bottom: 2px solid var(--grey);
+        border-bottom: 1px solid var(--grey);
+
+        
+        @media screen and (max-width:600px){
+            padding: 2rem 3rem;
+        }
+
+        @media screen and (max-width:400px){
+            padding: 2rem 2rem;
+        }
     }
 
     .location {
@@ -74,6 +83,6 @@
     }
 
     .blank {
-        width: 3rem;
+        width: 2rem;
     }
 </style>

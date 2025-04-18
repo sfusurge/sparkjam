@@ -32,9 +32,9 @@
 	}
 
 	.username {
-		border-bottom: 2px solid var(--black);
+		border-bottom: 1px solid var(--black);
 		outline: 1px solid transparent;
-		transition: outline-color 300ms ease-out;
+		transition: outline-color 100ms ease-out;
 
 		color: var(--black);
 		font-size: 20px;

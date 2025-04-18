@@ -6,12 +6,13 @@
         value: number;
         min: number;
         max: number;
+        style?:string;
     }
 
-    let { children, value = $bindable(), min, max }: Props = $props();
+    let { children, value = $bindable(), min, max, style }: Props = $props();
 </script>
 
-<div class="wrapper">
+<div class="wrapper" {style}>
     {#if children !== undefined}
         {@render children()}
     {/if}
@@ -34,7 +35,8 @@
         align-items: center;
         gap: 0.75rem;
 
-        width: fit-content;
+        width: 250px;
+        
     }
 
     input[type="range"] {

@@ -100,10 +100,34 @@
 		</button>
 		<div class="verDiv"></div>
 	{/if}
-	<div class="usernameHolder"><UserNameInput bind:username={userdata.username} /></div>
+
+
+	{#if !sharedState.isMobile}
+
+		<div class="usernameHolder"><UserNameInput bind:username={userdata.username} /></div>
+	{/if}
 </div>
 
+
+{#if sharedState.isMobile}
+<div class="mobileNameHolder"><UserNameInput bind:username={userdata.username} /></div>
+
+{/if}
+
 <style>
+
+
+	.mobileNameHolder{
+		position: absolute;
+		top: 2rem;
+		left: 50%;
+		transform: translate(-50%,0);
+
+		background-color: var(--white);
+		padding: 0.25rem 1rem;
+		border: 1px solid var(--black);
+	}
+
 	.toolbar {
 		display: flex;
 		flex-direction: row;
@@ -115,11 +139,11 @@
 		bottom: 5rem;
 		transform: translate(-50%, 0);
 
-		background-color: #edecec;
+		background-color: var(--white);
 		padding: 0.75rem;
 
 
-		border: 2px solid var(--grey);
+		border: 1px solid var(--grey);
 		transition: border-color 300ms ease-out;
 
 		justify-content: center;
