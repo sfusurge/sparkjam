@@ -37,5 +37,5 @@
     <br/>
     <input type="text" placeholder="Your Name" bind:value={userName}/>
     <br/>
-    <button onclick={() => finishRound()}><img src={sparkles}>Play Again</button>
+    <button onclick={() => finishRound()} class:hide={userName.length <= 0}><img src={sparkles}>Play Again</button>
 </div>

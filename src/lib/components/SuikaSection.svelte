@@ -14,6 +14,10 @@
             <Leaderboard bind:this={leaderBoard}/>
         </div>
     </div>
+    <Suika updateLeaderboard={()=>{console.log("update")}} updateScore={(pts: number) => {score = pts}}/>
+    <div id="rightPanel">
+        <img id="evoStages" src="./suika/evolutions/Evolution Chart.svg" />
+    </div>
 </div>
 
 <style>
@@ -25,11 +29,12 @@
         background-color: var(--black);
         margin: calc(var(--spacing) * 24) 0;
         color: white;
+        display: flex;
     }
 
     #bgGrid{
         position: absolute;
-        z-index: 1;
+        z-index: 0;
         background-image: linear-gradient(to right, var(--lGrey) 2px, transparent 2px),
                 linear-gradient(to bottom, var(--lGrey) 2px, transparent 2px);
         background-size: 75px 75px;
@@ -47,6 +52,10 @@
             text-align: left !important;
         }
         padding: 10% 20%;
+        padding-left: 20%;
+        padding-right: 15%;
+        padding-top: 200px;
+        padding-bottom: 5%;
 
         #scorePts{
             font-weight: 600;
@@ -54,14 +63,15 @@
         }
     }
 
-    /* #scorePts{
-        position: relative;
-        font-weight: 600;
+    #rightPanel{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        height: 100%;
+        padding-bottom: 75px;
     }
 
-    #leaderboard{
-        position: absolute;
-        top: 65%;
-        left: calc(30vw - 200px);
-    } */
+    #evoStages{
+        width: 100%;
+    }
 </style>

@@ -7,11 +7,13 @@
 
     width: 600px;
     height: 1000px;
+    z-index: 2;
 }
 
 button {
     margin: 10px auto;
 
+    display: flex;
     width: fit-content;
 	padding: 0.5rem 1.75rem;
     border-radius: 2px;
@@ -23,6 +25,12 @@ button {
     background-color: white !important;
 
 	cursor: pointer;
+
+    img{
+        height: fit-content;
+        width: fit-content;
+        margin-top: 5px;
+    }
 }
 
 button:hover{
@@ -54,7 +62,7 @@ input{
     text-align: center;
     padding-top: 1rem;
     border: none;
-    border-bottom: var(--grey) 2.5px solid;
+    border-bottom: lightgrey 2.5px solid !important;
     font-family: 'poppins', sans-serif;
     background-color: #00000000;
     color: black;
@@ -62,7 +70,7 @@ input{
 }
 
 input:focus{
-    border-bottom: var(--primary) 2.5px solid;
+    border-bottom: #568cdb 2.5px solid !important;
     outline: none;
     caret-color: var(--grey);
 }
@@ -79,31 +87,23 @@ input:focus{
     height: 100%;
 }
 
-#tintCover{
-    height: 100%;
-    width: 100%;
-    background-color: #111111;
-    position: absolute;
-    transition: opacity 1s;
-    opacity: 0;
-    visibility: hidden;
-}
-
-#tintCover.cover{
-    visibility: visible;
-    opacity: 0.7;
-}
-
 #gameEndScreen{
     height: 400px;
     color: black;
     background-color: white;
-    position: absolute;
-    left: 5.25vw;
-    top: 30vh;
     width: fit-content;
 
     img{
         margin-right: 10px;
     }
+}
+
+#gameOverContainer{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: -1000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

@@ -409,13 +409,12 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <div id="game">
-    <div id="tintCover" class:cover={gameMode == State.endScreen}></div>
     <div id="suika" 
         bind:this={canvas} 
         onclick={dropTarget} 
         onmousemove={moveWithMouse}>
     </div>
-    <div class:hide={gameMode != State.endScreen}>
+    <div id="gameOverContainer" class:hide={gameMode != State.endScreen}>
         <GameOverMenu resetGame={playAgain} points={points}/>
     </div>
 </div>
