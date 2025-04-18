@@ -1,16 +1,34 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
 
-    let { children, style, disableBottomBorder = false, disableArrow = false }: {children:Snippet, style? :string, disableBottomBorder?:boolean, disableArrow?: boolean} = $props();
+    let {
+        children,
+        style,
+        disableBottomBorder = false,
+        disableArrow = false,
+    }: {
+        children: Snippet;
+        style?: string;
+        disableBottomBorder?: boolean;
+        disableArrow?: boolean;
+    } = $props();
 </script>
 
 <button class="btn" {style} class:noBotBorder={disableBottomBorder}>
-    {@render children()}
-    {#if !disableArrow} 
-        <svg id="pointer" width="8" height="8" viewBox="0 0 8 8"  xmlns="http://www.w3.org/2000/svg">
-            <path d="M1 7.5L7.5 1M7.5 1H2.5M7.5 1V6" ></path>
-        </svg>
-    {/if}
+    <div style="display: flex; z-index:2;">
+        {@render children()}
+        {#if !disableArrow}
+            <svg
+                id="pointer"
+                width="8"
+                height="8"
+                viewBox="0 0 8 8"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path d="M1 7.5L7.5 1M7.5 1H2.5M7.5 1V6"></path>
+            </svg>
+        {/if}
+    </div>
 </button>
 
 <style>
@@ -28,7 +46,7 @@
         content: "";
 
         position: absolute;
-        z-index: -2;
+        z-index: 0;
         left: 0;
         top: 0;
         width: 100%;
@@ -38,7 +56,7 @@
         background: var(--rainbow);
     }
 
-    .btn.noBotBorder::before{
+    .btn.noBotBorder::before {
         border-bottom: none;
     }
 
@@ -46,7 +64,7 @@
         content: "";
 
         position: absolute;
-        z-index: -1;
+        z-index: 1;
         left: 0;
         top: 0;
         width: 100%;
@@ -73,9 +91,8 @@
         transition: transform 100ms ease-out;
     }
 
-    .btn:hover > #pointer{
-        stroke:var(--black);
+    .btn:hover > div > #pointer {
+        stroke: var(--black);
         transform: rotate(45deg);
-
     }
 </style>
