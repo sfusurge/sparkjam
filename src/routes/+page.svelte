@@ -5,6 +5,7 @@
 	import RainbowButton from "$lib/components/RainbowButton.svelte";
 	import StuffHoverGrid from "$lib/components/StuffHoverGrid.svelte";
 	import TopBar from "$lib/components/TopBar.svelte";
+    import Typography from "$lib/components/Typography.svelte";
 
 	let _width = $state(0);
 	let width = $derived(Math.min(_width, 1920));
@@ -95,6 +96,8 @@
 		},
 	]}
 />
+
+<Typography></Typography>
 
 {#each Array(100).keys() as _}
 	<p>LONGer</p>
