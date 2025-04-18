@@ -131,6 +131,10 @@
         flex-direction: column;
 
         border: 1px solid black;
+
+        max-height: 60dvh;
+        overflow-y: auto;
+        scrollbar-width: thin;
     }
 
     .item {

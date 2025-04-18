@@ -48,6 +48,10 @@
 
         width: 300px;
         max-width: 40dvw;
+
+        @media screen and (max-width: 600px){
+            bottom:-70px;
+        }
     }
 
     .surge {
@@ -57,6 +61,10 @@
 
         width: 300px;
         max-width: 40dvw;
+
+        @media screen and (max-width: 600px){
+            bottom:-50px;
+        }
     }
 
     .countdownContainer {
