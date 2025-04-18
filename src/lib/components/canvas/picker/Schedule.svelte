@@ -9,7 +9,7 @@
     const { items }: ScheduleProp = $props();
 </script>
 
-<div class="scheduleContainer scroll-mt-48" id="schedule">
+<div class="scheduleContainer scroll-mt-48" >
     {#each items as item}
         <div class="scheduleItem">
             <span>{item.label}</span>

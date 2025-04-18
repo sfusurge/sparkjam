@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { pushState } from "$app/navigation";
+    import { pushState, replaceState } from "$app/navigation";
     import { page } from "$app/state";
     import RainbowButton from "$lib/components/RainbowButton.svelte";
 
@@ -28,8 +28,13 @@
             <div class="content" bind:this={ref}>
                 {#each items as item}
                     <button class="navBtn">
-                        <a href={item.target}
-                            ><span class="navLabel">
+                        <a
+                            href={item.target}
+                            onclick={() => {
+                                replaceState("", {});
+                            }}
+                        >
+                            <span class="navLabel">
                                 {item.label}
                             </span></a
                         >
@@ -53,6 +58,8 @@
         {:else}
             <button
                 onclick={() => {
+                    console.log("WHAT");
+
                     if (!page.state.showNav) {
                         pushState("", {
                             showNav: true,
@@ -68,11 +75,19 @@
                 /></button
             >
         {/if}
-        <RainbowButton style="margin-left:auto" disableBottomBorder><a href="https://portal.sfusurge.com/application">TICKETS</a></RainbowButton>
+        <RainbowButton style="margin-left:auto" disableBottomBorder
+            ><a href="https://portal.sfusurge.com/application">TICKETS</a></RainbowButton
+        >
     </div>
 </nav>
 
 <style>
+
+    a {
+        display: block;
+        width: 100%;
+    }
+
     .content {
         display: flex;
         flex-direction: column;

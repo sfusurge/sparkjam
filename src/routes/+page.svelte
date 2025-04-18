@@ -28,15 +28,15 @@
 	items={[
 		{
 			label: "SCHEDULE",
-			target: "/#schedule",
+			target: "#schedule",
 		},
 		{
 			label: "FILM SERIES",
-			target: "",
+			target: "#",
 		},
 		{
 			label: "FAQ",
-			target: "/#faq",
+			target: "#faq",
 		},
 	]}
 />
@@ -69,7 +69,7 @@
 	motion, prototyping, and story driven pitching to innovate within a chosen problem space.
 </p>
 
-<StuffHoverGrid style="margin-top:2rem; margin-bottom:3rem;" />
+<StuffHoverGrid style="margin-top:2rem; margin-bottom:3rem;"  />
 
 {#snippet Day1()}
 	<Schedule

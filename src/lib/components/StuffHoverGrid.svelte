@@ -41,6 +41,7 @@
 </script>
 
 <div
+id="schedule"
     class="stuffContainer"
     style="--height: {rows * gridSize}px; {style ?? ''}"
     bind:this={gridDiv}
