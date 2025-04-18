@@ -4,6 +4,7 @@
 	import MultiplayerCanvas from "$lib/components/canvas/MultiplayerCanvas.svelte";
 	import Schedule from "$lib/components/canvas/picker/Schedule.svelte";
 	import DesktopQa from "$lib/components/DesktopQA.svelte";
+    import Footer from "$lib/components/Footer.svelte";
 	import HoverGrid from "$lib/components/HoverGrid.svelte";
 	import MobileQa from "$lib/components/MobileQA.svelte";
 	import HomePageStuff from "$lib/components/physics_stuff/home_pagge_stuff.svelte";
@@ -12,6 +13,7 @@
 	import StuffHoverGrid from "$lib/components/StuffHoverGrid.svelte";
 	import TopBar from "$lib/components/TopBar.svelte";
 	import Typography from "$lib/components/Typography.svelte";
+	import Credits from "$lib/components/Credits/Credits.svelte";
 
 	let _width = $state(0);
 	let width = $derived(Math.min(_width, 1920));
@@ -257,9 +259,9 @@
 	></MobileQa>
 </div>
 
-{#each Array(100).keys() as _}
-	<p>LONGer</p>
-{/each}
+<Credits />
+
+<Footer></Footer>
 
 <style>
 	.qaWrapper {
