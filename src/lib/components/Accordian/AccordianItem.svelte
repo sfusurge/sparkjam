@@ -65,7 +65,7 @@
         border-bottom: 2px solid var(--grey);
         padding: 1rem 5rem;
         cursor: auto;
-        transition: background-color 200ms ease-out;
+        transition: background-color 100ms ease-out;
     }
 
     .acorItem:hover:not(.extended) {

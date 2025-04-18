@@ -3,6 +3,7 @@
 	import CanvasWrapper from "$lib/components/canvas/CanvasWrapper.svelte";
 	import MultiplayerCanvas from "$lib/components/canvas/MultiplayerCanvas.svelte";
 	import Schedule from "$lib/components/canvas/picker/Schedule.svelte";
+	import CountDown from "$lib/components/CountDown.svelte";
 	import DesktopQa from "$lib/components/DesktopQA.svelte";
 	import HoverGrid from "$lib/components/HoverGrid.svelte";
 	import MobileQa from "$lib/components/MobileQA.svelte";
@@ -12,7 +13,7 @@
 	import StuffHoverGrid from "$lib/components/StuffHoverGrid.svelte";
 	import TopBar from "$lib/components/TopBar.svelte";
 	import Typography from "$lib/components/Typography.svelte";
-    import { QA } from "./content.ts";
+	import { QA } from "./content.ts";
 
 	let _width = $state(0);
 	let width = $derived(Math.min(_width, 1920));
@@ -177,7 +178,7 @@
 	]}
 />
 
-<ScrollSnapper margin={200} topPadding={height * 0.1} />
+<ScrollSnapper margin={height * 0.2} topPadding={height * 0.1} />
 
 <div class="canvasContainer" style="border-bottom: 1px solid var(--black);">
 	<CanvasWrapper />
@@ -186,17 +187,15 @@
 
 {#if width < 1200}
 	<div class="mobileQA">
-		<MobileQa
-			items={QA}
-		></MobileQa>
+		<MobileQa items={QA}></MobileQa>
 	</div>
 {:else}
 	<div class="qaWrapper">
-		<DesktopQa
-			items={QA}
-		/>
+		<DesktopQa items={QA} />
 	</div>
 {/if}
+
+<CountDown />
 
 <style>
 	.mobileQA {

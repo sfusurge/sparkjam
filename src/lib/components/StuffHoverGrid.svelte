@@ -62,7 +62,7 @@
             rotate: ${360 * prng(gridX, gridY, seed)}deg;
             `}
             transition:fade={{
-                duration: 250,
+                duration: 100,
                 easing: cubicOut,
             }}
         ></div>
