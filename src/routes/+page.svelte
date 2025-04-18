@@ -188,40 +188,6 @@
 {/if}
 
 <CountDown />
-<div class="mobileQA">
-	<MobileQa
-		items={[
-			{
-				title: "Who is eligible to attend SparkJam",
-				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-			},
-			{
-				title: "Who is eligible to attend SparkJam",
-				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-			},
-			{
-				title: "Who is eligible to attend SparkJam",
-				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-			},
-			{
-				title: "Who is eligible to attend SparkJam",
-				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-			},
-			{
-				title: "Who is eligible to attend SparkJam",
-				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-			},
-			{
-				title: "Who is eligible to attend SparkJam",
-				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-			},
-			{
-				title: "Who is eligible to attend SparkJam",
-				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-			},
-		]}
-	></MobileQa>
-</div>
 
 <Credits />
 
