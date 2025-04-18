@@ -28,7 +28,7 @@
 	items={[
 		{
 			label: "SCHEDULE",
-			target: "",
+			target: "/#schedule",
 		},
 		{
 			label: "FILM SERIES",
@@ -36,7 +36,7 @@
 		},
 		{
 			label: "FAQ",
-			target: "",
+			target: "/#faq",
 		},
 	]}
 />
@@ -53,7 +53,7 @@
 	</p>
 
 	<RainbowButton>
-		<a href="" target="_blank" title="Save Event in Google Calendar"> GET YOUR TICKETS </a>
+		<a href="https://portal.sfusurge.com/application" title="Get Your Tickets"> GET YOUR TICKETS </a>
 	</RainbowButton>
 </div>
 

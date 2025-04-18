@@ -68,7 +68,7 @@
                 /></button
             >
         {/if}
-        <RainbowButton style="margin-left:auto" disableBottomBorder>TICKETS</RainbowButton>
+        <RainbowButton style="margin-left:auto" disableBottomBorder><a href="https://portal.sfusurge.com/application">TICKETS</a></RainbowButton>
     </div>
 </nav>
 
