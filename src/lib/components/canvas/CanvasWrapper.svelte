@@ -7,7 +7,6 @@
     import CanvasToolBar from "$lib/components/canvas/picker/CanvasToolBar.svelte";
     import { onMount } from "svelte";
 
-    import { fade } from "svelte/transition";
 
     let userdata: UserData = $state({
         username: "",

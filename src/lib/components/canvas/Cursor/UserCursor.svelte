@@ -5,6 +5,8 @@
 	import { BrushSvg, EraserSvg, MoveSvg, PenSvg } from '$lib/components/utils/svgs.svelte';
     import type { Cursor } from '$lib/components/canvas/canvas_controller.svelte.ts';
 
+	const defaultname = Math.random() > 0.5 ? "Sparky":"Stormy";
+
 	let {
 		username: _name,
 		color,
@@ -12,7 +14,7 @@
 		instant = false,
 		state
 	}: Cursor & { instant?: boolean } = $props();
-	let username = $derived(_name && _name.length > 0 ? _name : 'An Anonymous Otter');
+	let username = $derived(_name && _name.length > 0 ? _name : defaultname);
 	let smoothPos = new Spring(
 		{
 			x: pos.x,

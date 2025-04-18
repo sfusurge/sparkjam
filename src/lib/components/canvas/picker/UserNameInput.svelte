@@ -1,18 +1,24 @@
 <script lang="ts">
-	import { sharedState } from '$lib/components/canvas/picker/shared_states.svelte';
-	import { onMount } from 'svelte';
+	import { sharedState } from "$lib/components/canvas/picker/shared_states.svelte";
+	import { onMount } from "svelte";
 
-	let { username = $bindable('Anon') }: { username: string } = $props();
+	let { username = $bindable("Anon") }: { username: string } = $props();
 
 	onMount(() => {
-		if (localStorage.getItem('username') !== null) {
-			username = localStorage.getItem('username') ?? 'Anon';
+		if (
+			localStorage.getItem("username") !== null &&
+			(localStorage.getItem("username")?.length ?? 0) > 0
+		) {
+			username = localStorage.getItem("username") ?? "Anon";
+		} else {
+			username = Math.random() > 0.5 ? "Sparky" : "Stormy";
 		}
 	});
 
 	$effect(() => {
-		localStorage.setItem('username', username);
+		localStorage.setItem("username", username);
 	});
+	$inspect(username)
 
 	let isMobile = $derived(sharedState.isMobile);
 </script>
