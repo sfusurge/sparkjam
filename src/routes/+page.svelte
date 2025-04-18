@@ -7,7 +7,6 @@
 	import Footer from "$lib/components/Footer.svelte";
 	import HoverGrid from "$lib/components/HoverGrid.svelte";
 	import MobileQa from "$lib/components/MobileQA.svelte";
-	import HomePageStuff from "$lib/components/physics_stuff/HomePageStuff.svelte";
 	import RainbowButton from "$lib/components/RainbowButton.svelte";
 	import ScrollSnapper from "$lib/components/ScrollSnapper.svelte";
 	import StuffHoverGrid from "$lib/components/StuffHoverGrid.svelte";
