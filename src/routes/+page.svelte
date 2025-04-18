@@ -6,6 +6,7 @@
 	import DesktopQa from "$lib/components/DesktopQA.svelte";
 	import HoverGrid from "$lib/components/HoverGrid.svelte";
 	import MobileQa from "$lib/components/MobileQA.svelte";
+    import HomePageStuff from "$lib/components/physics_stuff/HomePageStuff.svelte";
 	import RainbowButton from "$lib/components/RainbowButton.svelte";
 	import ScrollSnapper from "$lib/components/ScrollSnapper.svelte";
 	import StuffHoverGrid from "$lib/components/StuffHoverGrid.svelte";
@@ -34,7 +35,7 @@
 		{
 			label: "FAQ",
 			target: "",
-		}
+		},
 	]}
 />
 
@@ -47,12 +48,7 @@
 	<span>Applications Will Open<br /><strong>Friday, April 18th</strong></span>
 
 	<RainbowButton>
-		<a
-			href="webcal://sparkjam_application_opens.ics"
-			target="_blank"
-			rel="noopener noreferrer"
-			title="Save Event in Google Calendar">SET A REMINDER</a
-		>
+		<a href="" target="_blank" title="Save Event in Google Calendar"> SET A REMINDER </a>
 	</RainbowButton>
 
 	<p class="dateText"><strong>( MAY 17 - MAY 31 )</strong><strong>( SFU BURNABY )</strong></p>
