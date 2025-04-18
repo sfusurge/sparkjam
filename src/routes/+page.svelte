@@ -19,7 +19,7 @@
 	let _width = $state(0);
 	let width = $derived(Math.min(_width, 1920));
 	let height = $state(0);
-	let titleHeight = $derived(Math.max(Math.min(height * 0.65, 1200), 600));
+	let titleHeight = $derived(Math.max(Math.min(height * 0.75, 1280), 600));
 </script>
 
 <svelte:window bind:innerWidth={_width} bind:innerHeight={height} />
@@ -202,7 +202,7 @@
 	}
 
 	.qaWrapper {
-		max-width: 88rem;
+		max-width: 80rem;
 		margin-left: auto;
 		margin-right: auto;
 	}
@@ -221,7 +221,7 @@
 
 	.mainDescription {
 		width: 80dvw;
-		max-width: 1200px;
+		max-width: 80rem;
 		margin-left: auto;
 		margin-right: auto;
 		margin-top: 5rem;
@@ -283,12 +283,13 @@
 	.imgHolder {
 		position: relative;
 		width: 80dvw;
-		max-width: 1200px;
+		max-width: 80rem;
 		height: fit-content;
 	}
 
 	.imgHolder > img {
 		opacity: 0.05;
+		width: 100%;
 	}
 
 	@keyframes fadein {
