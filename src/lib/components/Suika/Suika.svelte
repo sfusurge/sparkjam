@@ -18,6 +18,7 @@
     interface stageParams {
         updateLeaderboard: () => void;
         updateScore: (pts:number) => void;
+        winWidth: number;
     }
 
     const CAT_LEGIBLE = "#00FF00";
@@ -32,15 +33,20 @@
 
     let {updateLeaderboard, updateScore} : stageParams = $props();
 
-    const circleFactor = 0.12;
+    const circleFactor = 0.2;
     const originalWidth = 600;
     const originalHeight = 1000;
 
-    const gameScale = 1;
+    const winWidth = window.innerWidth
+    console.log(winWidth)
+    const gameScale =
+        (winWidth > 450) ? 1 :
+        (winWidth > 375) ? 0.8 :
+        0.7
 
     const stageWidth = originalWidth * gameScale;
     const stageHeight = originalHeight * gameScale;
-    const maxCircleSize = circleFactor * stageHeight;
+    const maxCircleSize = circleFactor * stageWidth;
 
     const spawnY = 110;
     const spawnX = stageWidth/2;
@@ -257,11 +263,16 @@
     function getSafeX(idx: number){
         let x = mousePosX
         let evo = tiers[idx]
-        const sizeConsideration = 10 * gameScale
-        if(x < lBound + evo.size * maxCircleSize + sizeConsideration){
-            x = lBound + evo.size * maxCircleSize + sizeConsideration
-        }else if (x > rBound - evo.size * maxCircleSize - sizeConsideration){
-            x = rBound - evo.size * maxCircleSize - sizeConsideration
+        
+        let size = evo.size * maxCircleSize
+        let sizeConsideration = 10 * gameScale + size
+
+        const lMargin = lBound + sizeConsideration
+        const rMargin = rBound - sizeConsideration
+        if(x < lMargin){
+            x = lMargin
+        }else if (x > rMargin){
+            x = rMargin
         }
         return x
     }
@@ -408,6 +419,9 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <div id="game">
+    {#if winWidth <= 1200}
+        <p id="scorePts">{points}</p>
+    {/if}
     <div id="suika" 
         bind:this={canvas} 
         onclick={dropTarget} 
@@ -423,7 +437,12 @@
         --grey: var(--surge-grey);
         transition: opacity 1s;
 
-        width: 600px;
+        width: 100dvw;
+        max-width: 600px;
+        height: 1000px;
+        overflow: clip;
+        overflow-x: clip;
+        
         height: 1000px;
         z-index: 2;
     }
@@ -441,4 +460,42 @@
     .hide{
         visibility: collapse !important;
     }
+
+    #scorePts{
+        font-weight: 600;
+        font-size: 1.5rem;
+        color: white;
+        width: 89%;
+        margin-left: auto;
+        padding-left: 0px;
+    }
+
+    @media only screen and (max-width: 500px) {
+        #game{
+            width: 100dvw;
+            margin-left: -10%;
+        }
+
+		#scorePts{
+            padding-left: 5%;
+        }
+
+        #gameOverContainer{
+            margin-left: 10%;
+        }
+	}
+
+    @media only screen and (max-width: 400px) {
+
+        #gameOverContainer{
+            width: 90%;
+        }
+	}
+
+    @media only screen and (max-width: 350px) {
+        #game{
+            width: 120dvw;
+            margin-left: -10%;
+        }
+	}
 </style>
