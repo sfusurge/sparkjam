@@ -15,6 +15,7 @@
 	import { QA } from "./content.ts";
 	import SuikaSection from "$lib/components/SuikaSection.svelte";
 	import Credits from "$lib/components/Credits/Credits.svelte";
+    import HomePageStuff from "$lib/components/physics_stuff/HomePageStuff.svelte";
 
 	let _width = $state(0);
 	let width = $derived(Math.min(_width, 1920));
@@ -59,7 +60,7 @@
 
 <div class="titleContainer" style="--height:{titleHeight}px;">
 	<div class="titleDecor">
-		<!-- <HomePageStuff {width} height={titleHeight} /> -->
+		<HomePageStuff {width} height={titleHeight} />
 		<HoverGrid />
 	</div>
 </div>
