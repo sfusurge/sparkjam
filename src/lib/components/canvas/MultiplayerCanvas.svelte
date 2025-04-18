@@ -1,8 +1,10 @@
 <script lang="ts">
-	
-	import { onDestroy } from 'svelte';
-	import UserCursor from './Cursor/UserCursor.svelte';
-	import { CanvasController, type UserData } from '$lib/components/canvas/canvas_controller.svelte';
+	import { onDestroy, onMount } from "svelte";
+	import UserCursor from "./Cursor/UserCursor.svelte";
+	import {
+		CanvasController,
+		type UserData,
+	} from "$lib/components/canvas/canvas_controller.svelte";
 
 	interface CanvasProps {
 		size?: { width: number; height: number };
@@ -12,14 +14,25 @@
 		canvasController?: CanvasController | undefined;
 	}
 
-	let { size, style, userdata, maxLayers, canvasController = $bindable() }: CanvasProps = $props();
+	let {
+		size,
+		style,
+		userdata,
+		maxLayers,
+		canvasController = $bindable(),
+	}: CanvasProps = $props();
 
 	let staticCanvas: HTMLCanvasElement | undefined = $state();
 	let dynamicCanvas: HTMLCanvasElement | undefined = $state();
 
+	let pixelRatio = $state(1);
+
 	$effect(() => {
 		if (staticCanvas && dynamicCanvas && maxLayers > 0) {
 			canvasController = new CanvasController(staticCanvas, dynamicCanvas, maxLayers);
+			if ("devicePixelRatio" in window) {
+				pixelRatio = window.devicePixelRatio;
+			}
 		}
 	});
 	$effect(() => {
@@ -30,7 +43,7 @@
 
 	onDestroy(() => {
 		if (canvasController) {
-			// canvasController.cleanup();
+			canvasController.cleanup();
 		}
 	});
 
@@ -38,37 +51,51 @@
 
 	$effect(() => {
 		if (container) {
-			container.addEventListener('contextmenu', (e) => {
+			container.addEventListener("contextmenu", (e) => {
 				e.preventDefault();
-					e.stopPropagation();
-					e.stopImmediatePropagation();
+				e.stopPropagation();
+				e.stopImmediatePropagation();
 			});
+		}
+	});
+
+	onMount(() => {
+		if ("devicePixelRatio" in window) {
+			function listenOnDevicePixelRatio() {
+				function onChange() {
+					pixelRatio = window.devicePixelRatio;
+					listenOnDevicePixelRatio();
+				}
+				matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`).addEventListener(
+					"change",
+					onChange,
+					{ once: true },
+				);
+			}
+			listenOnDevicePixelRatio();
 		}
 	});
 </script>
 
-
 <div
 	bind:this={container}
 	class="canvasContainer"
-	style={`${style ?? ''} ${size ? `width: ${size.width}px; height: ${size.height}px;` : ''}`}
+	style={`${style ?? ""} ${size ? `width: ${size.width}px; height: ${size.height}px;` : ""}`}
 >
 	<canvas
 		bind:this={staticCanvas}
 		class="staticCanvas"
-		width="{size?.width}px"
-		height={size?.height}
+		width="{size?.width! * pixelRatio}px"
+		height={size?.height! * pixelRatio}
 	></canvas>
-
 
 	<canvas
 		bind:this={dynamicCanvas}
 		class="dynamicCanvas"
-		width="{size?.width}px"
-		height={size?.height}
+		width="{size?.width! * pixelRatio}px"
+		height={size?.height! * pixelRatio}
 		tabindex="1"
 	></canvas>
-
 
 	<div class="cursorContainer">
 		{#if canvasController}
@@ -91,7 +118,7 @@
 		position: relative;
 		cursor: none;
 		overflow: hidden;
-		background-color: #EDECEC;
+		background-color: #edecec;
 	}
 
 	.positionLabel {
@@ -113,8 +140,8 @@
 		top: 0;
 	}
 
-	.staticCanvas{
-		background-color: #EDECEC;
+	.staticCanvas {
+		background-color: #edecec;
 	}
 
 	.cursorContainer {

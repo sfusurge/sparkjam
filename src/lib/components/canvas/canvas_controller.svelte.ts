@@ -257,6 +257,8 @@ export class CanvasController {
 
     deletedLines = new Set<string>();
 
+    pixelRatio: number = 1;
+
     constructor(staticCanvas: HTMLCanvasElement, dynamicCanvas: HTMLCanvasElement, maxLayers: number) {
         this.staticCanvas = staticCanvas;
         this.dynamicCanvas = dynamicCanvas;
@@ -281,11 +283,13 @@ export class CanvasController {
             this.needStaticRender = true;
         }, 500)
 
-
-
+        if ('devicePixelRatio' in window) {
+            this.pixelRatio = window.devicePixelRatio;
+        }
 
         this.ctxStatic = this.staticCanvas.getContext("2d", { alpha: false, })!;
         this.ctxDynamic = this.dynamicCanvas.getContext("2d", { alpha: true })!;
+
 
         $effect(() => {
             if (this.space && this.userdata) {
@@ -365,7 +369,7 @@ export class CanvasController {
 
         const smoothFactor = 40;
         this.smoothCameraPos = Vector2.smoothstep(this.smoothCameraPos, this.cameraPos, smoothFactor * this.deltaTime / 1000);
-        this.smoothZoom = smoothstep(this.smoothZoom, this.zoom, smoothFactor * this.deltaTime / 1000);
+        this.smoothZoom = smoothstep(this.smoothZoom, this.zoom     * this.pixelRatio, smoothFactor * this.deltaTime / 1000) ;
 
         // always render smooth movement isn't done yet.
         if (this.smoothCameraPos.distTo(this.cameraPos) > 0.1 || Math.abs(this.smoothZoom - this.zoom) > 0.0001) {
@@ -376,7 +380,7 @@ export class CanvasController {
     // ============ End Render loop ============
 
     zoomAtPoint(point: Vector2, newZoom: number) {
-        if (newZoom > 2 || newZoom < 0.5) {
+        if (newZoom > 3 || newZoom < 0.25) {
             return;
         }
         // assuming point is cursor location
