@@ -1,5 +1,4 @@
 <script lang="ts">
-    import './Suika.css'
     import {State, themeColors, tiers} from './SuikaController.svelte'
     import GameOverMenu from './GameOverMenu.svelte'
     import Matter from 'matter-js'
@@ -418,3 +417,28 @@
         <GameOverMenu resetGame={playAgain} points={points}/>
     </div>
 </div>
+
+<style>
+    #game{
+        --grey: var(--surge-grey);
+        transition: opacity 1s;
+
+        width: 600px;
+        height: 1000px;
+        z-index: 2;
+    }
+
+    #gameOverContainer{
+        width: 100%;
+        height: 100%;
+        position: relative;
+        top: -1000px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .hide{
+        visibility: collapse !important;
+    }
+</style>

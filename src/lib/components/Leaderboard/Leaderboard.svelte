@@ -1,5 +1,4 @@
 <script lang="ts">
-    import './Leaderboard.css'
     // import {getLeaderboard} from '../Firebase/SuikaLeaderboardManager'
     import { tiers } from '../Suika/SuikaController.svelte'
     import { leaderboardPreset } from './LeaderboardController.svelte'
@@ -37,3 +36,35 @@
         </div>
     {/each}
 </div>
+
+<style>
+    #leaderBoardComponent{
+        width: 200px;
+        text-overflow: clip;
+        overflow: hidden;
+        color: white;
+        
+        #leaderboardHeader{
+            margin-bottom: 4rem;
+        }
+
+        .entryName{
+            font-weight: 600;
+        }
+        
+        .entryScore{
+            font-weight: 100;
+        }
+
+        .entry{
+            margin-bottom: 0.5rem;
+        }
+
+        p{
+            text-align: left;
+            font-size: small;
+            text-overflow: clip;
+            text-wrap-mode: nowrap;
+        }
+    }
+</style>
