@@ -3,13 +3,15 @@
 	import CanvasWrapper from "$lib/components/canvas/CanvasWrapper.svelte";
 	import MultiplayerCanvas from "$lib/components/canvas/MultiplayerCanvas.svelte";
 	import Schedule from "$lib/components/canvas/picker/Schedule.svelte";
+	import DesktopQa from "$lib/components/DesktopQA.svelte";
 	import HoverGrid from "$lib/components/HoverGrid.svelte";
+	import MobileQa from "$lib/components/MobileQA.svelte";
 	import HomePageStuff from "$lib/components/physics_stuff/home_pagge_stuff.svelte";
 	import RainbowButton from "$lib/components/RainbowButton.svelte";
 	import ScrollSnapper from "$lib/components/ScrollSnapper.svelte";
 	import StuffHoverGrid from "$lib/components/StuffHoverGrid.svelte";
 	import TopBar from "$lib/components/TopBar.svelte";
-    import Typography from "$lib/components/Typography.svelte";
+	import Typography from "$lib/components/Typography.svelte";
 
 	let _width = $state(0);
 	let width = $derived(Math.min(_width, 1920));
@@ -180,18 +182,91 @@
 
 <ScrollSnapper margin={200} topPadding={height * 0.1} />
 
-
 <div class="canvasContainer" style="border-bottom: 1px solid var(--black);">
 	<CanvasWrapper />
 </div>
 <Typography></Typography>
+
+<div class="qaWrapper">
+	<DesktopQa
+		items={[
+			{
+				title: "Who is eligible to attend SparkJam",
+				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+			},
+			{
+				title: "Who is eligible to attend SparkJam",
+				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+			},
+			{
+				title: "Who is eligible to attend SparkJam",
+				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+			},
+			{
+				title: "Who is eligible to attend SparkJam",
+				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+			},
+			{
+				title: "Who is eligible to attend SparkJam",
+				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+			},
+			{
+				title: "Who is eligible to attend SparkJam",
+				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+			},
+			{
+				title: "Who is eligible to attend SparkJam",
+				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+			},
+		]}
+	/>
+</div>
+
+<div class="mobileQA">
+	<MobileQa
+		items={[
+			{
+				title: "Who is eligible to attend SparkJam",
+				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+			},
+			{
+				title: "Who is eligible to attend SparkJam",
+				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+			},
+			{
+				title: "Who is eligible to attend SparkJam",
+				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+			},
+			{
+				title: "Who is eligible to attend SparkJam",
+				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+			},
+			{
+				title: "Who is eligible to attend SparkJam",
+				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+			},
+			{
+				title: "Who is eligible to attend SparkJam",
+				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+			},
+			{
+				title: "Who is eligible to attend SparkJam",
+				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+			},
+		]}
+	></MobileQa>
+</div>
 
 {#each Array(100).keys() as _}
 	<p>LONGer</p>
 {/each}
 
 <style>
-
+	.qaWrapper {
+		max-width: 1200px;
+		margin-left: auto;
+		margin-right: auto;
+	}
 	.canvasContainer {
 		width: 100%;
 		height: 80dvh;
