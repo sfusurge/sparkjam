@@ -70,7 +70,7 @@
         }
 	}
 
-    /* 
+    
 
     #suikaContainer{
         --lGrey: #EEEEEE11;
@@ -84,7 +84,7 @@
     }
 
     #stats{
-        height: 100%;
+        height: 1000px;
         width: 200px;
         display: flex;
         justify-content: space-between;
@@ -92,11 +92,8 @@
         p{
             text-align: left !important;
         }
-        padding: 10% 20%;
-        padding-left: 20%;
-        padding-right: 15%;
         padding-top: 200px;
-        padding-bottom: 5%;
+        padding-bottom: 125px;
 
         #scorePts{
             font-weight: 600;
@@ -108,11 +105,11 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-        height: 100%;
-        padding-bottom: 75px;
+        height: 1000px;
+        padding-bottom: 125px;
     }
 
     #evoStages{
         width: 100%;
-    } */
+    }
 </style>
