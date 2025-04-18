@@ -4,6 +4,7 @@
 	import Schedule from "$lib/components/canvas/picker/Schedule.svelte";
 	import CountDown from "$lib/components/CountDown.svelte";
 	import DesktopQa from "$lib/components/DesktopQA.svelte";
+    import Footer from "$lib/components/Footer.svelte";
 	import HoverGrid from "$lib/components/HoverGrid.svelte";
 	import MobileQa from "$lib/components/MobileQA.svelte";
     import HomePageStuff from "$lib/components/physics_stuff/HomePageStuff.svelte";
@@ -13,6 +14,7 @@
 	import TopBar from "$lib/components/TopBar.svelte";
 	import Typography from "$lib/components/Typography.svelte";
 	import { QA } from "./content.ts";
+	import Credits from "$lib/components/Credits/Credits.svelte";
 
 	let _width = $state(0);
 	let width = $derived(Math.min(_width, 1920));
@@ -186,6 +188,44 @@
 {/if}
 
 <CountDown />
+<div class="mobileQA">
+	<MobileQa
+		items={[
+			{
+				title: "Who is eligible to attend SparkJam",
+				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+			},
+			{
+				title: "Who is eligible to attend SparkJam",
+				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+			},
+			{
+				title: "Who is eligible to attend SparkJam",
+				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+			},
+			{
+				title: "Who is eligible to attend SparkJam",
+				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+			},
+			{
+				title: "Who is eligible to attend SparkJam",
+				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+			},
+			{
+				title: "Who is eligible to attend SparkJam",
+				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+			},
+			{
+				title: "Who is eligible to attend SparkJam",
+				info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
+			},
+		]}
+	></MobileQa>
+</div>
+
+<Credits />
+
+<Footer></Footer>
 
 <style>
 	.mobileQA {
