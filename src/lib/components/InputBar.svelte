@@ -80,8 +80,8 @@
         appearance: none;
         position: relative;
         z-index: 100;
-        width: 0.3rem;
-        height: 0.3rem;
+        width: 0.75rem;
+        height: 0.75rem;
         background-color: var(--black);
         border-radius: 50%;
     }
