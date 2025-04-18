@@ -1,13 +1,11 @@
 <script lang="ts">
 	import Accordian from "$lib/components/Accordian/Accordian.svelte";
 	import CanvasWrapper from "$lib/components/canvas/CanvasWrapper.svelte";
-	import MultiplayerCanvas from "$lib/components/canvas/MultiplayerCanvas.svelte";
 	import Schedule from "$lib/components/canvas/picker/Schedule.svelte";
 	import CountDown from "$lib/components/CountDown.svelte";
 	import DesktopQa from "$lib/components/DesktopQA.svelte";
 	import HoverGrid from "$lib/components/HoverGrid.svelte";
 	import MobileQa from "$lib/components/MobileQA.svelte";
-	import HomePageStuff from "$lib/components/physics_stuff/home_pagge_stuff.svelte";
 	import RainbowButton from "$lib/components/RainbowButton.svelte";
 	import ScrollSnapper from "$lib/components/ScrollSnapper.svelte";
 	import StuffHoverGrid from "$lib/components/StuffHoverGrid.svelte";
@@ -36,11 +34,7 @@
 		{
 			label: "FAQ",
 			target: "",
-		},
-		{
-			label: "JUDGES",
-			target: "",
-		},
+		}
 	]}
 />
 

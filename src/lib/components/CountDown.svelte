@@ -1,4 +1,5 @@
 <script lang="ts">
+    import RainbowButton from "$lib/components/RainbowButton.svelte";
     import { SvelteDate } from "svelte/reactivity";
 
     const deadline = new Date(2025, 3, 30, 23, 59, 59);
@@ -29,18 +30,46 @@
             <div class="number minute">{minutes}</div>
         </div>
 
-        
+        <RainbowButton style="margin-top:2rem;">
+            <a href="#">GET YOUR TICKETS</a>
+        </RainbowButton>
     </div>
+
+    <img src="BigOtter.svg" alt="Big SFU Otter" class="otter" />
+    <img src="BigSurge.svg" alt="Big SFU Surge Logo" class="surge" />
 </div>
 
 <style>
+
+    .otter {
+        position: absolute;
+        left: 0;
+        bottom: -100px;
+
+        width: 300px;
+        max-width: 40dvw;
+    }
+
+    .surge {
+        position: absolute;
+        right: -80px;
+        bottom: -100px;
+
+        width: 300px;
+        max-width: 40dvw;
+    }
+
     .countdownContainer {
         height: 600px;
         max-height: 100dvh;
         position: relative;
+
+        border-bottom: 1px solid var(--black);
+        overflow: hidden;
+
     }
 
-    .countdown{
+    .countdown {
         position: absolute;
         left: 50%;
         top: 50%;
@@ -52,11 +81,11 @@
         align-items: center;
     }
 
-    .title{
+    .title {
         font-size: 30px;
     }
 
-    .numbers{
+    .numbers {
         display: flex;
         flex-direction: row;
         gap: 4rem;
@@ -69,7 +98,7 @@
         line-height: 100px;
     }
 
-    .number::after{
+    .number::after {
         position: absolute;
         left: 50%;
         bottom: -1rem;
@@ -81,16 +110,15 @@
         white-space: nowrap;
     }
 
-    .day::after{
-        content: '( DAYS )';
+    .day::after {
+        content: "( DAYS )";
     }
 
-    .hour::after{
-        content: '( HOURS )';
+    .hour::after {
+        content: "( HOURS )";
     }
 
-    .minute::after{
-        content: '( MINUTES )';
+    .minute::after {
+        content: "( MINUTES )";
     }
-
 </style>

@@ -101,8 +101,8 @@
         border-bottom: 1px solid var(--grey);
 
         transition:
-            background-color 200ms ease-out,
-            color 200ms ease-out;
+            background-color 100ms ease-out,
+            color 100ms ease-out;
 
             text-align: start;
     }

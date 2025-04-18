@@ -363,7 +363,7 @@ export class CanvasController {
 
     updateSmoothPos() {
 
-        const smoothFactor = 20;
+        const smoothFactor = 40;
         this.smoothCameraPos = Vector2.smoothstep(this.smoothCameraPos, this.cameraPos, smoothFactor * this.deltaTime / 1000);
         this.smoothZoom = smoothstep(this.smoothZoom, this.zoom, smoothFactor * this.deltaTime / 1000);
 

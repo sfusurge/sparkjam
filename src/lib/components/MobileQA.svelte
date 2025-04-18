@@ -140,8 +140,8 @@
         text-align: start;
 
         transition:
-            color 200ms ease-out,
-            background-color 200ms ease-out;
+            color 100ms ease-out,
+            background-color 100ms ease-out;
         display: flex;
         gap: 0.5rem;
         padding-left: 3rem;
