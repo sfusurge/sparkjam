@@ -12,7 +12,7 @@
 </script>
 
 <div
-    class="w-screen max-w-[1920px] flex flex-col gap-20 md:gap-32 items-center justify-center p-12 md:p-20"
+    class="w-screen max-w-[1920px] flex flex-col gap-20 md:gap-24 items-center justify-center p-12 md:p-40"
 >
     <div class="max-w-[80rem] grid lg:grid-cols-2 gap-32 lg:gap-20">
         <div class="flex flex-col">

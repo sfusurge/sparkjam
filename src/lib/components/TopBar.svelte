@@ -1,5 +1,6 @@
 <script lang="ts">
     import { pushState } from "$app/navigation";
+    import { page } from "$app/state";
     import RainbowButton from "$lib/components/RainbowButton.svelte";
 
     interface NavBarProps {
@@ -12,13 +13,31 @@
     const { items }: NavBarProps = $props();
 
     let width = $state(0);
-    let extended = $state(false);
+    let ref: HTMLDivElement | undefined = $state();
 </script>
 
 <svelte:window bind:innerWidth={width} />
 
 <nav class="navContainer">
-    {#if width <= 768}{/if}
+    {#if width <= 768}
+        <div
+            class="contentContainer"
+            style="--contentHeight: {ref?.offsetHeight}px"
+            class:extended={page.state.showNav}
+        >
+            <div class="content" bind:this={ref}>
+                {#each items as item}
+                    <button class="navBtn">
+                        <a href={item.target}
+                            ><span class="navLabel">
+                                {item.label}
+                            </span></a
+                        >
+                    </button>
+                {/each}
+            </div>
+        </div>
+    {/if}
 
     <div class="navRow">
         {#if width > 768}
@@ -33,15 +52,17 @@
             {/each}
         {:else}
             <button
-                onclick={
-                    ()=>{
-                        pushState('', {
-                        showItem:true
-                    })
+                onclick={() => {
+                    if (!page.state.showNav) {
+                        pushState("", {
+                            showNav: true,
+                        });
+                    } else {
+                        history.back();
                     }
-                }
+                }}
                 ><img
-                    src={extended ? "cross.svg" : "/bars.svg"}
+                    src={page.state.showNav ? "cross.svg" : "/bars.svg"}
                     alt="more options"
                     style="width: 2rem; margin-left:1.25rem;"
                 /></button
@@ -53,8 +74,17 @@
 
 <style>
     .content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
     }
     .contentContainer {
+        max-height: 0;
+        transition: max-height 100ms ease-out;
+        overflow: hidden;
+    }
+    .contentContainer.extended {
+        max-height: var(--contentHeight);
     }
 
     .navRow {
@@ -74,7 +104,7 @@
         max-width: var(--widthLimit);
 
         display: flex;
-        flex-direction: col;
+        flex-direction: column;
 
         border-bottom: 2px solid var(--black);
         background-color: var(--white);

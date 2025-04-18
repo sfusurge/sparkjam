@@ -4,9 +4,10 @@
 	import Schedule from "$lib/components/canvas/picker/Schedule.svelte";
 	import CountDown from "$lib/components/CountDown.svelte";
 	import DesktopQa from "$lib/components/DesktopQA.svelte";
+	import Footer from "$lib/components/Footer.svelte";
 	import HoverGrid from "$lib/components/HoverGrid.svelte";
 	import MobileQa from "$lib/components/MobileQA.svelte";
-    import HomePageStuff from "$lib/components/physics_stuff/HomePageStuff.svelte";
+	import HomePageStuff from "$lib/components/physics_stuff/HomePageStuff.svelte";
 	import RainbowButton from "$lib/components/RainbowButton.svelte";
 	import ScrollSnapper from "$lib/components/ScrollSnapper.svelte";
 	import StuffHoverGrid from "$lib/components/StuffHoverGrid.svelte";
@@ -14,11 +15,12 @@
 	import Typography from "$lib/components/Typography.svelte";
 	import { QA } from "./content.ts";
 	import SuikaSection from "$lib/components/SuikaSection.svelte";
+	import Credits from "$lib/components/Credits/Credits.svelte";
 
 	let _width = $state(0);
 	let width = $derived(Math.min(_width, 1920));
 	let height = $state(0);
-	let titleHeight = $derived(Math.max(Math.min(height * 0.65, 1200), 600));
+	let titleHeight = $derived(Math.max(Math.min(height * 0.75, 1280), 600));
 </script>
 
 <svelte:window bind:innerWidth={_width} bind:innerHeight={height} />
@@ -46,13 +48,14 @@
 		<div class="mask"></div>
 	</div>
 
-	<span>Applications Will Open<br /><strong>Friday, April 18th</strong></span>
+	<p class="date">
+		<strong>( MAY 17 - MAY 31 )</strong>
+		<strong>( SFU BURNABY )</strong>
+	</p>
 
 	<RainbowButton>
-		<a href="" target="_blank" title="Save Event in Google Calendar"> SET A REMINDER </a>
+		<a href="" target="_blank" title="Save Event in Google Calendar"> GET YOUR TICKETS </a>
 	</RainbowButton>
-
-	<p class="dateText"><strong>( MAY 17 - MAY 31 )</strong><strong>( SFU BURNABY )</strong></p>
 </div>
 
 <div class="titleContainer" style="--height:{titleHeight}px;">
@@ -190,6 +193,10 @@
 
 <CountDown />
 
+<Credits />
+
+<Footer></Footer>
+
 <style>
 	.mobileQA {
 		max-width: 90dvw;
@@ -198,7 +205,7 @@
 	}
 
 	.qaWrapper {
-		max-width: 1200px;
+		max-width: 80rem;
 		margin-left: auto;
 		margin-right: auto;
 	}
@@ -217,7 +224,7 @@
 
 	.mainDescription {
 		width: 80dvw;
-		max-width: 1200px;
+		max-width: 80rem;
 		margin-left: auto;
 		margin-right: auto;
 		margin-top: 5rem;
@@ -279,12 +286,13 @@
 	.imgHolder {
 		position: relative;
 		width: 80dvw;
-		max-width: 1200px;
+		max-width: 80rem;
 		height: fit-content;
 	}
 
 	.imgHolder > img {
 		opacity: 0.05;
+		width: 100%;
 	}
 
 	@keyframes fadein {
@@ -312,32 +320,12 @@
 		animation: fadein 0ms both;
 	}
 
-	.title > span {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		font-size: 24px;
-		line-height: 30px;
-
-		margin-top: 3rem;
-		margin-bottom: 3rem;
-	}
-
-	.dateText {
-		margin-top: 5rem;
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
+	.date {
 		width: 100%;
-		font-size: 20px;
+		display: flex;
+		justify-content: space-between;
 		flex-flow: wrap;
-	}
-
-	@media only screen and (max-width: 360px) {
-		.dateText > * {
-			flex-basis: 100%;
-			text-align: center;
-		}
+		padding: 1rem;
 	}
 
 	@media only screen and (max-width: 600px) {
@@ -345,13 +333,14 @@
 			top: 8rem;
 		}
 
-		.title > span {
-			font-size: 16px;
-			margin-top: 2rem;
+		.date {
+			display: flex;
+			flex-flow: wrap;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-around;
 		}
 
-		.dateText {
-			font-size: 16px;
-		}
+		
 	}
 </style>

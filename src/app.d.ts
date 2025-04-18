@@ -9,7 +9,8 @@ declare global {
 		// interface Platform {}
 
 		interface PageState{
-			showItem:boolean
+			showItem?:boolean;
+			showNav?:boolean;
 		}
 	}
 }
