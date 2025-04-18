@@ -266,6 +266,7 @@ export class CanvasController {
         this.cameraPos = Vector2.ZERO;
         this.smoothCameraPos = Vector2.ZERO;
 
+
         this.staticLines = [];
         this.dynamicLines = []; // TODO, fetch from db
 
@@ -273,6 +274,14 @@ export class CanvasController {
             this.staticLines.push(new Map());
             this.dynamicLines.push(new Map());
         }
+
+        setTimeout(() => {
+            this.cameraPos = new Vector2(-staticCanvas.width / 2, - staticCanvas.height / 2);
+            this.smoothCameraPos = this.cameraPos.clone();
+            this.location = { x: this.cameraPos.x, y: this.cameraPos.y };
+        }, 0)
+
+
 
 
         this.ctxStatic = this.staticCanvas.getContext("2d", { alpha: false, })!;
@@ -309,7 +318,7 @@ export class CanvasController {
         }, 10000);
     }
 
-    forceRender(){
+    forceRender() {
         this.needStaticRender = true;
     }
 
