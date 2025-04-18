@@ -11,7 +11,6 @@
 <svelte:window bind:innerWidth={width} />
 
 <div id="suikaContainer">
-    <div id="bgGrid"></div>
 
     {#if width > 1200}
         <div id="stats">
@@ -28,6 +27,7 @@
         updateScore={(pts: number) => {
             score = pts;
         }}
+        winWidth={width}
     />
     {#if width > 1200}
         <div id="rightPanel">
@@ -57,19 +57,18 @@
         padding: 2rem;
         margin-bottom: 4rem;
     }
-    /* #bgGrid {
-        position: absolute;
-        left: 0;
-        top: 0;
-        z-index: 0;
-        background-image: linear-gradient(to right, var(--grey) 2px, transparent 2px),
-            linear-gradient(to bottom, var(--grey) 2px, transparent 2px);
-        background-size: 75px 75px;
-        width: 100%;
-        opacity: 0.2;
-        height: 100%;
-        pointer-events: none;
-    } */
+
+    #scorePts{
+        font-weight: 600;
+        font-size: 1.5rem;
+        color: white;
+    }
+
+    @media only screen and (max-width: 500px) {
+        #suikaContainer{
+            padding: 0;
+        }
+	}
 
     /* 
 
@@ -82,16 +81,6 @@
         margin: calc(var(--spacing) * 24) 0;
         color: white;
         display: flex;
-    }
-
-    #bgGrid{
-        position: absolute;
-        z-index: 0;
-        background-image: linear-gradient(to right, var(--lGrey) 2px, transparent 2px),
-                linear-gradient(to bottom, var(--lGrey) 2px, transparent 2px);
-        background-size: 75px 75px;
-        width: 100%;
-        height: 100dvh;
     }
 
     #stats{
