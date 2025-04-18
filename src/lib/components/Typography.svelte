@@ -14,7 +14,8 @@
 <svelte:window bind:innerWidth={width} />
 
 <div
-    class="w-screen max-w-[1920px] flex flex-col gap-8 md:gap-24 items-center justify-center p-12 md:p-40" style="margin-top: 10rem;"
+    class="w-screen max-w-[1920px] flex flex-col gap-8 md:gap-24 items-center justify-center p-12 md:p-40"
+    style="margin-top: 10rem;"
 >
     <div class="max-w-[80rem] grid lg:grid-cols-2 gap-20 lg:gap-8">
         <div class="flex flex-col">
@@ -90,6 +91,7 @@
             viewBox="0 0 24 24"
             stroke-width="1"
             stroke="currentColor"
+            style="min-width: 1.5rem;"
             class="size-6"
         >
             <path
@@ -107,6 +109,7 @@
             : ""}
     >
         <svg
+            style="min-width: 1.5rem;"
             width="24"
             height="24"
             viewBox="0 0 24 24"
@@ -127,7 +130,7 @@
             ></path>
         </svg>
     </InputBar>
-    <RainbowButton style="{width < 700 ? 'margin:2rem;': ''}" disableArrow={true}
+    <RainbowButton style={width < 700 ? "margin:2rem;" : ""} disableArrow={true}
         ><a class="flex flex-row gap-2" onclick={randomize}>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -145,7 +148,6 @@
 </div>
 
 <style>
-
     .inputWrapper {
         justify-content: center;
         padding-bottom: 10rem;
@@ -157,7 +159,5 @@
             justify-content: stretch;
             gap: 0;
         }
-
-
     }
 </style>

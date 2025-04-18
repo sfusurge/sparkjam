@@ -45,6 +45,8 @@
         position: relative;
         cursor: pointer;
         height: 1rem;
+        width: auto;
+        width: 100%;
     }
 
     input::after {
