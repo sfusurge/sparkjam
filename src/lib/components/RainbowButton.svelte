@@ -1,14 +1,16 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
 
-    let { children, style, disableBottomBorder = false }: {children:Snippet, style? :string, disableBottomBorder?:boolean} = $props();
+    let { children, style, disableBottomBorder = false, disableArrow = false }: {children:Snippet, style? :string, disableBottomBorder?:boolean, disableArrow?: boolean} = $props();
 </script>
 
 <button class="btn" {style} class:noBotBorder={disableBottomBorder}>
     {@render children()}
-    <svg id="pointer" width="8" height="8" viewBox="0 0 8 8"  xmlns="http://www.w3.org/2000/svg">
-        <path d="M1 7.5L7.5 1M7.5 1H2.5M7.5 1V6" ></path>
-    </svg>
+    {#if !disableArrow} 
+        <svg id="pointer" width="8" height="8" viewBox="0 0 8 8"  xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 7.5L7.5 1M7.5 1H2.5M7.5 1V6" ></path>
+        </svg>
+    {/if}
 </button>
 
 <style>

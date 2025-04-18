@@ -1,6 +1,6 @@
 import { Realtime, } from "ably"
 import Spaces, { type CursorUpdate } from "@ably/spaces";
-import { PUBLIC_ABLYAPI } from "$env/static/public"
+import { PUBLIC_ABLYAPI } from "$env/static/public";
 import type { SerializedLineType } from "$lib/components/canvas/canvas_controller.svelte";
 
 

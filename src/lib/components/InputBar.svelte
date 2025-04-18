@@ -28,16 +28,16 @@
 <style>
     .wrapper {
         border: 1px solid var(--black);
-        padding: 0.5rem;
+        padding: 0.75rem;
 
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.75rem;
 
         width: fit-content;
     }
 
-    input {
+    input[type="range"] {
         accent-color: var(--black);
         appearance: none;
         position: relative;
@@ -76,8 +76,8 @@
     }
 
     input::-webkit-slider-thumb {
+        -webkit-appearance: none;
         appearance: none;
-
         position: relative;
         z-index: 100;
         width: 0.3rem;
@@ -85,4 +85,26 @@
         background-color: var(--black);
         border-radius: 50%;
     }
+
+    input[type="range"]::-moz-range-progress {
+        background-color:  var(--black);
+    }
+
+    input::-moz-range-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        outline: none;
+        border: none;
+        width: 0.5rem;
+        height: 0.5rem;
+        background-color: var(--black);
+        border-radius: 50%;
+  background:  var(--black);
+  cursor: pointer;
+    }
+
+    input[type="range"]::-moz-range-track {
+  background-color: #84878F;
+}
+
 </style>
