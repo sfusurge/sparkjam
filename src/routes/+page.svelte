@@ -13,6 +13,7 @@
 	import TopBar from "$lib/components/TopBar.svelte";
 	import Typography from "$lib/components/Typography.svelte";
 	import { QA } from "./content.ts";
+	import SuikaSection from "$lib/components/SuikaSection.svelte";
 
 	let _width = $state(0);
 	let width = $derived(Math.min(_width, 1920));
@@ -174,6 +175,8 @@
 	<CanvasWrapper />
 </div>
 <Typography></Typography>
+
+<SuikaSection></SuikaSection>
 
 {#if width < 1200}
 	<div class="mobileQA">
