@@ -12,6 +12,7 @@
 	import StuffHoverGrid from "$lib/components/StuffHoverGrid.svelte";
 	import TopBar from "$lib/components/TopBar.svelte";
 	import Typography from "$lib/components/Typography.svelte";
+    import { QA } from "./content.ts";
 
 	let _width = $state(0);
 	let width = $derived(Math.min(_width, 1920));
@@ -116,8 +117,8 @@
 
 {#snippet Day3()}
 	<p class="scheduleLabel">
-		Eech team will receive a 20-minite slot between 11:00am to 2:00pm, where they will present
-		their work to a team of mentors for feedback.
+		All projects must be submitted to OtterTable by 11:59pm on the 28th of May. Late submissions
+		will be disquliafied, and no exceptions will be made.
 	</p>
 {/snippet}
 
@@ -133,19 +134,15 @@
 				time: "11:00am",
 			},
 			{
-				label: "Judge Panel",
+				label: "Winners Presentations",
 				time: "11:30am",
 			},
 			{
-				label: "Student Panel",
-				time: "12:00pm",
-			},
-			{
-				label: "Lunch (included)",
+				label: "Lunch",
 				time: "12:30pm",
 			},
 			{
-				label: "Case Reveal",
+				label: "Networking Period",
 				time: "1:30pm",
 			},
 		]}
@@ -190,78 +187,16 @@
 {#if width < 1200}
 	<div class="mobileQA">
 		<MobileQa
-			items={[
-				{
-					title: "Who is eligible to attend SparkJam",
-					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-				},
-				{
-					title: "Who is eligible to attend SparkJam",
-					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-				},
-				{
-					title: "Who is eligible to attend SparkJam",
-					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-				},
-				{
-					title: "Who is eligible to attend SparkJam",
-					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-				},
-				{
-					title: "Who is eligible to attend SparkJam",
-					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-				},
-				{
-					title: "Who is eligible to attend SparkJam",
-					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-				},
-				{
-					title: "Who is eligible to attend SparkJam",
-					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-				},
-			]}
+			items={QA}
 		></MobileQa>
 	</div>
 {:else}
 	<div class="qaWrapper">
 		<DesktopQa
-			items={[
-				{
-					title: "Who is eligible to attend SparkJam",
-					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-				},
-				{
-					title: "Who is eligible to attend SparkJam",
-					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-				},
-				{
-					title: "Who is eligible to attend SparkJam",
-					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-				},
-				{
-					title: "Who is eligible to attend SparkJam",
-					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-				},
-				{
-					title: "Who is eligible to attend SparkJam",
-					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-				},
-				{
-					title: "Who is eligible to attend SparkJam",
-					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-				},
-				{
-					title: "Who is eligible to attend SparkJam",
-					info: "SparkJam is open to all university level students. This includes students from UBC, SFU, BCIT, Emily Carr, and more!",
-				},
-			]}
+			items={QA}
 		/>
 	</div>
 {/if}
-
-{#each Array(100).keys() as _}
-	<p>LONGer</p>
-{/each}
 
 <style>
 	.mobileQA {

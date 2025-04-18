@@ -95,7 +95,6 @@
         padding: 1rem;
         padding-left: 2.5rem;
         
-
         font-size: 20px;
 
         background-color: var(--white);
@@ -104,6 +103,8 @@
         transition:
             background-color 200ms ease-out,
             color 200ms ease-out;
+
+            text-align: start;
     }
 
     .titleItem:last-child {
