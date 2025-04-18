@@ -77,8 +77,8 @@
 
         mask:
             url("/mask.png") 0 0 / 100dvw 100dvh,
-            url("/title.svg") max(10vw, calc((var(--screenWidth) - 1200px) / 2)) var(--topOffset) /
-                min(80dvw, 1200px) auto;
+            url("/title.svg") max(10dvw, calc((var(--screenWidth) - 80rem) / 2)) var(--topOffset) /
+                min(80dvw, 80rem) auto;
         mask-composite: subtract;
         mask-mode: alpha;
         mask-repeat: no-repeat;
