@@ -3,7 +3,6 @@ import { joinSpace } from "$lib/realtime/space.svelte";
 import {
     AABB,
     camGlobalAABB,
-    lerp,
     pointDistanceToLineSegment,
     smoothstep,
     toGlobalSpace,
@@ -279,7 +278,8 @@ export class CanvasController {
             this.cameraPos = new Vector2(-staticCanvas.width / 2, - staticCanvas.height / 2);
             this.smoothCameraPos = this.cameraPos.clone();
             this.location = { x: this.cameraPos.x, y: this.cameraPos.y };
-        }, 0)
+            this.needStaticRender = true;
+        }, 500)
 
 
 
@@ -801,6 +801,8 @@ export class CanvasController {
             this.ctxStatic.fillRect(0, 0, this.staticCanvas.width, this.staticCanvas.height)
             this.ctxStatic.scale(this.smoothZoom, this.smoothZoom);
             this.ctxStatic.translate(-this.smoothCameraPos.x, -this.smoothCameraPos.y);
+            console.log("clearing");
+
         }
 
         // dynamic (always)
@@ -819,27 +821,58 @@ export class CanvasController {
         );
 
 
+        if (this.needStaticRender) {
+            const gridSize = 96;
+            // grid
+            const startX = Math.floor(camAABB.x / gridSize) * gridSize;
+            const startY = Math.floor(camAABB.y / gridSize) * gridSize;
+
+            const countX = Math.floor(camAABB.width / gridSize) + 2;
+            const countY = Math.floor(camAABB.height / gridSize) + 2;
+
+
+            const width = Math.ceil(camAABB.width + gridSize);
+            const height = Math.ceil(camAABB.height + gridSize);
+
+            this.ctxStatic.strokeStyle = '#d9dce2';
+            this.ctxStatic.lineWidth = 1;
+            this.ctxStatic.beginPath();
+
+            for (let y = 0; y < countY; y++) {
+                this.ctxStatic.moveTo(startX, startY + y * gridSize);
+                this.ctxStatic.lineTo(startX + width, startY + y * gridSize);
+
+            }
+
+            for (let x = 0; x < countX; x++) {
+                this.ctxStatic.moveTo(startX + x * gridSize, startY);
+                this.ctxStatic.lineTo(startX + x * gridSize, startY + height);
+            }
+            this.ctxStatic.stroke();
+        }
+
+
+
         // process each layer
         for (let layer = 0; layer < this.maxLayers; layer++) {
+
             if (this.needStaticRender) {
                 for (const line of this.staticLines[layer].values()) {
                     // skip out of view lines.
                     if (camAABB.containsAABB(line.aabb)) {
                         line.render(this.ctxStatic);
-
                     }
                 }
             }
 
             for (const [id, line] of this.dynamicLines[layer].entries()) {
                 line.render(this.ctxDynamic);
-
                 if (this.deletedLines.has(line.id)) {
                     this.dynamicLines[layer].delete(id);
                 }
             }
         }
-        // done
+
 
         this.needStaticRender = false;
     }
