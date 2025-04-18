@@ -96,7 +96,7 @@
 
 	.positionLabel {
 		position: absolute;
-		right: 1rem;
+		right: 2rem;
 		top: 1rem;
 
 		font-size: 16px;
