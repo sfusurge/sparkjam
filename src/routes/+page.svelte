@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Accordian from "$lib/components/Accordian/Accordian.svelte";
-	import CanvasWrapper from "$lib/components/canvas/CanvasWrapper.svelte";
+	// import CanvasWrapper from "$lib/components/canvas/CanvasWrapper.svelte";
 	import Schedule from "$lib/components/canvas/picker/Schedule.svelte";
 	import CountDown from "$lib/components/CountDown.svelte";
 	import DesktopQa from "$lib/components/DesktopQA.svelte";
@@ -174,9 +174,9 @@
 
 <ScrollSnapper margin={height * 0.2} topPadding={height * 0.1} />
 
-<div class="canvasContainer" style="border-bottom: 1px solid var(--black);">
-	<CanvasWrapper />
-</div>
+<!--<div class="canvasContainer" style="border-bottom: 1px solid var(&#45;&#45;black);">-->
+<!--	<CanvasWrapper />-->
+<!--</div>-->
 <Typography></Typography>
 
 <SuikaSection></SuikaSection>
