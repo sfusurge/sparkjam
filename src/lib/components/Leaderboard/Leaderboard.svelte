@@ -23,7 +23,7 @@
 </script>
 
 <div id="leaderBoardComponent">
-    <p style="font-size: 0.75rem; color: lightgrey;">Leaderboards coming online soon!</p>
+    <!-- <p style="font-size: 0.75rem; color: lightgrey;">Leaderboards coming online soon!</p> -->
     <p id="leaderboardHeader">( TOP 5 )</p>
     {#each leaderboard as playerScore}
         <div class="entry">
