@@ -1,6 +1,5 @@
 <script lang="ts">
-    // import {getLeaderboard} from '../Firebase/SuikaLeaderboardManager'
-    import { tiers } from '../Suika/SuikaController.svelte'
+    import {getLeaderboard} from '../../firebase/SuikaLeaderboardManager'
     import { leaderboardPreset } from './LeaderboardController.svelte'
 
     var leaderboard = $state(leaderboardPreset)
@@ -11,8 +10,8 @@
 
     const fetchLeaderboard = async () => {
         try{
-            // let tLeaderboard = await getLeaderboard()
-            // leaderboard = tLeaderboard??leaderboard
+            let tLeaderboard = await getLeaderboard()
+            leaderboard = tLeaderboard??leaderboard
         }catch (e){
             console.log(e)
         }
@@ -21,10 +20,6 @@
     $effect(() => {
         updateLeaderboard()
     })
-
-    const leaderBoardIcons = tiers.map((t) => {
-        return t.icon
-    }).toReversed()
 </script>
 
 <div id="leaderBoardComponent">

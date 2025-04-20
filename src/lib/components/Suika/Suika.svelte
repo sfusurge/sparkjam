@@ -407,19 +407,35 @@
             case State.losing:
                 break
             case State.endScreen:
+                closePopup()
                 break
         }
     }
 
-    export function playAgain(){
+    function playAgain(){
         setGameMode(State.playing)
     }
+
+    const popupOptions = {
+        none: 0,
+        leaderboard: 1,
+        evo: 2
+    }
+
+    let popUpMode = $state(popupOptions.none)
+
+    function closePopup(){
+        popUpMode = popupOptions.none
+        popupComponent.setPopupMode(popUpMode)
+    }
+
+    let popupComponent:GameOverMenu
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <div id="game">
-    {#if winWidth <= 1200}
+    {#if winWidth <= 950}
         <p id="scorePts">{points}</p>
     {/if}
     <div id="suika" 
@@ -427,8 +443,28 @@
         onclick={dropTarget} 
         onmousemove={moveWithMouse}>
     </div>
-    <div id="gameOverContainer" class:hide={gameMode != State.endScreen}>
-        <GameOverMenu resetGame={playAgain} points={points}/>
+    {#if winWidth <= 950}
+        <div id="mobileBtns">
+            <button onclick={() => {
+                if(gameMode != State.endScreen){
+                    popUpMode = popupOptions.leaderboard
+                    popupComponent.setPopupMode(popUpMode)
+                }
+            }}>
+                <img src="./suika/trophy.svg"/>
+            </button>
+            <button onclick={() => {
+                if(gameMode != State.endScreen){
+                    popUpMode = popupOptions.evo
+                    popupComponent.setPopupMode(popUpMode)
+                }
+            }}>
+                <img src="./suika/i symbol.svg"/>
+            </button>
+        </div>
+    {/if}
+    <div id="gameOverContainer" class:hide={gameMode != State.endScreen && popUpMode == popupOptions.none}>
+        <GameOverMenu resetGame={playAgain} points={points} closeWindow={closePopup} bind:this={popupComponent}/>
     </div>
 </div>
 
@@ -470,6 +506,22 @@
         padding-left: 0px;
     }
 
+    #mobileBtns{
+        width: 100%;
+        margin-top: -30px;
+        padding-left: 50px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    @media only screen and (max-width: 1200px) {
+        #mobileBtns{
+            margin-top: -100px;
+            width: 80%;
+            margin-left: 5%;
+        }
+	}
+
     @media only screen and (max-width: 500px) {
         #game{
             width: 100dvw;
@@ -481,7 +533,15 @@
         }
 
         #gameOverContainer{
-            margin-left: 10%;
+            margin-left: 9%;
+            top: -850px;
+            width: 95%;
+        }
+
+        #mobileBtns{
+            margin-top: -30px;
+            width: 95%;
+            margin-left: 2%;
         }
 	}
 
@@ -496,6 +556,10 @@
         #game{
             width: 120dvw;
             margin-left: -10%;
+        }
+
+        #mobileBtns{
+            width: 95%;
         }
 	}
 </style>

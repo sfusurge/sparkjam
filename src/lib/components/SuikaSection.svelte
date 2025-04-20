@@ -12,7 +12,7 @@
 
 <div id="suikaContainer">
 
-    {#if width > 1200}
+    {#if width > 950}
         <div id="stats">
             <p id="scorePts">{score}</p>
             <div id="leaderboard">
@@ -29,7 +29,7 @@
         }}
         winWidth={width}
     />
-    {#if width > 1200}
+    {#if width > 950}
         <div id="rightPanel">
             <img id="evoStages" src="./suika/evolutions/Evolution Chart.svg" />
         </div>

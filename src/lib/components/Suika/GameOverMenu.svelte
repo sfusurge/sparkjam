@@ -1,13 +1,66 @@
 <script lang="ts">
-    // import {updateLeaderboard} from '../Firebase/SuikaLeaderboardManager'
+    import {updateLeaderboard, getLeaderboard} from '../../firebase/SuikaLeaderboardManager'
+    import { leaderboardPreset } from '../Leaderboard/LeaderboardController.svelte'
     import {anonymousAliases} from './SuikaController.svelte'
+
+    var leaderboard = $state(leaderboardPreset)
 
     interface stageParams {
         resetGame: () => void;
+        closeWindow: () => void;
         points: number;
     }
 
-    let {resetGame, points} : stageParams = $props();
+    interface popupConfig{
+        title: string
+        func: () => void
+    }
+
+    const PopupModes = {
+        gameOver: 0,
+        leaderboard: 1,
+        evolutions: 2
+    }
+
+    let {resetGame, points, closeWindow} : stageParams = $props();
+    let popupMode = $state(PopupModes.gameOver)
+    let lightTheme = $state(popupMode == PopupModes.gameOver)
+
+    export const setPopupMode = (mode: number) => {
+        popupMode = mode
+        lightTheme = mode == PopupModes.gameOver
+        if(popupMode == PopupModes.leaderboard){
+            fetchLeaderboard()
+        }
+    }
+
+    const fetchLeaderboard = async () => {
+        try{
+            let tLeaderboard = await getLeaderboard()
+            leaderboard = tLeaderboard??leaderboard
+        }catch (e){
+            console.log(e)
+        }
+    }
+
+    $effect(() => {
+        fetchLeaderboard()
+    })
+
+    const popupConfigs:popupConfig[] = [
+        {
+            title: "GAME OVER",
+            func: finishRound
+        },
+        {
+            title: "TOP 5",
+            func: closeWindow
+        },
+        {
+            title: "EVOLUTIONS",
+            func: closeWindow
+        }
+    ]
 
     let userName = $state("");
 
@@ -24,46 +77,74 @@
             username = fillernames[Math.floor(Math.random() * fillernames.length)]
         }
         
-        // await updateLeaderboard({
-        //     username: username,
-        //     points: pts
-        // })
+        await updateLeaderboard({
+            username: username,
+            points: pts
+        })
     }
 </script>
 
-<div id="gameEndScreen" class="midAlign">
+<div id="popUp" class="midAlign" class:lightTheme={lightTheme == true} class:darkTheme={lightTheme == false}>
     <div id="topArea">
-        <p id="popupTitle">(GAME OVER)</p>
+        <p id="popupTitle">({popupConfigs[popupMode].title})</p>
+        <img src={`./suika/${lightTheme ? "ex" : "ex light"}.svg`} onclick={() => popupConfigs[popupMode].func()}/>
     </div>
-    <p>FINAL SCORE: {points}</p>
-    <br/>
-    <input type="text" placeholder="Your Name" bind:value={userName}/>
-    <br/>
-    <button onclick={() => finishRound()} class:hide={userName.length <= 0}><img src='./suika/sparkles.png'>Play Again</button>
+    {#if popupMode == PopupModes.gameOver}
+        <p>FINAL SCORE: {points}</p>
+        <br/>
+        <input type="text" placeholder="Your Name" bind:value={userName}/>
+        <br/>
+        <button onclick={() => finishRound()} class:hide={userName.length <= 0}><img src='./suika/sparkles.png'>Play Again</button>
+    {/if}
+    {#if popupMode == PopupModes.leaderboard}
+        <div id="scoreContainer">
+            {#each leaderboard as playerScore}
+                <div class="entry">
+                    <p class="entryName">{playerScore.username}</p>
+                    <p class="entryScore">SCORE: {playerScore.points}</p>
+                </div>
+            {/each}
+        </div>
+    {/if}
+    {#if popupMode == PopupModes.evolutions}
+        <img id="evo" src="./suika/evolutions/Evolution Chart.svg"/>
+    {/if}
 </div>
 
 <style>
     
     #topArea{
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         margin-bottom: 2rem;
         margin-top: -1rem;
-        width: 100%;
-        font-weight: 600;
-        font-size: 1.5rem;
-    }
-
-    #gameEndScreen{
-        height: 400px;
-        color: black;
-        background-color: white;
-        width: fit-content;
-        --grey: var(--surge-grey);
+        width: 80%;
+        font-size: 1rem;
 
         img{
-            margin-right: 10px;
+            margin: auto 0;
+            height: 15px;
+            width: 15px;
+            cursor: pointer;
         }
+    }
+
+    #popUp{
+        height: 400px;
+        width: 90%;
+        max-width: 400px;
+        --grey: var(--lightGrey);
+        border: 1px solid var(--grey);
+    }
+
+    .lightTheme{
+        color: black;
+        background-color: white;
+    }
+
+    .darkTheme{
+        color: var(--grey);
+        background-color: var(--black);
     }
 
     .midAlign{
@@ -71,6 +152,7 @@
         flex-direction: column;
         justify-content: center;
         align-content: center;
+        align-items: center;
         height: 100%;
     }
 
@@ -79,7 +161,7 @@
     }
 
     input{
-        width: 80%;
+        width: 70%;
         font-size: 2rem;
         text-align: center;
         padding-top: 1rem;
@@ -88,7 +170,7 @@
         font-family: 'poppins', sans-serif;
         background-color: #00000000;
         color: black;
-        margin: 15px auto;
+        margin: 15px 0;
     }
 
     input:focus{
@@ -98,7 +180,7 @@
     }
 
     button {
-        margin: 10px auto;
+        margin: 10px 0;
 
         display: flex;
         width: fit-content;
@@ -116,7 +198,9 @@
         img{
             height: fit-content;
             width: fit-content;
-            margin-top: 5px;
+            margin-top: auto;
+            margin-bottom: auto;
+            margin-right: 5px;
         }
     }
 
@@ -131,5 +215,41 @@
 
     p{
         text-align: center;
+    }
+
+    #evo{
+        width: 80%;
+        max-width: 250px;
+    }
+
+    #scoreContainer{
+        height: 70%;
+        max-height: 325px;
+        width: 80%;
+    }
+    .entryName{
+        font-weight: 600;
+    }
+    
+    .entryScore{
+        font-weight: 100;
+    }
+
+    .entry{
+        margin-bottom: 0.5rem;
+    
+        p{
+            text-align: left;
+            font-size: small;
+            text-overflow: clip;
+            text-wrap-mode: nowrap;
+        }
+    }
+
+    @media only screen and (max-width: 500px) {
+
+        #popUp{
+            width: 90%;
+        }
     }
 </style>
