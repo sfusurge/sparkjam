@@ -1,4 +1,4 @@
-import { getApp, getApps, initializeApp } from 'firebase/app'
+import { initializeApp } from 'firebase/app'
 import { doc, DocumentReference, getDoc, getFirestore, setDoc } from 'firebase/firestore'
 
 const config = {

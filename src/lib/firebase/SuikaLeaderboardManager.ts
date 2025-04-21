@@ -6,12 +6,13 @@ export interface LeaderboardPosition{
 }
 
 const leaderboardReadSize = 5
-const leaderboardWriteSize = 10
+const leaderboardWriteSize = 20
 const lBoardFbDocId = getFbDoc("suika", "pre-jam-phase")
 
-export const getLeaderboard = async () => 
+export const getLeaderboard = async (forWrite: boolean = false) => 
 {
     const leaderboardDoc = await retrieveFbDoc(lBoardFbDocId)
+    const sz = forWrite == false ? leaderboardReadSize : leaderboardWriteSize
 
     if(!leaderboardDoc.exists){
         console.log("LEADERBOARD RETRIEVAL ERROR")
@@ -27,7 +28,7 @@ export const getLeaderboard = async () =>
     
     const leaderboard : LeaderboardPosition[] = []
 
-    for(let i = 1; i <= leaderboardReadSize; i++){
+    for(let i = 1; i <= sz; i++){
         if(ents[`pts${i}`] == undefined){
             break;
         }
@@ -43,7 +44,7 @@ export const getLeaderboard = async () =>
 
 export const updateLeaderboard = async (newEntry: LeaderboardPosition) => 
 {
-    let lb = await getLeaderboard()
+    let lb = await getLeaderboard(true)
     if(lb == undefined){
         return
     }

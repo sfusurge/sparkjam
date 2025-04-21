@@ -23,7 +23,8 @@
 </script>
 
 <div id="leaderBoardComponent">
-    <!-- <p style="font-size: 0.75rem; color: lightgrey;">Leaderboards coming online soon!</p> -->
+    <p id="note">Refresh the page to see the</p>
+    <p id="note">latest leaderboard changes!</p>
     <p id="leaderboardHeader">( TOP 5 )</p>
     {#each leaderboard as playerScore}
         <div class="entry">
@@ -34,6 +35,11 @@
 </div>
 
 <style>
+    #note{
+        font-size: 0.75rem; 
+        color: lightgrey;
+    }
+
     #leaderBoardComponent{
         width: 200px;
         text-overflow: clip;

@@ -22,12 +22,11 @@
     {/if}
     <Suika
         updateLeaderboard={() => {
-            console.log("update");
+            leaderBoard.updateLeaderboard()
         }}
         updateScore={(pts: number) => {
             score = pts;
         }}
-        winWidth={width}
     />
     {#if width > 950}
         <div id="rightPanel">

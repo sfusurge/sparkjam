@@ -18,7 +18,6 @@
     interface stageParams {
         updateLeaderboard: () => void;
         updateScore: (pts:number) => void;
-        winWidth: number;
     }
 
     const CAT_LEGIBLE = "#00FF00";
@@ -38,7 +37,6 @@
     const originalHeight = 1000;
 
     const winWidth = window.innerWidth
-    console.log(winWidth)
     const gameScale =
         (winWidth > 450) ? 1 :
         (winWidth > 375) ? 0.8 :
