@@ -22,7 +22,9 @@
     {/if}
     <Suika
         updateLeaderboard={() => {
-            leaderBoard.updateLeaderboard()
+            if(width > 950){
+                leaderBoard.updateLeaderboard()
+            }
         }}
         updateScore={(pts: number) => {
             score = pts;
