@@ -250,7 +250,8 @@ export class CanvasController {
     deltaTime: number = 0;
     cursorUpdateThreshold = 45; // 100ms for each web cursor update
 
-    deleteMode = $state(false);
+   
+    disablePan = $state(true);
     toDelete: Line[] = [];
 
     firebaseController: CanvasFirebaseController;
@@ -281,6 +282,8 @@ export class CanvasController {
             this.smoothCameraPos = this.cameraPos.clone();
             this.location = { x: this.cameraPos.x, y: this.cameraPos.y };
             this.needStaticRender = true;
+           
+            
         }, 500)
 
         if ('devicePixelRatio' in window) {
@@ -370,9 +373,8 @@ export class CanvasController {
         const smoothFactor = 40;
         this.smoothCameraPos = Vector2.smoothstep(this.smoothCameraPos, this.cameraPos, smoothFactor * this.deltaTime / 1000);
         this.smoothZoom = smoothstep(this.smoothZoom, this.zoom     * this.pixelRatio, smoothFactor * this.deltaTime / 1000) ;
-
         // always render smooth movement isn't done yet.
-        if (this.smoothCameraPos.distTo(this.cameraPos) > 0.1 || Math.abs(this.smoothZoom - this.zoom) > 0.0001) {
+        if (this.smoothCameraPos.distTo(this.cameraPos) > 0.1 || Math.abs(this.smoothZoom / this.pixelRatio - this.zoom) > 0.001) {
             this.needStaticRender = true;
         }
     }
@@ -432,15 +434,14 @@ export class CanvasController {
             }
         });
 
-        window.addEventListener("resize", () => {
-            this.needStaticRender = true;
-        });
 
         this.dynamicCanvas.addEventListener("wheel", (e) => {
+            if(this.disablePan){
+                return;
+            }
+
             if (e.ctrlKey) {
                 this.zoomAtPoint(this.lastPos!, this.zoom - e.deltaY * 0.01);
-
-
             }
             else {
                 // Pan
@@ -853,7 +854,7 @@ export class CanvasController {
             this.ctxStatic.stroke();
         }
 
-
+     
 
         // process each layer
         for (let layer = 0; layer < this.maxLayers; layer++) {
@@ -863,19 +864,19 @@ export class CanvasController {
                     // skip out of view lines.
                     if (camAABB.containsAABB(line.aabb)) {
                         line.render(this.ctxStatic);
+                   
                     }
                 }
             }
 
             for (const [id, line] of this.dynamicLines[layer].entries()) {
                 line.render(this.ctxDynamic);
+                
                 if (this.deletedLines.has(line.id)) {
                     this.dynamicLines[layer].delete(id);
                 }
             }
         }
-
-
         this.needStaticRender = false;
     }
 

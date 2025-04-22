@@ -188,6 +188,8 @@
             botBoundRect,
         ]);
 
+        const pixelRatio = "devicePixelRatio" in window ? window.devicePixelRatio : 1;
+
         render = Render.create({
             element: container,
             engine,
@@ -196,8 +198,10 @@
                 height,
                 background: "transparent",
                 wireframes: false,
+                pixelRatio,
             },
         });
+
         Render.run(render);
 
         Render.lookAt(render, {
@@ -210,16 +214,18 @@
 
     $effect(() => {
         if (initialized && render && world && engine) {
-            render.bounds.max.x = width;
-            render.bounds.max.y = height;
+            const pixelRatio = "devicePixelRatio" in window ? window.devicePixelRatio : 1;
+            render.bounds.max.x = width * pixelRatio;
+            render.bounds.max.y = height * pixelRatio;
 
-            render.options.width = width;
-            render.options.height = height;
+            render.options.width = width ;
+            render.options.height = height ;
 
-            render.canvas.width = width;
-            render.canvas.height = height;
+            render.canvas.width = width  ;
+            render.canvas.height = height ;
 
             const mouse = Mouse.create(mouseCollider!);
+            mouse.pixelRatio = pixelRatio;
             // @ts-ignore
             mouse.element.removeEventListener("mousewheel", mouse.mousewheel);
             // @ts-ignore

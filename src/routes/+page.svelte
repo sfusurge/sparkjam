@@ -16,6 +16,7 @@
 	import SuikaSection from "$lib/components/SuikaSection.svelte";
 	import Credits from "$lib/components/Credits/Credits.svelte";
     import HomePageStuff from "$lib/components/physics_stuff/HomePageStuff.svelte";
+    import CanvasWrapper from "$lib/components/canvas/CanvasWrapper.svelte";
 
 	let _width = $state(0);
 	let width = $derived(Math.min(_width, 1920));
@@ -60,7 +61,7 @@
 
 <div class="titleContainer" style="--height:{titleHeight}px;">
 	<div class="titleDecor">
-		<HomePageStuff {width} height={titleHeight} />
+		<!-- <HomePageStuff {width} height={titleHeight} /> -->
 		<HoverGrid />
 	</div>
 </div>
@@ -174,12 +175,12 @@
 
 <ScrollSnapper margin={height * 0.2} topPadding={height * 0.1} />
 
-<!--<div class="canvasContainer" style="border-bottom: 1px solid var(&#45;&#45;black);">-->
-<!--	<CanvasWrapper />-->
-<!--</div>-->
+<div class="canvasContainer" style="border-bottom: 1px solid var(&#45;&#45;black);">
+	<CanvasWrapper />
+</div>
 <Typography></Typography>
 
-<SuikaSection></SuikaSection>
+<!-- <SuikaSection></SuikaSection> -->
 
 {#if width < 1200}
 	<div class="mobileQA">

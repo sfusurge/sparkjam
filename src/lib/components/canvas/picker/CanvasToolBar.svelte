@@ -1,23 +1,43 @@
 <script lang="ts">
+	import PenPicker from "./PenPicker.svelte";
+	import ColorPicker from "./ColorPicker.svelte";
+	import UserNameInput from "./UserNameInput.svelte";
+	import { sharedState } from "$lib/components/canvas/picker/shared_states.svelte";
+	import type {
+		CanvasController,
+		UserData,
+	} from "$lib/components/canvas/canvas_controller.svelte";
+	import GenericButton from "$lib/components/canvas/picker/GenericButton.svelte";
 
-	import PenPicker from './PenPicker.svelte';
-	import ColorPicker from './ColorPicker.svelte';
-	import UserNameInput from './UserNameInput.svelte';
-	import { sharedState } from '$lib/components/canvas/picker/shared_states.svelte';
-	import type { CanvasController, UserData } from '$lib/components/canvas/canvas_controller.svelte';
-	
 	let {
 		userdata = $bindable(),
-		canvasController = $bindable()
+		canvasController = $bindable(),
 	}: { userdata: UserData; canvasController: CanvasController | undefined } = $props();
 
 	let width = $state(0);
+	let isMobile = $derived(sharedState.isMobile);
+
 	$effect(() => {
 		sharedState.isMobile = width < 900;
 	});
 </script>
 
 <svelte:window bind:innerWidth={width} />
+
+<div class="panBtn">
+	<GenericButton
+		onclick={() => {
+			canvasController!.disablePan = !canvasController?.disablePan;
+		}}
+		style="height:100%;"
+	>
+		{#if canvasController?.disablePan}
+			<img src="/noMoveArrow.svg" alt="pan disabled" class="icon" />
+		{:else}
+			<img src="/home/otter.svg" class="icon" />
+		{/if}
+	</GenericButton>
+</div>
 
 <div class="toolbar">
 	<div class="toolHolder">
@@ -38,90 +58,51 @@
 				() => ({
 					dark: false,
 					name: userdata.penInfo.color,
-					button: ''
+					button: "",
 				}),
 				(newColor) => {
-					userdata.penInfo.color = newColor?.name ?? 'black';
+					userdata.penInfo.color = newColor?.name ?? "black";
 				}
 			}
 		/>
 
 		<div class="verDiv endDiv"></div>
 	</div>
-	{#if false}
-		<!-- Plus button -->
-		<button
-			class="sizeBtn"
-			onclick={() => {
-				canvasController?.increaseZoom();
-			}}
-		>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				fill="none"
-				viewBox="0 0 24 24"
-				stroke-width={1.5}
-				stroke="currentColor"
-				width="1.5rem"
-				height="1.5rem"
-			>
-				<path
-					stroke="#2b4061"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607ZM10.5 7.5v6m3-3h-6"
-				/>
-			</svg>
-		</button>
 
-		<!-- Minus button -->
-		<button
-			class="sizeBtn"
-			onclick={() => {
-				canvasController?.decreaseZoom();
-			}}
-		>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				fill="none"
-				viewBox="0 0 24 24"
-				stroke-width="1.5"
-				stroke="currentColor"
-				width="1.5rem"
-				height="1.5rem"
-			>
-				<path
-					stroke="#2b4061"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607ZM13.5 10.5h-6"
-				/>
-			</svg>
-		</button>
-		<div class="verDiv"></div>
-	{/if}
-
-
-	{#if !sharedState.isMobile}
-
+	{#if !isMobile}
 		<div class="usernameHolder"><UserNameInput bind:username={userdata.username} /></div>
 	{/if}
 </div>
 
-
-{#if sharedState.isMobile}
-<div class="mobileNameHolder"><UserNameInput bind:username={userdata.username} /></div>
-
+{#if isMobile}
+	<div class="mobileNameHolder"><UserNameInput bind:username={userdata.username} /></div>
 {/if}
 
 <style>
 
+	
 
-	.mobileNameHolder{
+	.panBtn {
+		position: absolute;
+		left: 5rem;
+		bottom: 5rem;
+		height:3rem;
+
+		@media screen and (max-width: 768px){
+			top: 2rem;
+			height:2.5rem;
+		}
+	}
+	.icon {
+		height: 100%;
+		width: auto;
+	}
+
+	.mobileNameHolder {
 		position: absolute;
 		top: 2rem;
 		left: 50%;
-		transform: translate(-50%,0);
+		transform: translate(-50%, 0);
 
 		background-color: var(--white);
 		padding: 0.25rem 1rem;
@@ -142,11 +123,12 @@
 		background-color: var(--white);
 		padding: 0.75rem;
 
-
 		border: 1px solid var(--grey);
 		transition: border-color 300ms ease-out;
 
 		justify-content: center;
+
+		height: 3.5rem;
 	}
 
 	.toolbar:hover {
