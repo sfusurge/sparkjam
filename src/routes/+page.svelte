@@ -61,7 +61,7 @@
 
 <div class="titleContainer" style="--height:{titleHeight}px;">
 	<div class="titleDecor">
-		<!-- <HomePageStuff {width} height={titleHeight} /> -->
+		<HomePageStuff {width} height={titleHeight} />
 		<HoverGrid />
 	</div>
 </div>
@@ -180,7 +180,7 @@
 </div>
 <Typography></Typography>
 
-<!-- <SuikaSection></SuikaSection> -->
+<SuikaSection></SuikaSection>
 
 {#if width < 1200}
 	<div class="mobileQA">
