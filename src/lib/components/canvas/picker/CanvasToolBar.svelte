@@ -8,6 +8,12 @@
 		UserData,
 	} from "$lib/components/canvas/canvas_controller.svelte";
 	import GenericButton from "$lib/components/canvas/picker/GenericButton.svelte";
+	import { goto, pushState, replaceState } from "$app/navigation";
+	import Dialog from "$lib/components/Dialog.svelte";
+	import { page } from "$app/state";
+	import { checkLobbyExist, createLobby } from "$lib/firebase/CanvasFirebaseController.ts";
+	import { fade } from "svelte/transition";
+	import { onMount } from "svelte";
 
 	let {
 		userdata = $bindable(),
@@ -16,13 +22,130 @@
 
 	let width = $state(0);
 	let isMobile = $derived(sharedState.isMobile);
+	let message = $state("");
 
 	$effect(() => {
 		sharedState.isMobile = width < 900;
 	});
+
+	function showMultiplayer() {
+		pushState("", {
+			showMultiplayer: true,
+		});
+	}
+
+	async function CreateLobby() {
+		const lobbyId = await createLobby();
+		JoinLobby(lobbyId);
+	}
+
+	async function JoinLobby(lobbyId: string) {
+		const exist = await checkLobbyExist(lobbyId);
+
+		if (!exist) {
+			alert("lobby does not exist");
+		}
+
+		if (canvasController) {
+			canvasController.connectToLobby(lobbyId);
+		}
+
+		localStorage.setItem("lobbyid", lobbyId);
+	}
+
+	$effect(() => {
+		if (message.length > 0) {
+			setTimeout(() => {
+				message = "";
+			}, 1000);
+		}
+	});
+
+	$effect(() => {
+		if (page.url.searchParams.has("lobby") && canvasController !== undefined) {
+			const id = page.url.searchParams.get("lobby");
+			JoinLobby(id!);
+		}
+	});
+
+	let lobbyIdInput = $state("");
+
+	onMount(() => {
+		if (localStorage.getItem("lobbyid")) {
+			lobbyIdInput = localStorage.getItem("lobbyid") ?? "";
+		}
+	});
 </script>
 
 <svelte:window bind:innerWidth={width} />
+
+<div class="multiplayerBtn">
+	<GenericButton onclick={showMultiplayer} style="height:100%;" title="Multiplayer">
+		<img src="/group.svg" alt="group icon" style="width: 2rem; margin:auto;" />
+	</GenericButton>
+</div>
+
+<Dialog
+	visible={page.state.showMultiplayer ?? false}
+	onclose={() => {
+		history.back();
+	}}
+	style="max-height: 400px; max-width:400px;"
+>
+	{#if canvasController?.lobbyId}
+		<div class="ver">
+			<label style="color: var(--grey);">Current Lobby:</label>
+			<label style="font-size:30px">{canvasController.lobbyId}</label>
+
+			<label
+				class="inputField url"
+				onpointerup={() => {
+					navigator.clipboard.writeText(
+						`https://sparkjam.design?lobby=${canvasController.lobbyId}`,
+					);
+					message = "Copied to clipboard!";
+				}}>{`https://sparkjam.design?lobby=${canvasController.lobbyId}`}</label
+			>
+			{#if message.length > 0}
+				<span transition:fade={{ duration: 100 }}>{message}</span>
+			{/if}
+			<div class="horDiv"></div>
+			<GenericButton
+				style="aspect-ratio:unset;padding:0.5rem;"
+				onclick={() => {
+					canvasController.leaveLobby();
+				}}>Leave Lobby</GenericButton
+			>
+		</div>
+	{:else}
+		<div class="ver">
+			<GenericButton
+				style="aspect-ratio:unset;padding:0.5rem;"
+				onclick={() => {
+					CreateLobby();
+				}}>Create a Lobby</GenericButton
+			>
+
+			<div class="horDiv"></div>
+
+			<div class="hor">
+				<input
+					placeholder="123456"
+					class="inputField"
+					type="text"
+					maxlength={6}
+					bind:value={lobbyIdInput}
+				/>
+				<GenericButton
+					style="aspect-ratio:unset; padding:0.5rem;"
+					onclick={() => {
+						JoinLobby(lobbyIdInput);
+					}}>Join Lobby</GenericButton
+				>
+			</div>
+		</div>
+	{/if}
+</Dialog>
 
 <div class="panBtn">
 	<GenericButton
@@ -79,18 +202,54 @@
 {/if}
 
 <style>
+	.url {
+		cursor: pointer;
+	}
+	.horDiv {
+		background-color: var(--lightGrey);
+		width: 100%;
+		height: 2px;
+		padding: 0rem 2rem;
+	}
 
-	
+	.hor {
+		display: flex;
+		gap: 0.5rem;
+	}
+
+	.inputField {
+		padding: 0.25rem;
+		border: 1px var(--black) solid;
+		outline: none;
+		text-align: right;
+	}
+
+	.inputField:focus {
+		outline: none;
+	}
+
+	.ver {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		align-items: flex-end;
+	}
+	.multiplayerBtn {
+		position: absolute;
+		right: 4rem;
+		bottom: 5rem;
+		height: 3rem;
+	}
 
 	.panBtn {
 		position: absolute;
-		left: 5rem;
+		left: 4rem;
 		bottom: 5rem;
-		height:3rem;
+		height: 3rem;
 
-		@media screen and (max-width: 768px){
+		@media screen and (max-width: 768px) {
 			top: 2rem;
-			height:2.5rem;
+			height: 2.5rem;
 		}
 	}
 	.icon {
@@ -161,15 +320,6 @@
 		transition:
 			filter 300ms ease-out,
 			background-color 300ms ease-out;
-	}
-
-	.sizeBtn:hover {
-		background-color: #b3e8ff;
-		filter: brightness(1.1);
-	}
-
-	.sizeBtn:active {
-		filter: brightness(0.95);
 	}
 
 	.toolHolder {

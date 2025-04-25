@@ -3,9 +3,9 @@
 import { Line } from "$lib/components/canvas/canvas_controller.svelte";
 
 
-import { deleteField, doc, getDoc, setDoc, Timestamp, updateDoc } from "@firebase/firestore/lite";
+import { deleteField, doc, getDoc, setDoc, Timestamp, updateDoc, increment} from "@firebase/firestore/lite";
 import { db } from "./client";
-import { increment } from "firebase/firestore";
+
 import { getSixDigitId, rngParams } from "$lib/firebase/rng.ts";
 
 
@@ -89,6 +89,11 @@ export async function createLobby() {
     return '000000'
 }
 
+export async function checkLobbyExist(lobbyId: string) {
+    const docRef = doc(db, `lobby/${lobbyId}`);
+    return (await getDoc(docRef)).exists();
+}
+
 export class CanvasFirebaseController {
 
     additionQueue: Line[] = [];
@@ -110,10 +115,12 @@ export class CanvasFirebaseController {
     }
 
 
-
     async fullFetch() {
-        const lines: { [id: string]: FirebaseLine } = await fetchLines(this.lobbyId ?? '000000');
+        if (!this.lobbyId) {
+            return [];
+        }
 
+        const lines: { [id: string]: FirebaseLine } = await fetchLines(this.lobbyId);
 
         const out: Line[] = [];
 
@@ -135,6 +142,10 @@ export class CanvasFirebaseController {
 
 
     update(t: number) {
+        if (!this.lobbyId) {
+            return;
+        }
+
         const delta = t - this.lastUpdateTime;
         if (delta < this.updateThreshold) {
             return;
@@ -144,7 +155,7 @@ export class CanvasFirebaseController {
 
         if (this.additionQueue.length > 0) {
             // upload
-            uploadLines(this.lobbyId ?? '000000', this.additionQueue.map(item => {
+            uploadLines(this.lobbyId, this.additionQueue.map(item => {
                 return {
                     id: item.id,
                     color: item.color,

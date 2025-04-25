@@ -5,13 +5,13 @@
     import type { Snippet } from "svelte";
 
     
-    const {style, onclick, children}: {style?:string, children:Snippet, onclick?:(e:MouseEvent)=>void} = $props();
+    const {style, onclick, children, title}: {title?:string, style?:string, children:Snippet, onclick?:(e:MouseEvent)=>void} = $props();
 
     
 
 </script>
 
-<button class="btn" {style} {onclick}>
+<button class="btn" {style} {onclick} {title}>
     {@render children()}
 </button>
 
@@ -23,6 +23,7 @@
         aspect-ratio: 1;
         background-color: var(--white);
         transition: filter 100ms ease-out;
+        text-wrap: nowrap;
     }
 
     .btn:hover{

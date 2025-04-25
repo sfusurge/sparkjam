@@ -250,7 +250,7 @@ export class CanvasController {
     deltaTime: number = 0;
     cursorUpdateThreshold = 45; // 100ms for each web cursor update
 
-   
+
     disablePan = $state(true);
     toDelete: Line[] = [];
 
@@ -260,7 +260,7 @@ export class CanvasController {
 
     pixelRatio: number = 1;
 
-    lobbyId: string | undefined = undefined;
+    lobbyId: string | undefined = $state(undefined);
 
     constructor(staticCanvas: HTMLCanvasElement, dynamicCanvas: HTMLCanvasElement, maxLayers: number) {
         this.staticCanvas = staticCanvas;
@@ -292,6 +292,8 @@ export class CanvasController {
 
         this.ctxStatic = this.staticCanvas.getContext("2d", { alpha: false, })!;
         this.ctxDynamic = this.dynamicCanvas.getContext("2d", { alpha: true })!;
+
+        this.selfCursor = new Cursor('', this.userdata?.penInfo.color ?? 'black', '', Vector2.ZERO, 'pen')
 
 
         $effect(() => {
@@ -350,6 +352,9 @@ export class CanvasController {
             this.staticLines.push(new Map());
             this.dynamicLines.push(new Map());
         }
+        this.othersCursors = {};
+
+        this.forceRender();
     }
 
     forceRender() {
@@ -453,15 +458,12 @@ export class CanvasController {
     initialZoom = 0;
     lastfullfetchtime = 0;
     initEvents() {
-
         document.addEventListener("visibilitychange", (e) => {
             if (new Date().getTime() - this.lastfullfetchtime > 60000) {
                 // once per minute
 
                 if (this.lobbyId) {
-                    const id = this.lobbyId;
-                    this.leaveLobby();
-                    this.connectToLobby(id);
+                    this.startStorage(this.lobbyId);
                 }
 
                 this.lastfullfetchtime = new Date().getTime();
@@ -470,7 +472,7 @@ export class CanvasController {
 
 
         this.dynamicCanvas.addEventListener("wheel", (e) => {
-            if(this.disablePan){
+            if (this.disablePan) {
                 return;
             }
 
@@ -890,7 +892,7 @@ export class CanvasController {
             this.ctxStatic.stroke();
         }
 
-     
+
 
         // process each layer
         for (let layer = 0; layer < this.maxLayers; layer++) {
@@ -900,14 +902,14 @@ export class CanvasController {
                     // skip out of view lines.
                     if (camAABB.containsAABB(line.aabb)) {
                         line.render(this.ctxStatic);
-                   
+
                     }
                 }
             }
 
             for (const [id, line] of this.dynamicLines[layer].entries()) {
                 line.render(this.ctxDynamic);
-                
+
                 if (this.deletedLines.has(line.id)) {
                     this.dynamicLines[layer].delete(id);
                 }

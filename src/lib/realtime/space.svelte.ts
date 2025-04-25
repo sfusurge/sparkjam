@@ -23,13 +23,13 @@ export interface CursorInfo {
     }
 }
 
-export async function joinSpace(username: string | undefined, channelId:string, onCursorUpdate: (cursorEvent: CursorUpdate) => void, deleteEvent: (idsToDelete: string[]) => void, lineFinishEvent: (userId: string, line: SerializedLineType) => void, userLeaveEvent: (userId: string) => void) {
+export async function joinSpace(username: string | undefined, channelId: string, onCursorUpdate: (cursorEvent: CursorUpdate) => void, deleteEvent: (idsToDelete: string[]) => void, lineFinishEvent: (userId: string, line: SerializedLineType) => void, userLeaveEvent: (userId: string) => void) {
 
     const clientId = crypto.randomUUID();
     const realtimeClient = new Realtime({
         key: PUBLIC_ABLYAPI,
         clientId,
-        
+
     });
     const spaces = new Spaces(realtimeClient,);
 
@@ -112,9 +112,11 @@ export async function joinSpace(username: string | undefined, channelId:string, 
         async newLine(newLine: SerializedLineType) {
             await canvasChannel.publish("newLine", newLine);
         },
-        leave(){
-            canvasSpace.leave();
-            realtimeClient.close();
+        async leave() {
+            await canvasSpace.leave();
+            setTimeout(() => {
+                realtimeClient.close();
+            }, 1000)
         }
 
     }

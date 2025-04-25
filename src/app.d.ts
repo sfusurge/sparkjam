@@ -11,6 +11,8 @@ declare global {
 		interface PageState{
 			showItem?:boolean;
 			showNav?:boolean;
+			showMultiplayer?:boolean;
+			lobbyId?:string;
 		}
 	}
 }
