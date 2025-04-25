@@ -301,6 +301,11 @@
 		right: 4rem;
 		bottom: 5rem;
 		height: 3rem;
+
+		@media screen and (max-width: 768px) {
+			top: 2rem;
+			height: 2.5rem;
+		}
 	}
 
 	.panBtn {

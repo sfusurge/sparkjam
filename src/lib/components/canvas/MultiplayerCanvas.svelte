@@ -123,8 +123,10 @@
 
 	.positionLabel {
 		position: absolute;
-		right: 2rem;
-		top: 1rem;
+		
+		bottom: 2rem;
+		left: 50%;
+		transform: translate(-50%, 0);
 
 		font-size: 16px;
 		color: rgb(154, 154, 154);

@@ -293,7 +293,7 @@ export class CanvasController {
         this.ctxStatic = this.staticCanvas.getContext("2d", { alpha: false, })!;
         this.ctxDynamic = this.dynamicCanvas.getContext("2d", { alpha: true })!;
 
-        this.selfCursor = new Cursor('', this.userdata?.penInfo.color ?? 'black', '', Vector2.ZERO, 'pen')
+        this.selfCursor = new Cursor('', this.userdata?.penInfo.color ?? 'black', this.userdata?.username, Vector2.ZERO, 'pen')
 
 
         $effect(() => {
