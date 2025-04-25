@@ -23,17 +23,17 @@ export interface CursorInfo {
     }
 }
 
-export async function joinSpace(username: string | undefined, onCursorUpdate: (cursorEvent: CursorUpdate) => void, deleteEvent: (idsToDelete: string[]) => void, lineFinishEvent: (userId: string, line: SerializedLineType) => void, userLeaveEvent: (userId: string) => void) {
-    // const clientId = localStorage.getItem("clientId") ?? crypto.randomUUID();
-    // localStorage.setItem("clientId", clientId)
+export async function joinSpace(username: string | undefined, channelId:string, onCursorUpdate: (cursorEvent: CursorUpdate) => void, deleteEvent: (idsToDelete: string[]) => void, lineFinishEvent: (userId: string, line: SerializedLineType) => void, userLeaveEvent: (userId: string) => void) {
+
     const clientId = crypto.randomUUID();
     const realtimeClient = new Realtime({
         key: PUBLIC_ABLYAPI,
         clientId,
+        
     });
-    const spaces = new Spaces(realtimeClient);
+    const spaces = new Spaces(realtimeClient,);
 
-    const canvasSpace = await spaces.get("canvas", { cursors: { paginationLimit: 0, outboundBatchInterval: 0 }, offlineTimeout: 10, },);
+    const canvasSpace = await spaces.get(`canvas-space-${channelId}`, { cursors: { paginationLimit: 0, outboundBatchInterval: 0 }, offlineTimeout: 10, },);
 
     const user: UserType = {
         id: clientId,
@@ -55,7 +55,7 @@ export async function joinSpace(username: string | undefined, onCursorUpdate: (c
     })
 
     // delete
-    const canvasChannel = realtimeClient.channels.get("canvas");
+    const canvasChannel = realtimeClient.channels.get(`canvas-${channelId}`);
 
     // delete event
     canvasChannel.subscribe("deleteLines", (e) => {
@@ -111,6 +111,10 @@ export async function joinSpace(username: string | undefined, onCursorUpdate: (c
         },
         async newLine(newLine: SerializedLineType) {
             await canvasChannel.publish("newLine", newLine);
+        },
+        leave(){
+            canvasSpace.leave();
+            realtimeClient.close();
         }
 
     }
