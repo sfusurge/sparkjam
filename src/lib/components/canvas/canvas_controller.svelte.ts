@@ -259,6 +259,8 @@ export class CanvasController {
 
     pixelRatio: number = 1;
 
+    lobbyId: string | undefined = undefined;
+
     constructor(staticCanvas: HTMLCanvasElement, dynamicCanvas: HTMLCanvasElement, maxLayers: number) {
         this.staticCanvas = staticCanvas;
         this.dynamicCanvas = dynamicCanvas;
@@ -269,7 +271,7 @@ export class CanvasController {
 
 
         this.staticLines = [];
-        this.dynamicLines = []; // TODO, fetch from db
+        this.dynamicLines = [];
 
         for (let i = 0; i < maxLayers; i++) {
             this.staticLines.push(new Map());
@@ -281,7 +283,7 @@ export class CanvasController {
             this.smoothCameraPos = this.cameraPos.clone();
             this.location = { x: this.cameraPos.x, y: this.cameraPos.y };
             this.needStaticRender = true;
-        }, 500)
+        }, 500);
 
         if ('devicePixelRatio' in window) {
             this.pixelRatio = window.devicePixelRatio;
@@ -310,16 +312,43 @@ export class CanvasController {
             }
         })
 
-        this.firebaseController = new CanvasFirebaseController();
+        this.firebaseController = new CanvasFirebaseController(undefined);
 
-        this.startStorage();
         this.initEvents();
-        this.startRealTime();
         this.startRender();
 
         setInterval(() => {
             this.deletedLines.clear();
         }, 10000);
+    }
+
+    connectToLobby(lobbyId: string) {
+        this.lobbyId = lobbyId;
+        this.startStorage(lobbyId);
+        this.startRealTime(lobbyId);
+
+        setTimeout(() => {
+            this.cameraPos = new Vector2(-this.staticCanvas.width / 2, -this.staticCanvas.height / 2);
+            this.smoothCameraPos = this.cameraPos.clone();
+            this.location = { x: this.cameraPos.x, y: this.cameraPos.y };
+            this.needStaticRender = true;
+        }, 500);
+    }
+
+    leaveLobby() {
+        this.lobbyId = undefined;
+        if (this.space) {
+            this.space.leave();
+            this.space = undefined;
+        }
+
+        this.staticLines = [];
+        this.dynamicLines = [];
+
+        for (let i = 0; i < this.maxLayers; i++) {
+            this.staticLines.push(new Map());
+            this.dynamicLines.push(new Map());
+        }
     }
 
     forceRender() {
@@ -369,7 +398,7 @@ export class CanvasController {
 
         const smoothFactor = 40;
         this.smoothCameraPos = Vector2.smoothstep(this.smoothCameraPos, this.cameraPos, smoothFactor * this.deltaTime / 1000);
-        this.smoothZoom = smoothstep(this.smoothZoom, this.zoom     * this.pixelRatio, smoothFactor * this.deltaTime / 1000) ;
+        this.smoothZoom = smoothstep(this.smoothZoom, this.zoom * this.pixelRatio, smoothFactor * this.deltaTime / 1000);
 
         // always render smooth movement isn't done yet.
         if (this.smoothCameraPos.distTo(this.cameraPos) > 0.1 || Math.abs(this.smoothZoom - this.zoom) > 0.0001) {
@@ -427,7 +456,13 @@ export class CanvasController {
         document.addEventListener("visibilitychange", (e) => {
             if (new Date().getTime() - this.lastfullfetchtime > 60000) {
                 // once per minute
-                this.startStorage();
+
+                if (this.lobbyId) {
+                    const id = this.lobbyId;
+                    this.leaveLobby();
+                    this.connectToLobby(id);
+                }
+
                 this.lastfullfetchtime = new Date().getTime();
             }
         });
@@ -596,7 +631,8 @@ export class CanvasController {
         });
     }
 
-    async startStorage() {
+    async startStorage(lobbyId: string) {
+        this.firebaseController.updateLobbyId(lobbyId);
         const lines = await this.firebaseController.fullFetch();
 
         // lines from db.
@@ -660,9 +696,10 @@ export class CanvasController {
 
     }
 
-    startRealTime() {
+    startRealTime(lobbyId: string) {
         joinSpace(
             undefined,
+            lobbyId,
             this.handleCursorUpdate.bind(this),
             this.handleDeletes.bind(this),
             this.handleNewLine.bind(this),

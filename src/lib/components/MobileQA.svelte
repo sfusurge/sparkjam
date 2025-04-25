@@ -71,7 +71,6 @@
             history.back();
         }}
     >
-        ASDASDASDASD
     </div>
 {/if}
 
