@@ -57,6 +57,7 @@
         border: 1px solid var(--grey);
 
         padding: 3rem;
+        padding-top: 5rem;
     }
 
     .exit {

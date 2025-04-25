@@ -8,12 +8,18 @@
 		UserData,
 	} from "$lib/components/canvas/canvas_controller.svelte";
 	import GenericButton from "$lib/components/canvas/picker/GenericButton.svelte";
-	import { goto, pushState, replaceState } from "$app/navigation";
+	import { pushState } from "$app/navigation";
 	import Dialog from "$lib/components/Dialog.svelte";
 	import { page } from "$app/state";
-	import { checkLobbyExist, createLobby } from "$lib/firebase/CanvasFirebaseController.ts";
+	import {
+		checkLobbyExist,
+		createLobby,
+		deleteLobby,
+		getLobbyList,
+	} from "$lib/firebase/CanvasFirebaseController.ts";
 	import { fade } from "svelte/transition";
 	import { onMount } from "svelte";
+	import { get } from "svelte/store";
 
 	let {
 		userdata = $bindable(),
@@ -53,6 +59,16 @@
 		localStorage.setItem("lobbyid", lobbyId);
 	}
 
+	let lobbyList = $state<string[]>([]);
+
+	async function getLobbies() {
+		console.log("tryna get lobbies");
+
+		lobbyList = await getLobbyList();
+
+		console.log("lobby list", lobbyList, lobbyList.length);
+	}
+
 	$effect(() => {
 		if (message.length > 0) {
 			setTimeout(() => {
@@ -69,10 +85,26 @@
 	});
 
 	let lobbyIdInput = $state("");
+	let isAdmin = $state(false);
 
 	onMount(() => {
 		if (localStorage.getItem("lobbyid")) {
 			lobbyIdInput = localStorage.getItem("lobbyid") ?? "";
+		}
+
+		if (page.url.searchParams.get("admin")) {
+			const accessCode = page.url.searchParams.get("admin");
+			fetch("/admin_check", {
+				method: "POST",
+				body: JSON.stringify({
+					admin: accessCode,
+				}),
+			}).then(async (res) => {
+				const { isAdmin: _isAdmin } = await res.json();
+				isAdmin = _isAdmin;
+
+				await getLobbies();
+			});
 		}
 	});
 </script>
@@ -90,8 +122,38 @@
 	onclose={() => {
 		history.back();
 	}}
-	style="max-height: 400px; max-width:400px;"
+	style=" max-width:400px;"
 >
+	{#if isAdmin}
+		<div
+			style="display: flex; flex-direction: column; border: 1px solid var(--black); overflow-y: auto; height: 500px; "
+		>
+			{#each lobbyList as lobby (lobby)}
+				<div
+					class="hor"
+					style="align-items: center; width:100%; padding:1rem; border-bottom:1px solid var(--black);"
+				>
+					<span style="margin-right: auto;">{lobby}</span>
+					<GenericButton
+						style="aspect-ratio:unset;padding:0.5rem;"
+						onclick={() => {
+							JoinLobby(lobby);
+						}}>Join</GenericButton
+					><GenericButton
+						style="aspect-ratio:unset;padding:0.5rem;"
+						onclick={() => {
+							deleteLobby(lobby);
+							lobbyList = lobbyList.filter((item) => item !== lobby);
+
+							if (lobby === canvasController?.lobbyId) {
+								canvasController.leaveLobby();
+							}
+						}}>Delete</GenericButton
+					>
+				</div>
+			{/each}
+		</div>
+	{/if}
 	{#if canvasController?.lobbyId}
 		<div class="ver">
 			<label style="color: var(--grey);">Current Lobby:</label>

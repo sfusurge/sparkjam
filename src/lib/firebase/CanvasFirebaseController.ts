@@ -3,7 +3,7 @@
 import { Line } from "$lib/components/canvas/canvas_controller.svelte";
 
 
-import { deleteField, doc, getDoc, setDoc, Timestamp, updateDoc, increment} from "@firebase/firestore/lite";
+import { deleteField, doc, getDoc, setDoc, Timestamp, updateDoc, increment, getDocs, Query, query, collection, arrayUnion, deleteDoc, arrayRemove } from "@firebase/firestore/lite";
 import { db } from "./client";
 
 import { getSixDigitId, rngParams } from "$lib/firebase/rng.ts";
@@ -84,6 +84,10 @@ export async function createLobby() {
             }
         )
 
+        await updateDoc(doc(db, `globals/lobbyIds`), {
+            lobbyIds: arrayUnion(id)
+        })
+
         return id;
     }
     return '000000'
@@ -93,6 +97,26 @@ export async function checkLobbyExist(lobbyId: string) {
     const docRef = doc(db, `lobby/${lobbyId}`);
     return (await getDoc(docRef)).exists();
 }
+
+export async function getLobbyList() {
+    const lobbyIdsDoc = (await getDoc(doc(db, 'globals/lobbyIds'))).data()
+    if (lobbyIdsDoc) {
+        const lobbyIds: string[] = lobbyIdsDoc['lobbyIds'];
+        console.log('lobbyids', lobbyIds);
+        
+        return lobbyIds;
+    }
+
+    return [];
+}
+
+export async function deleteLobby(lobbyId: string) {
+    deleteDoc(doc(db, `lobby/${lobbyId}`));
+    updateDoc(doc(db, `globals/lobbyIds`), {
+        lobbyIds: arrayRemove(lobbyId)
+    })
+}
+
 
 export class CanvasFirebaseController {
 
