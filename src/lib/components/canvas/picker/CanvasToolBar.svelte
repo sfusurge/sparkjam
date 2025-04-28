@@ -219,7 +219,7 @@
 		{#if canvasController?.disablePan}
 			<img src="/noMoveArrow.svg" alt="pan disabled" class="icon" />
 		{:else}
-			<img src="/home/otter.svg" class="icon" />
+			<img src="/moveArrow.svg" class="icon" />
 		{/if}
 	</GenericButton>
 </div>
