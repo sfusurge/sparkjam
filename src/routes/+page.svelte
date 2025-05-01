@@ -15,13 +15,16 @@
 	import { QA } from "./content.ts";
 	import SuikaSection from "$lib/components/SuikaSection.svelte";
 	import Credits from "$lib/components/Credits/Credits.svelte";
-    import HomePageStuff from "$lib/components/physics_stuff/HomePageStuff.svelte";
-    import CanvasWrapper from "$lib/components/canvas/CanvasWrapper.svelte";
+	import HomePageStuff from "$lib/components/physics_stuff/HomePageStuff.svelte";
+	import CanvasWrapper from "$lib/components/canvas/CanvasWrapper.svelte";
 
 	let _width = $state(0);
 	let width = $derived(Math.min(_width, 1920));
 	let height = $state(0);
 	let titleHeight = $derived(Math.max(Math.min(height * 0.85, 1280), 600));
+
+	let deadline = new Date(2025, 2, 30, 23, 59, 59);
+	let appclosed = new Date().getTime() - deadline.getTime() > 0;
 </script>
 
 <svelte:window bind:innerWidth={_width} bind:innerHeight={height} />
@@ -55,7 +58,13 @@
 	</p>
 
 	<RainbowButton>
-		<a href="https://portal.sfusurge.com/application" title="Get Your Tickets"> GET YOUR TICKETS </a>
+		{#if !appclosed}
+			<a href="https://portal.sfusurge.com/application" title="Get Your Tickets">
+				GET YOUR TICKETS
+			</a>
+		{:else}
+			<h1>Application Closed!</h1>
+		{/if}
 	</RainbowButton>
 </div>
 
@@ -71,7 +80,7 @@
 	motion, prototyping, and story driven pitching to innovate within a chosen problem space.
 </p>
 
-<StuffHoverGrid style="margin-top:2rem; margin-bottom:3rem;"  />
+<StuffHoverGrid style="margin-top:2rem; margin-bottom:3rem;" />
 
 {#snippet Day1()}
 	<Schedule
@@ -341,7 +350,5 @@
 			align-items: center;
 			justify-content: space-around;
 		}
-
-		
 	}
 </style>

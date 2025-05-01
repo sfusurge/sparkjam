@@ -9,10 +9,18 @@
     let hours = $derived(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
     let minutes = $derived(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)));
 
-    let images = ["BigAsterisk.svg", "BigOtter.svg", "BigPencil.svg", "BigSparkle.svg", "BigSurge.svg"];
+    let images = [
+        "BigAsterisk.svg",
+        "BigOtter.svg",
+        "BigPencil.svg",
+        "BigSparkle.svg",
+        "BigSurge.svg",
+    ];
 
-    let currentImage1 =  $state(Math.floor(Math.random() * (4 - 0 + 1)));
-    let currentImage2 =  $state(Math.floor(Math.random() * (4 - 0 + 1)));
+    let currentImage1 = $state(Math.floor(Math.random() * (4 - 0 + 1)));
+    let currentImage2 = $state(Math.floor(Math.random() * (4 - 0 + 1)));
+
+    let appclosed = $derived(currentTime.getTime() - deadline.getTime() > 0);
 
     $effect(() => {
         const interval = setInterval(() => {
@@ -42,7 +50,11 @@
         </div>
 
         <RainbowButton style="margin-top:2rem;">
-            <a href="https://portal.sfusurge.com/application">GET YOUR TICKETS</a>
+            {#if !appclosed}
+                <a href="https://portal.sfusurge.com/application">GET YOUR TICKETS</a>
+            {:else}
+                <h1>Application closed!</h1>
+            {/if}
         </RainbowButton>
     </div>
 
@@ -51,7 +63,6 @@
 </div>
 
 <style>
-
     .otter {
         position: absolute;
         left: -50px;
@@ -60,8 +71,8 @@
         width: 300px;
         max-width: 40dvw;
 
-        @media screen and (max-width: 600px){
-            bottom:-70px;
+        @media screen and (max-width: 600px) {
+            bottom: -70px;
         }
     }
 
@@ -75,8 +86,8 @@
 
         transform: scale(-1, 1);
 
-        @media screen and (max-width: 600px){
-            bottom:-50px;
+        @media screen and (max-width: 600px) {
+            bottom: -50px;
         }
     }
 
@@ -87,7 +98,6 @@
 
         border-bottom: 1px solid var(--black);
         overflow: hidden;
-
     }
 
     .countdown {
