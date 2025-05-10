@@ -41,13 +41,13 @@
 
 <div class="countdownContainer">
     <div class="countdown">
-        <span class="title"> Applications close in </span>
+        <!-- <span class="title"> Applications close in </span>
 
         <div class="numbers">
             <div class="number day">{days}</div>
             <div class="number hour">{hours}</div>
             <div class="number minute">{minutes}</div>
-        </div>
+        </div> -->
 
         <RainbowButton style="margin-top:2rem;">
             {#if !appclosed}

@@ -17,6 +17,7 @@
 	import Credits from "$lib/components/Credits/Credits.svelte";
 	import HomePageStuff from "$lib/components/physics_stuff/HomePageStuff.svelte";
 	import CanvasWrapper from "$lib/components/canvas/CanvasWrapper.svelte";
+    import Sponsors from "$lib/components/Sponsors.svelte";
 
 	let _width = $state(0);
 	let width = $derived(Math.min(_width, 1920));
@@ -201,8 +202,7 @@
 	</div>
 {/if}
 
-<CountDown />
-
+<Sponsors/>
 <Credits />
 
 <Footer></Footer>
