@@ -30,13 +30,16 @@
 </script>
 
 <div class="sponsorRoot">
-
     <div class="sponsorsParent">
-        <h1 style="font-weight: 400; font-size:40px; margin-bottom: 3rem;">Our Sponsors:</h1>
+        <h1 style="" class="title">Our Sponsors:</h1>
 
         <div class="sponsorsContainer">
-            <a href="https://indomieonline.ca/" class="sponsor" target="_blank"><img src="Indomie_Logo.png" alt="Indomie logo"></a>
-            <a href="https://www.bobatalks.com/" class="sponsor" target="_blank"><img src="BobaTalks_Logo.png" alt="Bobatalks logo"></a>
+            <a href="https://indomieonline.ca/" class="sponsor" target="_blank"
+                ><img src="Indomie_Logo.png" alt="Indomie logo" /></a
+            >
+            <a href="https://www.bobatalks.com/" class="sponsor" target="_blank"
+                ><img src="BobaTalks_Logo.png" alt="Bobatalks logo" /></a
+            >
         </div>
     </div>
 
@@ -45,22 +48,32 @@
 </div>
 
 <style>
-
+    .title {
+        font-weight: 400;
+        font-size: 40px;
+        margin-bottom: 3rem;
+        @media screen and (max-width: 600px) {
+            margin: 1rem;
+            font-size: 25px;
+        }
+    }
 
     .sponsorsParent {
+        width: 80dvw;
         max-width: 1280px;
-    
+
         margin: 8rem auto;
-        margin-top: 6rem;
+        margin-top: 5rem;
     }
 
     .sponsorsContainer {
         display: flex;
         justify-content: space-around;
+        flex-flow: wrap;
     }
 
     .sponsor {
-        display: flex ;
+        display: flex;
         align-items: center;
         max-width: 450px;
         padding: 1rem;
@@ -69,12 +82,11 @@
         transition: 100ms ease-out border-color;
     }
 
-    .sponsor:hover{
-        border-color:  var(--black);
+    .sponsor:hover {
+        border-color: var(--black);
     }
 
     .sponsorRoot {
-        
         max-height: 100dvh;
         position: relative;
 
