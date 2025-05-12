@@ -1,7 +1,7 @@
 <footer class="w-full max-w-[1920px] flex justify-center p-12">
   <div class="w-full flex flex-col items-center max-w-[80rem] gap-4 md:flex-row md:justify-between">
     <a
-      href="sfusurge.com"
+      href="https://sfusurge.com"
       class="group text-[#242424] text-base font-bold flex flex-row gap-1"
       ><div>SFU SURGE</div>
       <svg
