@@ -33,8 +33,6 @@
         {:else}
             <button
                 onclick={() => {
-                    console.log("WHAT");
-
                     if (!page.state.showNav) {
                         pushState("", {
                             showNav: true,

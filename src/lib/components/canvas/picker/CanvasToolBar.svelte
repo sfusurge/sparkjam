@@ -19,7 +19,6 @@
 	} from "$lib/firebase/CanvasFirebaseController.ts";
 	import { fade } from "svelte/transition";
 	import { onMount } from "svelte";
-	import { get } from "svelte/store";
 
 	let {
 		userdata = $bindable(),
@@ -107,6 +106,7 @@
 			});
 		}
 	});
+	
 </script>
 
 <svelte:window bind:innerWidth={width} />

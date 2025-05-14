@@ -46,6 +46,7 @@
         innerWidth = wrapperDiv?.clientWidth ?? 0;
         innerHeight = wrapperDiv?.clientHeight ?? 0;
     });
+
 </script>
 
 <div bind:this={wrapperDiv} class="canvasWrapper" class:hiddenCanvas={resizing}>

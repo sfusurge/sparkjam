@@ -15,6 +15,8 @@
 		state
 	}: Cursor & { instant?: boolean } = $props();
 	let username = $derived(_name && _name.length > 0 ? _name : defaultname);
+
+
 	let smoothPos = new Spring(
 		{
 			x: pos.x,

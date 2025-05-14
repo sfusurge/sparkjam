@@ -40,8 +40,7 @@
     let winWidth = $state(0);
     let gameScale = $derived(winWidth > 450 ? 1 : winWidth > 375 ? 0.8 : 0.7);
 
-    $inspect(gameScale)
-
+ 
     let stageWidth = $derived(originalWidth * gameScale);
     let stageHeight = $derived(originalHeight * gameScale);
     let maxCircleSize = $derived(circleFactor * stageWidth) ;
