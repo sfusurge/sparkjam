@@ -26,7 +26,7 @@
 	let dynamicCanvas: HTMLCanvasElement | undefined = $state();
 
 	let pixelRatio = $state(1);
-
+	
 	$effect(() => {
 		if (staticCanvas && dynamicCanvas && maxLayers > 0) {
 			canvasController = new CanvasController(staticCanvas, dynamicCanvas, maxLayers);
@@ -35,8 +35,12 @@
 			}
 		}
 	});
-	$effect(() => {
-		if (canvasController && userdata) {
+
+
+	$effect(() => {	
+		// basically react lmao
+		userdata?.penInfo, userdata?.username;
+		if (userdata && canvasController ) {
 			canvasController.userdata = userdata;
 		}
 	});

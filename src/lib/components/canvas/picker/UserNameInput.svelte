@@ -18,7 +18,6 @@
 	$effect(() => {
 		localStorage.setItem("username", username);
 	});
-	$inspect(username)
 
 	let isMobile = $derived(sharedState.isMobile);
 </script>

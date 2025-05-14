@@ -239,7 +239,7 @@ export class CanvasController {
 
     needStaticRender = true;
 
-    selfCursor: Cursor | undefined = $state(undefined); // Cursor is a primitive obj, so should be deeply reactive by Svelte
+    selfCursor: Cursor | undefined = $state(); // Cursor is a primitive obj, so should be deeply reactive by Svelte
     othersCursors: { [clientId: string]: Cursor } = $state({});
 
     space: Awaited<ReturnType<typeof joinSpace>> | undefined = $state();
@@ -295,16 +295,15 @@ export class CanvasController {
 
         this.selfCursor = new Cursor('', this.userdata?.penInfo.color ?? 'black', this.userdata?.username, Vector2.ZERO, 'pen')
 
-
         $effect(() => {
             if (this.space && this.userdata) {
                 this.space.updateProfile(this.userdata.username);
             }
 
-            if (this.space && this.selfCursor) {
-                untrack(() => {
-                    this.selfCursor!.username = this.userdata?.username;
-                });
+            if (this.selfCursor && this.userdata && this.userdata.username) {
+
+                this.selfCursor!.username = this.userdata?.username;
+
             }
         });
 
@@ -582,13 +581,17 @@ export class CanvasController {
 
                 event = {
                     buttons: -1,
-                    dx: -1,
-                    dy: -1,
+                    dx: _x - this.lastPos.x,
+                    dy: _y - this.lastPos.y,
                     x: _x,
                     y: _y,
                 };
-                this.mouseDrag(event);
 
+                if (this.userdata?.penInfo.name === "move") {
+                    this.mousepan(event);
+                } else {
+                    this.mouseDrag(event);
+                }
                 this.lastPos = new Vector2(_x, _y);
             } else if (e.touches.length == 2) {
                 const t1 = e.touches[0];
@@ -743,8 +746,12 @@ export class CanvasController {
         this.location = { x: Math.floor(this.cameraPos.x), y: Math.floor(this.cameraPos.y) }
 
         if (this.selfCursor) {
-            this.selfCursor.pos = this.selfCursor?.pos.addp(e.dx, e.dy);
+            this.selfCursor.pos = new Vector2(e.x, e.y);
         }
+
+        // if (this.selfCursor) {
+        //     this.selfCursor.pos = this.selfCursor?.pos.addp(e.dx, e.dy);
+        // }
         Object.values(this.othersCursors).forEach((item) => (item.pos = item.pos.addp(e.dx, e.dy)));
 
         this.needStaticRender = true;
