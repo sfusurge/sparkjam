@@ -17,7 +17,7 @@
 	import Credits from "$lib/components/Credits/Credits.svelte";
 	import HomePageStuff from "$lib/components/physics_stuff/HomePageStuff.svelte";
 	import CanvasWrapper from "$lib/components/canvas/CanvasWrapper.svelte";
-    import Sponsors from "$lib/components/Sponsors.svelte";
+	import Sponsors from "$lib/components/Sponsors.svelte";
 
 	let _width = $state(0);
 	let width = $derived(Math.min(_width, 1920));
@@ -133,7 +133,7 @@
 		items={[
 			{
 				label: "Doors Open",
-				time: "9:00am",
+				time: "10:00am",
 			},
 			{
 				label: "Ceremony Begins",
@@ -202,7 +202,7 @@
 	</div>
 {/if}
 
-<Sponsors/>
+<Sponsors />
 <Credits />
 
 <Footer></Footer>
