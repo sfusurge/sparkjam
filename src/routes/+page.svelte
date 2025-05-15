@@ -88,7 +88,7 @@
 		items={[
 			{
 				label: "Doors Open",
-				time: "9:00am",
+				time: "10:00am",
 			},
 			{
 				label: "Ceremony Begins",
