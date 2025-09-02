@@ -40,6 +40,9 @@
             <a href="https://www.bobatalks.com/" class="sponsor" target="_blank"
                 ><img src="BobaTalks_Logo.png" alt="Bobatalks logo" /></a
             >
+            <a href="https://www.protopie.io/" class="sponsor" target="_blank"
+            ><img src="protopie.svg" alt="Protopie logo" height="300" width="400"/></a
+            >
         </div>
     </div>
 
