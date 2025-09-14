@@ -9,8 +9,8 @@ import {
     toScreenSpace,
     Vector2,
 } from "$lib/Vector2";
-import type { CursorData, CursorUpdate } from "@ably/spaces";
-import { untrack } from "svelte";
+import type { CursorUpdate } from "@ably/spaces";
+
 
 export interface UserData {
     username: string;
@@ -81,7 +81,7 @@ export class Line {
         ctx.stroke(); // done!
 
         // for drawing debug AABB
-        // if(this.aabb){
+        // if (this.aabb) {
         //     ctx.lineWidth = 3;
         //     ctx.strokeStyle = "red";
         //     ctx.strokeRect(this.aabb.x, this.aabb.y, this.aabb.width, this.aabb.height);
@@ -768,6 +768,7 @@ export class CanvasController {
         this.dynamicLines[this.currentLine.layer].delete(this.currentLine.id);
 
         const line = this.currentLine;
+        line.makeAABB();
 
         // broadcast new line to other realtime clients
         this.space?.newLine(line.serialize());
