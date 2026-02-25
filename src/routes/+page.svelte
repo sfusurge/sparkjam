@@ -6,7 +6,7 @@
     <div class="flex-1 flex justify-center items-center">
         <div class="relative w-auto">
             <img src="/sj_logo.svg" alt="SparkJam Logo" class="w-full h-auto" />
-            <img src="/star.svg" alt="Star" class="absolute top-[12%] -right-[2%] w-[12%] animate-spin [animation-duration:1.5s]" />
+            <img src="/star.svg" alt="Star" class="absolute top-[12%] -right-[4%] w-[12%] animate-spin [animation-duration:1.5s]" />
         </div>
     </div>
 
