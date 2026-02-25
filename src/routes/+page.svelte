@@ -1,9 +1,8 @@
 <script>
 </script>
 
-<div class="bg-[#F2CB25] shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] h-screen w-screen flex flex-col justify-between items-stretch m-0 overflow-hidden relative p-10">
+<div class="bg-[#F2CB25] shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] h-screen w-full min-w-screen flex flex-col justify-between items-stretch m-0 overflow-hidden relative p-10">
 
-    <!-- Logo centered -->
     <div class="flex-1 flex justify-center items-center">
         <div class="relative w-auto">
             <img src="/sj_logo.svg" alt="SparkJam Logo" class="w-full h-auto" />
@@ -11,7 +10,6 @@
         </div>
     </div>
 
-    <!-- Bottom text row -->
     <div class="flex flex-row justify-between items-end gap-0 w-full">
         <div class="text-[#000] font-['PP_Mori'] text-[16px] font-semibold leading-[18px] tracking-[-0.32px]">
             <h6>More info</h6>
